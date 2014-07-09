@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Fragment>        
+        <UI>
+            <Dialog Id="PythonNotFoundDlg" Width="370" Height="270" Title="[ProductName] Setup" NoMinimize="yes">
+                <Control Id="BannerBitmap" Type="Bitmap" X="0" Y="0" Width="370" Height="44" TabSkip="no" Text="WixUI_Bmp_Banner" />
+                <Control Id="BottomLine" Type="Line" X="0" Y="234" Width="370" Height="0" />
+                <Control Id="Title" Type="Text" X="15" Y="6" Width="200" Height="15" Transparent="yes" NoPrefix="yes">
+                    <Text>{\WixUI_Font_Title}Python 3.3 Not Found</Text>
+                </Control>
+                <Control Id="BannerLine" Type="Line" X="0" Y="44" Width="370" Height="0" />
+
+                <Control Id="Label1" Type="Text" X="45" Y="73" Width="200" Height="15"
+                    TabSkip="no" Text="Please, install Python 3.3 first." />
+                <Control Id="Label2" Type="Text" X="45" Y="88" Width="200" Height="15"
+                    TabSkip="no" Text="You can find Python 3.3 at the following link:" />
+                <Control Id="LabelLink" Type="Text" X="95" Y="109" Width="150" Height="15"
+                    TabSkip="no" Text="http://www.python.org" />
+
+                <Control Id="Cancel" Type="PushButton" X="304" Y="243" Width="56" Height="17" Cancel="yes" Text="Exit Install">
+                    <Publish Event="EndDialog" Value="Exit">1</Publish>
+                </Control>
+            </Dialog>
+
+            <Dialog Id="FirefoxNotFoundDlg" Width="370" Height="270" Title="[ProductName] Setup" NoMinimize="yes">
+                <Control Id="BannerBitmap" Type="Bitmap" X="0" Y="0" Width="370" Height="44" TabSkip="no" Text="WixUI_Bmp_Banner" />
+                <Control Id="BottomLine" Type="Line" X="0" Y="234" Width="370" Height="0" />
+                <Control Id="Title" Type="Text" X="15" Y="6" Width="200" Height="15" Transparent="yes" NoPrefix="yes">
+                    <Text>{\WixUI_Font_Title}Firefox Not Found</Text>
+                </Control>
+                <Control Id="BannerLine" Type="Line" X="0" Y="44" Width="370" Height="0" />
+
+                <Control Id="Label1" Type="Text" X="45" Y="73" Width="200" Height="15"
+                    TabSkip="no" Text="Please, install Firefox first." />
+                <Control Id="Label2" Type="Text" X="45" Y="88" Width="200" Height="15"
+                    TabSkip="no" Text="You can find Firefox at the following link:" />
+                <Control Id="LabelLink" Type="Text" X="95" Y="109" Width="150" Height="15"
+                    TabSkip="no" Text="http://www.mozilla.org/en-US/firefox/new/" />
+
+                <Control Id="Cancel" Type="PushButton" X="304" Y="243" Width="56" Height="17" Cancel="yes" Text="Exit Install">
+                    <Publish Event="EndDialog" Value="Exit">1</Publish>
+                </Control>
+            </Dialog>
+
+            <Dialog Id="PythonPackagesInfoDlg" Width="370" Height="270" Title="[ProductName] Setup" NoMinimize="yes">
+                <Control Id="BannerBitmap" Type="Bitmap" X="0" Y="0" Width="370" Height="44" TabSkip="no" Text="WixUI_Bmp_Banner" />
+                <Control Id="BottomLine" Type="Line" X="0" Y="234" Width="370" Height="0" />
+                <Control Id="Title" Type="Text" X="15" Y="6" Width="200" Height="15" Transparent="yes" NoPrefix="yes">
+                    <Text>{\WixUI_Font_Title}Python Packages Installation</Text>
+                </Control>
+
+                <Control Id="Label1" Type="Text" X="20" Y="64" Width="300" Height="15"
+                    TabSkip="no" Text="This installer will install following Python packages to your Python:" />
+
+                <Control Id="LabelP1" Type="Text" X="45" Y="78" Width="300" Height="15"
+                    TabSkip="no" Text="Flask 0.10.1 (BSD License)" />
+                <Control Id="LabelP2" Type="Text" X="45" Y="90" Width="300" Height="15"
+                    TabSkip="no" Text="itsDangerous 0.24 (BSD License)" />
+                <Control Id="LabelP3" Type="Text" X="45" Y="102" Width="300" Height="15"
+                    TabSkip="no" Text="jinja 2.7.2 (BSD License)" />
+                <Control Id="LabelP4" Type="Text" X="45" Y="114" Width="300" Height="15"
+                    TabSkip="no" Text="markupSafe 0.19 (BSD License)" />
+                <Control Id="LabelP5" Type="Text" X="45" Y="126" Width="300" Height="15"
+                    TabSkip="no" Text="setuptools 3.4.1 (Python Software Foundation License)" />
+                <Control Id="LabelP6" Type="Text" X="45" Y="138" Width="300" Height="15"
+                    TabSkip="no" Text="werkzeug 0.9.4 (BSD License)" />
+
+                <Control Id="LabelL1" Type="Text" X="20" Y="160" Width="300" Height="15"
+                    TabSkip="no" Text="Corresponding licenses and disclaimers can be found with each package." />
+
+                <Control Id="LabelW1" Type="Text" X="20" Y="178" Width="300" Height="15"
+                    TabSkip="no" Text="When uninstalling, installer will not remove installed packages." />
+
+                <Control Id="DesktopShortcutCheckBox" Type="CheckBox" X="20" Y="208" Width="300" Height="17"
+                    Property="PACKAGEINSTALLTIONACCEPTED" CheckBoxValue="1"
+                    Text="I agree with installing the listed packages." />
+
+                <Control Id="Back" Type="PushButton" X="180" Y="243" Width="56" Height="17" Cancel="yes" Text="Back" />
+                <Control Id="Next" Type="PushButton" X="236" Y="243" Width="56" Height="17" Default="yes" Text="Next">
+                    <Condition Action="enable" >PACKAGEINSTALLTIONACCEPTED=1</Condition>
+                    <Condition Action="disable"><![CDATA[PACKAGEINSTALLTIONACCEPTED<>1]]></Condition>
+                </Control>
+                <Control Id="Cancel" Type="PushButton" X="304" Y="243" Width="56" Height="17" Cancel="yes" Text="Cancel">
+                    <Publish Event="SpawnDialog" Value="CancelDlg">1</Publish>
+                </Control>
+            </Dialog>
+
+            <Dialog Id="SelectLanguageDlg" Width="370" Height="270" Title="[ProductName] Setup" NoMinimize="yes">
+                <Control Id="BannerBitmap" Type="Bitmap" X="0" Y="0" Width="370" Height="44" TabSkip="no" Text="WixUI_Bmp_Banner" />
+                <Control Id="BottomLine" Type="Line" X="0" Y="234" Width="370" Height="0" />
+                <Control Id="Title" Type="Text" X="15" Y="6" Width="200" Height="15" Transparent="yes" NoPrefix="yes">
+                    <Text>{\WixUI_Font_Title}Application Language</Text>
+                </Control>
+
+                <Control Id="Label1" Type="Text" X="45" Y="94" Width="200" Height="15"
+                    TabSkip="no" Text="Select language:" />
+                <Control Id="LanguageComboBox" Type="ComboBox" X="95" Y="109" Width="150" Height="15"
+                    TabSkip="no" Sorted="yes" ComboList="yes" Property="DEFAULT_LANGUAGE">
+                    <ComboBox Property="DEFAULT_LANGUAGE">
+                        <ListItem Text="Czech" Value="cz" />
+                        <ListItem Text="English" Value="en" />
+                        <ListItem Text="German (partial)" Value="de" />
+                    </ComboBox>
+                </Control>
+
+                <Control Id="Back" Type="PushButton" X="180" Y="243" Width="56" Height="17" Cancel="yes" Text="Back" />
+                <Control Id="Next" Type="PushButton" X="236" Y="243" Width="56" Height="17" Default="yes" Text="Next" />
+                <Control Id="Cancel" Type="PushButton" X="304" Y="243" Width="56" Height="17" Cancel="yes" Text="Cancel">
+                    <Publish Event="SpawnDialog" Value="CancelDlg">1</Publish>
+                </Control>
+            </Dialog>
+
+            <Dialog Id="SelectCurencyDlg" Width="370" Height="270" Title="[ProductName] Setup" NoMinimize="yes">
+                <Control Id="BannerBitmap" Type="Bitmap" X="0" Y="0" Width="370" Height="44" TabSkip="no" Text="WixUI_Bmp_Banner" />
+                <Control Id="BottomLine" Type="Line" X="0" Y="234" Width="370" Height="0" />
+                <Control Id="Title" Type="Text" X="15" Y="6" Width="200" Height="15" Transparent="yes" NoPrefix="yes">
+                    <Text>{\WixUI_Font_Title}Select Currency</Text>
+                </Control>
+
+                <Control Id="Label1" Type="Text" X="45" Y="54" Width="200" Height="15"
+                    TabSkip="no" Text="Select secondary currency:" />
+                <Control Id="LanguageComboBox1" Type="ComboBox" X="95" Y="69" Width="150" Height="15"
+                    TabSkip="no" Sorted="yes" ComboList="yes" Property="DEFAULT_CURRENCY_1">
+                    <ComboBox Property="DEFAULT_CURRENCY_1">
+                        <ListItem Text="British Pound (GBP)" Value="gbp" />
+                        <ListItem Text="Czech Crown (CZK)" Value="czk" />
+                        <ListItem Text="Euro (EUR)" Value="eur" />
+                        <ListItem Text="U.S. Dollar (USD)" Value="usd" />
+                    </ComboBox>
+                </Control>
+
+                <Control Id="Label2" Type="Text" X="45" Y="94" Width="200" Height="15"
+                    TabSkip="no" Text="Select secondary currency:" />
+                <Control Id="LanguageComboBox2" Type="ComboBox" X="95" Y="109" Width="150" Height="15"
+                    TabSkip="no" Sorted="yes" ComboList="yes" Property="DEFAULT_CURRENCY_2">
+                    <ComboBox Property="DEFAULT_CURRENCY_2">
+                        <ListItem Text="British Pound (GBP)" Value="gbp" />
+                        <ListItem Text="Czech Crown (CZK)" Value="czk" />
+                        <ListItem Text="Euro (EUR)" Value="eur" />
+                        <ListItem Text="U.S. Dollar (USD)" Value="usd" />
+                    </ComboBox>
+                </Control>
+
+                <Control Id="Label3" Type="Text" X="45" Y="134" Width="200" Height="15"
+                    TabSkip="no" Text="Select tertiary currency:" />
+                <Control Id="LanguageComboBox3" Type="ComboBox" X="95" Y="149" Width="150" Height="15"
+                    TabSkip="no" Sorted="yes" ComboList="yes" Property="DEFAULT_CURRENCY_3">
+                    <ComboBox Property="DEFAULT_CURRENCY_3">
+                        <ListItem Text="British Pound (GBP)" Value="gbp" />
+                        <ListItem Text="Czech Crown (CZK)" Value="czk" />
+                        <ListItem Text="Euro (EUR)" Value="eur" />
+                        <ListItem Text="U.S. Dollar (USD)" Value="usd" />
+                    </ComboBox>
+                </Control>
+
+                <Control Id="Back" Type="PushButton" X="180" Y="243" Width="56" Height="17" Cancel="yes" Text="Back" />
+                <Control Id="Next" Type="PushButton" X="236" Y="243" Width="56" Height="17" Default="yes" Text="Next" />
+                <Control Id="Cancel" Type="PushButton" X="304" Y="243" Width="56" Height="17" Cancel="yes" Text="Cancel">
+                    <Publish Event="SpawnDialog" Value="CancelDlg">1</Publish>
+                </Control>
+            </Dialog>
+        </UI>
+
+        <UI Id="Artshow_WixUI">
+            <TextStyle Id="WixUI_Font_Normal" FaceName="Tahoma" Size="8" />
+            <TextStyle Id="WixUI_Font_Bigger" FaceName="Tahoma" Size="12" />
+            <TextStyle Id="WixUI_Font_Title" FaceName="Tahoma" Size="9" Bold="yes" />
+
+            <Property Id="DefaultUIFont" Value="WixUI_Font_Normal" />
+            <Property Id="WixUI_Mode" Value="FeatureTree" />
+
+            <DialogRef Id="ErrorDlg" />
+            <DialogRef Id="FatalError" />
+            <DialogRef Id="FilesInUse" />
+            <DialogRef Id="MsiRMFilesInUse" />
+            <DialogRef Id="PrepareDlg" />
+            <DialogRef Id="ProgressDlg" />
+            <DialogRef Id="ResumeDlg" />
+            <DialogRef Id="UserExit" />
+
+            <DialogRef Id="PythonNotFoundDlg" />
+            <DialogRef Id="FirefoxNotFoundDlg" />
+            <DialogRef Id="SelectLanguageDlg" />
+            <DialogRef Id="SelectCurencyDlg" />
+
+            <Publish Dialog="ExitDialog" Control="Finish" Event="EndDialog" Value="Return" Order="999">1</Publish>
+
+            <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="LicenseAgreementDlg">PYTHON_PATH AND FIREFOX_PATH</Publish>
+            <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="PythonNotFoundDlg">NOT PYTHON_PATH</Publish>
+            <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="FirefoxNotFoundDlg">NOT FIREFOX_PATH</Publish>
+
+            <Publish Dialog="LicenseAgreementDlg" Control="Back" Event="NewDialog" Value="WelcomeDlg">1</Publish>
+            <Publish Dialog="LicenseAgreementDlg" Control="Next" Event="NewDialog" Value="PythonPackagesInfoDlg">LicenseAccepted = "1"</Publish>
+
+            <Publish Dialog="PythonPackagesInfoDlg" Control="Back" Event="NewDialog" Value="LicenseAgreementDlg">1</Publish>
+            <Publish Dialog="PythonPackagesInfoDlg" Control="Next" Event="NewDialog" Value="SelectLanguageDlg">1</Publish>
+
+            <Publish Dialog="SelectLanguageDlg" Control="Back" Event="NewDialog" Value="PythonPackagesInfoDlg">1</Publish>
+            <Publish Dialog="SelectLanguageDlg" Control="Next" Event="NewDialog" Value="SelectCurencyDlg">1</Publish>
+
+            <Publish Dialog="SelectCurencyDlg" Control="Back" Event="NewDialog" Value="SelectLanguageDlg">1</Publish>
+            <Publish Dialog="SelectCurencyDlg" Control="Next" Event="NewDialog" Value="CustomizeDlg">1</Publish>
+
+            <Publish Dialog="CustomizeDlg" Control="Back" Event="NewDialog" Value="MaintenanceTypeDlg" Order="1">Installed</Publish>
+            <Publish Dialog="CustomizeDlg" Control="Back" Event="NewDialog" Value="LicenseAgreementDlg" Order="2">NOT Installed</Publish>
+            <Publish Dialog="CustomizeDlg" Control="Next" Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
+
+            <Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="CustomizeDlg" Order="1">NOT Installed OR WixUI_InstallMode = "Change"</Publish>
+            <Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="MaintenanceTypeDlg" Order="2">Installed</Publish>
+
+            <Publish Dialog="MaintenanceWelcomeDlg" Control="Next" Event="NewDialog" Value="MaintenanceTypeDlg">1</Publish>
+
+            <Publish Dialog="MaintenanceTypeDlg" Control="ChangeButton" Event="NewDialog" Value="CustomizeDlg">1</Publish>
+            <Publish Dialog="MaintenanceTypeDlg" Control="RepairButton" Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
+            <Publish Dialog="MaintenanceTypeDlg" Control="RemoveButton" Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
+            <Publish Dialog="MaintenanceTypeDlg" Control="Back" Event="NewDialog" Value="MaintenanceWelcomeDlg">1</Publish>
+        </UI>
+
+        <UIRef Id="WixUI_Common" />
+    </Fragment>
+</Wix>

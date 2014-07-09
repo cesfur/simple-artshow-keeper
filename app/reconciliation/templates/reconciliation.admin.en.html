@@ -1,0 +1,133 @@
+﻿<!doctype html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='Artshow.css')}}" />
+    <meta charset="UTF-8" />
+    <title>ArtShow: Reconciliation</title>
+</head>
+<body>
+    <h1>Reconcile a Badge {{badge|default('?')}}</h1>
+    <div class="infoBlock">
+        {% if summary.TotalDueAmount >= 0 %}
+        <p><span>Get:</span> {{summary.TotalDueAmount|default(0)}} €</p>
+        {% else %}
+        <p><span>Give:</span> {{summary.TotalDueAmount|default(0) * -1}} €</p>
+        {% endif %}
+        <hr />
+        <p><span>Sold:</span> {{summary.GrossSaleAmount|default('?')}} € (-)</p>
+        <p><span>For Charity:</span> {{summary.CharityDeduction|default('?')}} € (+)</p>
+        <p><span>Bought Items:</span> {{summary.BoughtItemsAmount|default('?')}} € (+)</p>
+    </div>
+
+    <form class="main">
+        <input class="hidden" name="Badge" type="number"
+               value="{{badge}}" />
+        <input class="hidden" name="SummaryChecksum" type="number"
+               value="{{summaryChecksum}}" />
+        <fieldset>
+            <input class="action" type="submit" formaction="{{printRunnerOverviewTarget}}" formmethod="post"
+                   value="Print Runner Overview" />
+        </fieldset>
+        <fieldset>
+            <div class="subblock">
+                <label>Overview Langauge:</label>
+                <input name="Language" id="language_cz" type="radio" value="cz" checked required />
+                <label for="language_cz">Czech</label>
+                <input name="Language" id="language_en" type="radio" value="en" required />
+                <label for="language_cz">English</label>
+            </div>
+
+            <div class="subblock">
+                <input class="action" type="submit" formaction="{{reconciliateTarget}}" formmethod="post"
+                       value="Reconcile" />
+            </div>
+        </fieldset>
+        <fieldset>
+            <input class="action" type="submit" formaction="{{cancelledTarget}}" formnovalidate
+                   value="Select Different Badge" />
+        </fieldset>
+    </form>
+
+    <div class="listSection sideBySide">
+        <h2>Available bought items: {{summary.AvailBoughtItems|length}}</h2>
+        {% if summary.AvailBoughtItems|length > 0 %}
+        <table>
+            <tr>
+                <th>Code</th>
+                <th>Title</th>
+                <th>To Pay</th>
+            </tr>
+            {% for item in summary.AvailBoughtItems %}
+            <tr>
+                <td>{{item.Code}}</td>
+                <td>{{item.Title}}</td>
+                <td class="numerical">{{item.Amount}} €</td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% endif %}
+    </div>
+
+    <div class="listSection sideBySide">
+        <h2>Sold items to pay-out: {{summary.DeliveredSoldItems|length}}</h2>
+        {% if summary.DeliveredSoldItems|length > 0 %}
+        <table>
+            <tr>
+                <th>Code</th>
+                <th>Title</th>
+                <th>Net Amt</th>
+                <th>Charity</th>
+            </tr>
+            {% for item in summary.DeliveredSoldItems %}
+            <tr>
+                <td>{{item.Code}}</td>
+                <td>{{item.Title}}</td>
+                <td class="numerical">{{item.NetAmount}} €</td>
+                <td class="numerical">{{item.NetCharityAmount}} €</td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% endif %}
+    </div>
+
+    <div class="listSection sideBySide">
+        <h2>Sold items not paid for: {{summary.PendingSoldItems|length()}}</h2>
+        {% if summary.PendingSoldItems|length > 0 %}
+        <table>
+            <tr>
+                <th>Code</th>
+                <th>Title</th>
+                <th>Net Amt</th>
+                <th>Charity</th>
+            </tr>
+            {% for item in summary.PendingSoldItems %}
+            <tr>
+                <td>{{item.Code}}</td>
+                <td>{{item.Title}}</td>
+                <td class="numerical">{{item.NetAmount}} €</td>
+                <td class="numerical">{{item.NetCharityAmount}} €</td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% endif %}
+    </div>
+
+    <div class="listSection sideBySide">
+        <h2>Not sold to hand over: {{summary.AvailUnsoldItems|length()}}</h2>
+        {% if summary.AvailUnsoldItems|length > 0 %}
+        <table>
+            <tr>
+                <th>Code</th>
+                <th>Title</th>
+            </tr>
+            {% for item in summary.AvailUnsoldItems %}
+            <tr>
+                <td>{{item.Code}}</td>
+                <td>{{item.Title}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% endif %}
+    </div>
+</body>
+</html>

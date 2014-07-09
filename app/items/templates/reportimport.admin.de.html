@@ -1,0 +1,53 @@
+﻿<!doctype html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='Artshow.css')}}" />
+    <meta charset="UTF-8" />
+    <title>ArtShow: List of Skipped Items in Import</title>
+</head>
+<body>
+    {% import 'messagetext.' + language + '.html' as messagetext %}
+    <h1>List of Skipped Items in Import</h1>
+
+    <form class="main notPrintable" enctype="multipart/form-data">
+        <fieldset>
+            <input class="action" type="submit" formaction="{{targetContinue}}" formnovalidate
+                   value="Continue" />
+        </fieldset>
+    </form>
+
+    {% if skippedItems|length > 0 -%}
+    <div class="listSection">
+        <table>
+            <tr>
+                <th>Reason</th>
+                <th>Author</th>
+                <th>Title</th>
+                <th>Initial<br/>Price</th>
+                <th>Charity</th>
+            </tr>
+            {% for item in skippedItems -%}
+            <tr>
+                <td>{{messagetext.presentShort(item.IRES)}}</td>
+                <td>{{item.AUTH|default('')}}</td>
+                <td>{{item.TITL|default('')}}</td>
+                {%- if item.IAMT != None -%}
+                <td class="numerical">{{item.IAMT}} €</td>
+                {%- else -%}
+                <td class="irrelevant"></td>
+                {%- endif -%}
+                {%- if item.CHAR != None -%}
+                <td class="numerical">{{item.CHAR}} %</td>
+                {%- else -%}
+                <td class="irrelevant"></td>
+                {%- endif -%}
+            </tr>
+            {%- endfor %}
+        </table>
+        <p class="note">Number of skipped items: {{skippedItems|length}}</p>
+    </div>
+    {%- else -%}
+    <p>No items were skipped.</p>
+    {%- endif %}
+</body>
+</html>

@@ -1,0 +1,133 @@
+﻿<!doctype html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='Artshow.css')}}" />
+    <meta charset="UTF-8" />
+    <title>ArtShow: Přehled vypořádání</title>
+</head>
+<body>
+    <h1>Přehled vypořádání visačky {{badge|default('?')}}</h1>
+    <div class="infoBlock">
+        {% if summary.TotalDueAmount >= 0 %}
+        <p><span>Přijmi:</span> {{summary.TotalDueAmount|default(0)}} Kč</p>
+        {% else %}
+        <p><span>Vydej:</span> {{summary.TotalDueAmount|default(0) * -1}} Kč</p>
+        {% endif %}
+        <hr />
+        <p><span>Zaplacené:</span> {{summary.GrossSaleAmount|default('?')}} Kč (-)</p>
+        <p><span>Na charitu:</span> {{summary.CharityDeduction|default('?')}} Kč (+)</p>
+        <p><span>Zakoupené:</span> {{summary.BoughtItemsAmount|default('?')}} Kč (+)</p>
+    </div>
+
+    <form class="main">
+        <input class="hidden" name="Badge" type="number"
+               value="{{badge}}" />
+        <input class="hidden" name="SummaryChecksum" type="number"
+               value="{{summaryChecksum}}" />
+        <fieldset>
+            <input class="action" type="submit" formaction="{{printRunnerOverviewTarget}}" formmethod="post"
+                   value="Tiskni přehled pro běžce" />
+        </fieldset>
+        <fieldset>
+            <div class="subblock">
+                <label>Jazyk účtenky:</label>
+                <input name="Language" id="language_cz" type="radio" value="cz" checked required />
+                <label for="language_cz">Česky</label>
+                <input name="Language" id="language_en" type="radio" value="en" required />
+                <label for="language_cz">Anglicky</label>
+            </div>
+
+            <div class="subblock">
+                <input class="action" type="submit" formaction="{{reconciliateTarget}}" formmethod="post"
+                       value="Odbav" />
+            </div>
+        </fieldset>
+        <fieldset>
+            <input class="action" type="submit" formaction="{{cancelledTarget}}" formnovalidate
+                   value="Zpět" />
+        </fieldset>
+    </form>
+
+    <div class="listSection sideBySide">
+        <h2>Zakoupených k vydání: {{summary.AvailBoughtItems|length}}</h2>
+        {% if summary.AvailBoughtItems|length > 0 %}
+        <table>
+            <tr>
+                <th>Kód</th>
+                <th>Název</th>
+                <th>K úhradě</th>
+            </tr>
+            {% for item in summary.AvailBoughtItems %}
+            <tr>
+                <td>{{item.Code}}</td>
+                <td>{{item.Title}}</td>
+                <td class="numerical">{{item.Amount}} Kč</td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% endif %}
+    </div>
+
+    <div class="listSection sideBySide">
+        <h2>Uhrazených k proplacení: {{summary.DeliveredSoldItems|length}}</h2>
+        {% if summary.DeliveredSoldItems|length > 0 %}
+        <table>
+            <tr>
+                <th>Kód</th>
+                <th>Název</th>
+                <th>Čistý</th>
+                <th>Charita</th>
+            </tr>
+            {% for item in summary.DeliveredSoldItems %}
+            <tr>
+                <td>{{item.Code}}</td>
+                <td>{{item.Title}}</td>
+                <td class="numerical">{{item.NetAmount}} Kč</td>
+                <td class="numerical">{{item.NetCharityAmount}} Kč</td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% endif %}
+    </div>
+
+    <div class="listSection sideBySide">
+        <h2>Neuhrazených prodaných: {{summary.PendingSoldItems|length()}}</h2>
+        {% if summary.PendingSoldItems|length > 0 %}
+        <table>
+            <tr>
+                <th>Kód</th>
+                <th>Název</th>
+                <th>Čistý</th>
+                <th>Charita</th>
+            </tr>
+            {% for item in summary.PendingSoldItems %}
+            <tr>
+                <td>{{item.Code}}</td>
+                <td>{{item.Title}}</td>
+                <td class="numerical">{{item.NetAmount}} Kč</td>
+                <td class="numerical">{{item.NetCharityAmount}} Kč</td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% endif %}
+    </div>
+
+    <div class="listSection sideBySide">
+        <h2>Neprodaných k vydání: {{summary.AvailUnsoldItems|length()}}</h2>
+        {% if summary.AvailUnsoldItems|length > 0 %}
+        <table>
+            <tr>
+                <th>Kód</th>
+                <th>Název</th>
+            </tr>
+            {% for item in summary.AvailUnsoldItems %}
+            <tr>
+                <td>{{item.Code}}</td>
+                <td>{{item.Title}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% endif %}
+    </div>
+</body>
+</html>

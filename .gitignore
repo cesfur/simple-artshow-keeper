@@ -52,3 +52,24 @@ coverage.xml
 # Sphinx documentation
 docs/_build/
 
+# WIX
+*.wixobj
+*.wixpdb
+*.msi
+
+# MSVS
+obj/
+Release/
+Debug/
+TestResults/
+*.suo
+
+# Application
+data/
+*.bak
+experiments/
+
+# Others
+*.~lock*
+*.ods
+*.zip

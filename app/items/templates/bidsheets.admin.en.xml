@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<?xml-stylesheet type="text/xsl" href="{{url_for('.static', filename='Bidsheets.xsl')}}"?>
+<Bidsheets>
+    <UI>
+        <Title>ArtShow: Print Bidsheets</Title>
+        <Header>Print Bidsheets</Header>
+        <Button action="print" target="{{printedTarget}}">Print</Button>
+        <Button action="cancel" target="{{cancelledTarget}}">Cancel</Button>
+        <StyleSheet>{{url_for('static', filename='Artshow.css')}}</StyleSheet>
+    </UI>
+    <Render>
+        <StyleSheet>{{url_for('.static', filename='Bidsheets.css')}}</StyleSheet>        
+        <BedsheetsPerPage>2</BedsheetsPerPage>
+        <BidsheetFrame type="forSale">{{url_for('.static', filename='BidsheetFrame.svg')}}</BidsheetFrame>
+        <BidsheetFrame type="noSale">{{url_for('.static', filename='BidsheetNoSaleFrame.svg')}}</BidsheetFrame>
+    </Render>
+    {% for item in items -%}
+    <Item>
+        <Code>{{item.Code}}</Code>
+        <Title>{{item.Title}}</Title>
+        <Author>{{item.Author}}</Author>
+        {% if item.InitialAmount != None and item.Charity != None -%}
+        <Amount>
+            <Value>{{item.InitialAmount}}</Value>
+            {% for formattedValue in item.Formatted.InitialAmountInCurrency -%}
+            <FormattedValue>{{formattedValue}}</FormattedValue>
+            {% endfor %}
+        </Amount>
+        <Charity>{{item.Charity}}</Charity>
+        {% endif %}
+    </Item>
+    {% endfor %}
+</Bidsheets>

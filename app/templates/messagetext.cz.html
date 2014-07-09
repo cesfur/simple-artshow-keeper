@@ -1,0 +1,92 @@
+﻿{% macro present(message, badge, itemCode, buyer, amount) -%}
+{%- if message == 'SUCCESS' -%}
+    <p class="message info">Operace proběhla úspěšně.</p>
+{%- elif message == 'ERROR' -%}
+    <p class="message error">Nastala chyba.</p>
+{%- elif message == 'CRITICAL_ERROR' -%}
+    <p class="message error">Nastala kritická chyba. Probíhající operace byla přerušena a není jisté, zda-li byla dokončena. Zahajte operaci znovu.</p>
+{%- elif message == 'ERROR' -%}
+    <p class="message error">Nastala chyba.</p>
+{%- elif message == 'PARTIAL_SUCCESS' -%}
+    <p class="message info">Operace bylu úspěšně jen částečně. Zopakujte, prosím, operaci.</p>
+{%- elif message == 'NO_ITEMS_SELECTED' -%}
+    <p class="message error">Nebyly vybrány žádné předměty.</p>
+{%- elif message == 'ITEMS_DELETED' -%}
+    <p class="message info">Předměty s kódy "{{itemCode}}" byly smazány.</p>
+{%- elif message == 'NO_ITEM_TO_CLOSE' -%}
+    <p class="message info">Všechny předměty již byly uzavřeny.</p>
+{%- elif message == 'INVALID_INPUT' -%}
+    <p class="message error">Neplatný vstup.</p>
+{%- elif message == 'INVALID_ITEM_CODE' -%}
+    <p class="message error">Neplatný identifikátor předmětu.</p>
+{%- elif message == 'DUPLICATE_ITEM' -%}
+    <p class="message error">Předmět již existuje. Upravte zadání.</p>
+{%- elif message == 'ITEM_NOT_FOUND' -%}
+    <p class="message error">Předmět {{itemCode}} nenalezen.</p>
+{%- elif message == 'ITEM_NOT_CLOSABLE' -%}
+    <p class="message error">Předmět {{itemCode}} nelze nyní zavřít.</p>
+{%- elif message == 'INVALID_BUYER' -%}
+    <p class="message error">Kupec '{{buyer|default('neznámý')}}' je neplatný.</p>
+{%- elif message == 'INVALID_AMOUNT' -%}
+    <p class="message error">Částka {{amount|default('?')}} Kč je neplatná.</p>
+{%- elif message == 'INVALID_VALUE' -%}
+    <p class="message error">Zadaná hodnota je neplatná.</p>
+{%- elif message == 'AMOUNT_TOO_LOW' -%}
+    <p class="message error">Částka {{amount|default('?')}} Kč je nizší, než minimální částka {{minAmount}} Kč.</p>
+{%- elif message == 'NO_ITEM_TO_AUCTION' -%}
+    <p class="message info">Není žádný předmět k dražbě.</p>
+{%- elif message == 'CANNOT_AUCTION_THIS_ITEM' -%}
+    <p class="message error">Předmět {{itemCode}} nelze dražit.</p>
+{%- elif message == 'INVALID_AUCTION_ITEM' -%}
+    <p class="message info">Předmět nelze dražit.</p>
+{%- elif message == 'NEW_AMOUNT_FAILED' -%}
+    <p class="message error">Nelze změnit draženou částku.</p>
+{%- elif message == 'NEW_BUYER_FAILED' -%}
+    <p class="message error">Nelze zadat nového kupce {{buyer|default('?')}}.</p>
+{%- elif message == 'INVALID_BADGE' -%}
+    <p class="message error">Visačka {{badge|default('?')}} je neplatna.</p>
+{%- elif message == 'BADGE_ALREADY_RECONCILIATED' -%}
+    <p class="message info">Visačka {{badge|default('?')}} již byla zcela odbavena.</p>
+{%- elif message == 'RECONCILIATION_DATA_CHANGED' -%}
+    <p class="message error">Data visačky {{badge|default('?')}} se zmenila. Nelze pokračovat ve vypořádání.</p>
+{%- elif message == 'BADGE_RECONCILIATION_FAILED' -%}
+    <p class="message error">Vyrovnání visačky {{badge|default('?')}} selhalo.</p>
+{%- elif message == 'BADGE_RECONCILIATION_SUCCEEDED' -%}
+    <p class="message info">Visačka {{badge|default('?')}} byla vyrovnána.</p>
+{%- elif message == 'INITIAL_AMOUNT_NOT_DEFINED' -%}
+    <p class="message error">Počáteční cena není udána.</p>
+{%- elif message == 'CHARITY_NOT_DEFINED' -%}
+    <p class="message error">Charita není udána.</p>
+{%- elif message == 'AMOUNT_NOT_DEFINED' -%}
+    <p class="message error">Výsledná cena není udána.</p>
+{%- elif message == 'BUYER_NOT_DEFINED' -%}
+    <p class="message error">Výsledný kupec není udán.</p>
+{%- elif message == 'INVALID_FILE' -%}
+    <p class="message error">Zadaný soubor je neplatný.</p>
+{%- elif message == 'INVALID_CHECKSUM' -%}
+    <p class="message error">Kontrolní součet je chybný.</p>
+{%- elif message == 'PRINT_CANCELLED' -%}
+    <p class="message info">Tisk zrušen.</p>
+{%- elif message == 'PRIMARY_AMOUNT_IN_PRIMARY_INVALID' -%}
+    <p class="message error">Neplatná převodní hodnota pro primární měnu. Primární měna musí mít vždy hodnotu 1.</p>
+{%- elif message == 'NOTHING_TO_PRINT' -%}
+    <p class="message error">Není zadáno nic k vytištění. Opakujte operaci.</p>
+{%- else -%}
+    <p class="message error">Neznámá zpráva: '{{message}}'.</p>
+{%- endif -%}
+{%- endmacro -%}
+
+{%- macro presentShort(message) -%}
+{%- if message == 'SUCCESS' -%}OK
+{%- elif message == 'ERROR' -%}Chyba
+{%- elif message == 'INVALID_INPUT' -%}Neplatný vstup
+{%- elif message == 'INVALID_AUTHOR' -%}Neplatný autor
+{%- elif message == 'INVALID_TITLE' -%}Neplatný název
+{%- elif message == 'INVALID_BUYER' -%}Neplatný kupec
+{%- elif message == 'INVALID_AMOUNT' -%}Neplatná částka
+{%- elif message == 'INVALID_CHARITY' -%}Neplatná charita
+{%- elif message == 'INCOMPLETE_SALE_INFO' -%}Neúplné prodejní údaje
+{%- elif message == 'DUPLICATE_ITEM' -%}Duplikát
+{%- else -%}Jiné ({{message}})
+{%- endif -%}
+{%- endmacro %}

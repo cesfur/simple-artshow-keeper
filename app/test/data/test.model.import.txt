@@ -1,0 +1,56 @@
+﻿Some silly text in the front of the stuff.
+
+A) Artwork Number: 1
+B) Author: Greentiger
+C) Title: Smooth Frog
+D) Price (CZK): 120
+E) Charity (percentage): 47
+
+A) Artwork Number: 2
+B) Author: Greentiger
+C) Title: Žluťoučký kůň
+D) Price (CZK): 
+E) Charity (percentage): 
+
+Nonsense inbetween.
+
+A) Artwork Number: 3
+B) Author: Greentiger
+C) Title: Charity Error
+D) Price (CZK): 50
+E) Charity (percentage): 500
+
+A) Artwork Number: 4
+B) Author: Greentiger
+C) Title: Missing Price
+E) Charity (percentage): 50
+
+A) Artwork Number: 5
+B) Author: Greentiger
+C) Title: Price Error
+D) Price (CZK): PR
+
+A) Artwork Number: 6
+C) Title: No author
+
+A) Artwork Number: 7
+B) Author: No Title
+C) Title: 
+D) Price (CZK): 400
+E) Charity (percentage): 50
+
+A) Artwork Number: 8
+B) Author: Greentiger
+C) Title: Smooth Frog   
+D) Price (CZK): 300
+E) Charity (percentage): 10
+
+
+
+A) Artwork Number: 8
+B) Author: Redwolf
+C) Title: Eastern Dragon		
+
+Nonesense at the end.
+
+

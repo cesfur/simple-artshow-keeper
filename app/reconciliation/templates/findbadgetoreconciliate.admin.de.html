@@ -1,0 +1,30 @@
+﻿<!doctype html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='Artshow.css')}}"/>
+    <meta charset="UTF-8"/>
+    <title>ArtShow: Select Badge for Reconciliation</title>
+</head>
+<body>
+<h1>Select Badge for Reconciliation</h1>
+<form class="main">
+    <fieldset>
+        <div class="subblock">
+            <label for="badge">Badge number:</label>
+            <input id="badge" name="Badge" type="number" value="" required
+                autocomplete="off" autofocus
+                min="1" pattern="[1-9][0-9]*"
+                title="Badge number."/>
+        </div>
+        <div class="subblock">
+            <input class="action" type="submit" formaction="{{findTarget}}" formmethod="post"
+                value="Show Reconciliation"/>
+        </div>
+    </fieldset>
+    <fieldset>
+        <input class="action" type="submit" formaction="{{cancelledTarget}}" formnovalidate
+            value="Go to Main" />
+    </fieldset>
+</form>
+</body>
+</html>

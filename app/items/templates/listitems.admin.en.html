@@ -1,0 +1,119 @@
+﻿<!doctype html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='Artshow.css')}}" />
+    <meta charset="UTF-8" />
+    <title>ArtShow: List of Items</title>
+    <script type="text/javascript">
+        function updateSelected()
+        {
+            var selected = document.getElementsByName('select');
+            var selectedNames = "";
+            for (var i = 0; i < selected.length; i++)
+            {
+                var checkBox = selected[i];
+                if (checkBox.checked)
+                {
+                    selectedNames = selectedNames.concat(checkBox.parentNode.name, ",")
+                }
+            }
+            document.getElementById('SelectedItemCodes').value = selectedNames;
+        }
+
+        function onClickDeleteSelected()
+        {
+            updateSelected()
+            if (document.getElementById('SelectedItemCodes').value.length > 0)
+            {
+                alert('UGH?')
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>List of Items</h1>
+
+    {% import 'itemstate.' + language + '.html' as itemstate %}
+
+    <form class="main notPrintable">
+        <input class="hidden" name="SelectedItemCodes" id="SelectedItemCodes" type="text"
+               value="" />
+        <fieldset>
+            <input class="action" type="submit" formaction="{{targetPrintSelected}}" formmethod="post"
+                   value="Print Selected Items"
+                   onclick="updateSelected()" />
+            <input class="action" type="submit" formaction="{{targetDeleteSelected}}" formmethod="post"
+                   value="Delete Selected Items"
+                   onclick="updateSelected()" />
+        </fieldset>
+        <fieldset>
+            <input class="action" type="submit" formaction="{{targetCancelled}}" formnovalidate
+                   value="Go to Main" />
+        </fieldset>
+    </form>
+
+    {% if items|length > 0 %}
+    <div class="listSection">
+        <table>
+            <tr>
+                <th></th>
+                <th></th>
+                <th>Code</th>
+                <th>State</th>
+                <th>Author</th>
+                <th>Title</th>
+                <th>Owner</th>
+                <th>Initial<br />Price</th>
+                <th>Charity</th>
+                <th>Price</th>
+                <th>Buyer</th>
+            </tr>
+            {% for item in items %}
+            <tr>
+                <td>
+                    {% if item.PrintAllowed or item.DeleteAllowed %}<form name="{{item.Code}}">
+                        <input name="select" type="checkbox" />
+                    </form>{% endif %}
+                </td>
+                <td>
+                    <form method="post">
+                        <input name="edit" type="submit" value="Edit" formaction="{{url_for(targetEditItem_Raw, itemCode=item.Code)}}"/>
+                    </form>
+                </td>
+                <td>{{item.Code}}</td>
+                <td>{{itemstate.present(item.State)}}</td>
+                <td>{{item.Author}}</td>
+                <td>{{item.Title}}</td>
+                <td class="numerical">{{item.Owner}}</td>
+                {% if item.InitialAmount != None and item.Charity != None -%}
+                <td class="numerical">{{item.InitialAmount}} €</td>
+                <td class="numerical">{{item.Charity}} %</td>
+                {%- else -%}
+                <td class="irrelevant"></td>
+                <td class="irrelevant"></td>
+                {%- endif %}
+                {% if item.Amount != None -%}
+                <td class="numerical">{{item.Amount}} €</td>
+                {%- else -%}
+                <td class="irrelevant"></td>
+                {%- endif %}
+                {% if item.Buyer != None -%}
+                <td class="numerical">{{item.Buyer}}</td>
+                {%- else -%}
+                <td class="irrelevant"></td>
+                {%- endif %}
+            </tr>
+            {% endfor %}
+        </table>
+        <p class="note">Total number of items: {{items|length}}</p>
+    </div>
+    {% else %}
+    <p>There no relevant items.</p>
+    {% endif %}
+</body>
+</html>

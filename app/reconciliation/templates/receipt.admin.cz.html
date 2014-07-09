@@ -1,0 +1,190 @@
+﻿<!doctype html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='Artshow.css')}}" />
+    <link rel="stylesheet" type="text/css" href="{{url_for('.static', filename='Reconciliation.css')}}" />
+    <meta charset="UTF-8" />
+    <title>ArtShow: Tisk vypořádání</title>
+</head>
+<body class="narrow" onload="window.print()">
+    <h1 class="notPrintable">Tisk vypořádání</h1>
+    <form class="notPrintable main" id="printControl" action="{{printedTarget}}" method="post">
+        <input class="hidden" name="Badge" type="number"
+               value="{{badge}}" />
+        <input class="hidden" name="SummaryChecksum" type="number"
+               value="{{summaryChecksum}}" />
+        <fieldset>
+            <input class="action" type="submit" formaction="{{printedTarget}}" formmethod="post"
+                   value="Vypořádání vytištěno" />
+            <input class="action" type="submit" formaction="{{notprintedTarget}}" formmethod="post"
+                   value="Zpět" />
+        </fieldset>
+        <fieldset>
+            <input class="action" type="submit" formaction="{{cancelledTarget}}" formmethod="post"
+                   value="Zruš vypořádání" />
+        </fieldset>
+    </form>
+
+    <div class="notShown">
+
+        <!-- Artshow Copy -->
+        <h1>Vypořádání</h1>
+        <p>Kopie pro Artshow</p>
+        <div class="receiptSection col2">
+            <table>
+                <tr class="hidden"><th>A</th><th>C</th></tr>
+                <tr>
+                    <td class="colA">Datum:</td>
+                    <td class="colC">{{datetime.day}}. {{datetime.month}}. {{datetime.year}}</td>
+                </tr>
+                <tr>
+                    <td class="colA">Čas:</td>
+                    <td class="colC">{{"%d:%02d"|format(datetime.hour, datetime.minute)}}</td>
+                </tr>
+                <tr>
+                    <td class="colA">Visačka:</td>
+                    <td class="colC">{{badge|default('?')}}</td>
+                </tr>
+            </table>
+        </div>
+        <div class="receiptSection col2">
+            <h2>Shrnutí</h2>
+            <table>
+                <tr class="hidden"><th>A</th><th>C</th></tr>
+                <tr>
+                    <td class="colA">Prodáno za:</td>
+                    <td class="colC">{{summary.GrossSaleAmount|default('?')}} Kč</td>
+                </tr>
+                <tr>
+                    <td class="colA">Na charitu:</td>
+                    <td class="colC">{{summary.CharityDeduction|default('?')}} Kč</td>
+                </tr>
+                <tr>
+                    <td class="colA">Zakoupeno za:</td>
+                    <td class="colC">{{summary.BoughtItemsAmount|default('?')}} Kč</td>
+                </tr>
+                {% if summary.TotalDueAmount >= 0 %}
+                <tr>
+                    <td class="colA">Uhrazeno:</td>
+                    <td class="colC">{{summary.TotalDueAmount|default(0)}} Kč</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td class="colA">Vyplaceno:</td>
+                    <td class="colC">{{summary.TotalDueAmount|default(0) * -1}} Kč</td>
+                </tr>
+                {% endif %}
+            </table>
+        </div>
+        {% if summary.TotalDueAmount >= 0 %}
+        <p>Podpisem stvrzuji, že nemám vůči výstavě na akci ČeSFur žádné závazky a že jsem převzal předměty mě náležející.</p>
+        {% else %}
+        <p>Podpisem stvrzuji, že nemám vůči výstavě na akci ČeSFur žádné závazky a že jsem převzal předměty mě náležející a přijal výše uvedenou částku.</p>
+        {% endif %}
+        <p>V Praze, {{datetime.day}}. {{datetime.month}}. {{datetime.year}}</p>
+        <div class="signature"></div>
+        <div class="pageBreak"></div>
+
+        <!-- Customer Copy -->
+        <h1>Vypořádání</h1>
+        <div class="receiptSection col2">
+            <table>
+                <tr class="hidden"><th>A</th><th>C</th></tr>
+                <tr>
+                    <td class="colA">Datum:</td>
+                    <td class="colC">{{datetime.day}}. {{datetime.month}}. {{datetime.year}}</td>
+                </tr>
+                <tr>
+                    <td class="colA">Čas:</td>
+                    <td class="colC">{{"%d:%02d"|format(datetime.hour, datetime.minute)}}</td>
+                </tr>
+                <tr>
+                    <td class="colA">Visačka:</td>
+                    <td class="colC">{{badge|default('?')}}</td>
+                </tr>
+            </table>
+        </div>
+        <div class="receiptSection col2">
+            <h2>Shrnutí</h2>
+            <table>
+                <tr class="hidden"><th>A</th><th>C</th></tr>
+                <tr>
+                    <td class="colA">Prodáno za:</td>
+                    <td class="colC">{{summary.GrossSaleAmount|default('?')}} Kč</td>
+                </tr>
+                <tr>
+                    <td class="colA">Na charitu:</td>
+                    <td class="colC">{{summary.CharityDeduction|default('?')}} Kč</td>
+                </tr>
+                <tr>
+                    <td class="colA">Zakoupeno za:</td>
+                    <td class="colC">{{summary.BoughtItemsAmount|default('?')}} Kč</td>
+                </tr>
+                {% if summary.TotalDueAmount >= 0 %}
+                <tr>
+                    <td class="colA">Uhrazeno:</td>
+                    <td class="colC">{{summary.TotalDueAmount|default(0)}} Kč</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td class="colA">Vyplaceno:</td>
+                    <td class="colC">{{summary.TotalDueAmount|default(0) * -1}} Kč</td>
+                </tr>
+                {% endif %}
+            </table>
+        </div>
+        {% if summary.AvailBoughtItems|length > 0 %}
+        <div class="receiptSection col2">
+            <h2>Zakoupené</h2>
+            <table>
+                <tr>
+                    <th class="colA">Název</th>
+                    <th class="colC">Zaplaceno</th>
+                </tr>
+                {% for item in summary.AvailBoughtItems %}
+                <tr>
+                    <td class="colA">{{item.Title}}</td>
+                    <td class="colC">{{item.Amount}} Kč</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        {% endif %}
+
+        {% if summary.AvailUnsoldItems|length > 0 %}
+        <div class="receiptSection col1">
+            <h2>Neprodané</h2>
+            <table>
+                <tr>
+                    <th class="colA">Název</th>
+                </tr>
+                {% for item in summary.AvailUnsoldItems %}
+                <tr>
+                    <td class="colA">{{item.Title}}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        {% endif %}
+
+        {% if summary.DeliveredSoldItems|length > 0 %}
+        <div class="receiptSection col2">
+            <h2>Proplacené</h2>
+            <table>
+                <tr>
+                    <th class="colA">Název</th>
+                    <th class="colC">Proplaceno</th>
+                </tr>
+                {% for item in summary.DeliveredSoldItems %}
+                <tr>
+                    <td class="colA">{{item.Title}}</td>
+                    <td class="colC">{{item.NetAmount}} Kč</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        {% endif %}
+
+    </div>
+</body>
+</html>

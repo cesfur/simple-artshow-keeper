@@ -1,0 +1,69 @@
+@media screen {
+    .signature {
+        height: 0px;
+        margin-top: 30px;
+        margin-bottom: 10px;
+        width: 100%;
+        display: block;
+        border-bottom: 1px solid;
+    }
+}
+
+@media print {
+    .signature {
+        margin-top: 10mm;
+        margin-bottom: 3mm;
+        height: 0pt;
+        width: 100%;
+        display: block;
+        border-bottom: 0.5mm solid;
+    }
+
+    h1 {
+        margin: 0mm;
+        padding-top: 5mm;
+        padding-bottom: 3mm;
+    }
+
+    .col2 th.colA, .col2 td.colA {
+        width: 100%;
+        vertical-align: top;
+    }
+
+    .col2 th.colA, .col2 td.colA {
+        width: 50%;
+        vertical-align: top;
+    }
+
+    .col2 th.colC, .col2 td.colC {
+        width: 50%;
+        text-align: right;
+        vertical-align: bottom;
+    }
+
+    .col3 th.colA, .col3 td.colA {
+        width: 20%;
+        vertical-align: top;
+    }
+
+    .col3 th.colB, .col3 td.colB {
+        width: 50%;
+        vertical-align: top;
+    }
+
+    .col3 th.colAB, .col3 td.colAB {
+        width: 70%;
+        vertical-align: top;
+    }
+
+    .col3 th.colC, .col3 td.colC {
+        width: 30%;
+        text-align: right;
+        vertical-align: bottom;
+    }
+
+    .col3 th.colBC, .col3 td.colBC {
+        width: 80%;
+        vertical-align: top;
+    }
+}

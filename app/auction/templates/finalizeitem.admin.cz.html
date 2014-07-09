@@ -1,0 +1,43 @@
+﻿<!doctype html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='Artshow.css')}}"/>
+    <meta charset="UTF-8"/>
+    <title>ArtShow: Dokončení předmětu</title>
+</head>
+<body>
+<h1>Dokončení předmětu {{item.Code|default('?')}}</h1>
+<div class="infoBlock">
+    <p><span>Autor:</span> {{item.Author|default('?')}}</p>
+    <p><span>Název:</span> {{item.Title|default('?')}}</p>
+    <p><span>Konečná cena:</span> {{item.AmountInAuction|default('?')}} Kč</p>
+</div>
+<form class="main" method="post">
+    <input class="hidden" type="text" name="ItemCode" value="{{item.Code|default('')}}"/>
+    {% if item.AmountInAuction > item.Amount -%}
+    <fieldset>
+        <div class="subblock">
+            <label for="buyer">Kupec:</label>
+            <input id="buyer" name="NewBuyer" type="number" value="" required
+                autocomplete="off" autofocus
+                min="1" pattern="\d+"
+                title="Visačka kupce."/>
+        </div>
+        <div class="subblock">
+            <input class="action" type="submit" formaction="{{sellUpdatedTarget}}"
+                value="Dokonči"/>
+        </div>
+    </fieldset>
+    {%- else -%}
+    <fieldset>
+        <input class="action" type="submit" formaction="{{sellNoChangeTarget}}" formnovalidate
+            value="Dokonči s kupcem {{item.Buyer}}"/>
+    </fieldset>
+    {%- endif %}
+    <fieldset>
+        <input class="action" type="submit" formaction="{{cancelledTarget}}" formnovalidate
+            value="Zpět"/>
+    </fieldset>
+</form>
+</body>
+</html>

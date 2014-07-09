@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Auction>
+    {% if item -%}
+    <Item>
+        <Title>{{item.Title}}</Title>
+        <Author>{{item.Author}}</Author>
+        <Amount>
+            <Value>{{item.AmountInAuction}}</Value>
+            {% for formattedValue in item.Formatted.AmountInAuctionInCurrency -%}
+            <FormattedValue>{{formattedValue}}</FormattedValue>
+            {% endfor %}
+        </Amount>
+    </Item>
+    {%- endif %}
+    <Charity>
+        {% for formattedValue in charity -%}
+        <FormattedValue>{{formattedValue}}</FormattedValue>
+        {% endfor %}
+    </Charity>
+</Auction>

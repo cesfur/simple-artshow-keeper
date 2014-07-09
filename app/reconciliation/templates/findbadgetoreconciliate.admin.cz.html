@@ -1,0 +1,30 @@
+﻿<!doctype html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='Artshow.css')}}"/>
+    <meta charset="UTF-8"/>
+    <title>ArtShow: Zadej účastníka k vypořádání</title>
+</head>
+<body>
+<h1>Zadej účastníka k vypořádání</h1>
+<form class="main">
+    <fieldset>
+        <div class="subblock">
+            <label for="badge">Číslo visačky:</label>
+            <input id="badge" name="Badge" type="number" value="" required
+                autocomplete="off" autofocus
+                min="1" pattern="[1-9][0-9]*"
+                title="Visačka účastníka."/>
+        </div>
+        <div class="subblock">
+            <input class="action" type="submit" formaction="{{findTarget}}" formmethod="post"
+                value="Zobraz vypořádání"/>
+        </div>
+    </fieldset>
+    <fieldset>
+        <input class="action" type="submit" formaction="{{cancelledTarget}}" formnovalidate
+            value="Zpět na hlavní" />
+    </fieldset>
+</form>
+</body>
+</html>

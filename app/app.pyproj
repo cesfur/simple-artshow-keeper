@@ -1,0 +1,175 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{f22128e4-f770-4541-9492-214264ac0c34}</ProjectGuid>
+    <ProjectHome />
+    <StartupFile>main.py</StartupFile>
+    <SearchPath />
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <InterpreterId>{2af0f10d-7135-4994-9156-5d01c9c11b7e}</InterpreterId>
+    <InterpreterVersion>3.3</InterpreterVersion>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
+  <ItemGroup>
+    <Compile Include="config.py" />
+    <Compile Include="main.py" />
+    <Compile Include="model\field_value_error.py" />
+    <Compile Include="model\currency.py" />
+    <Compile Include="model\summary.py" />
+    <Compile Include="model\session.py" />
+    <Compile Include="model\model.py" />
+    <Compile Include="common\convert.py" />
+    <Compile Include="common\parameter.py" />
+    <Compile Include="common\response.py" />
+    <Compile Include="common\result.py" />
+    <Compile Include="common\__init__.py" />
+    <Compile Include="settings\settings_controller.py" />
+    <Compile Include="settings\__init__.py" />
+    <Compile Include="test\datafile.py" />
+    <Compile Include="test\test_common.py" />
+    <Compile Include="test\test_config.py" />
+    <Compile Include="test\test_dataset.py" />
+    <Compile Include="test\test_model.py" />
+    <Compile Include="test\test_table.py" />
+    <Compile Include="test\test_controller.py" />
+    <Compile Include="test\__init__.py" />
+    <Compile Include="controller\format.py" />
+    <Compile Include="controller\__init__.py" />
+    <Compile Include="__init__.py" />
+    <Compile Include="auction\auction_controller.py" />
+    <Compile Include="auction\__init__.py" />
+    <Content Include="auction\templates\auctionitem.admin.de.html" />
+    <Content Include="auction\templates\auctionitem.admin.en.html" />
+    <Content Include="auction\templates\finalizeitem.admin.de.html" />
+    <Content Include="auction\templates\finalizeitem.admin.en.html" />
+    <Content Include="auction\templates\finditemtoauction.admin.de.html" />
+    <Content Include="auction\templates\finditemtoauction.admin.en.html" />
+    <Content Include="auction\templates\getstatus.admin.cz.xml" />
+    <Content Include="auction\templates\getstatus.admin.de.xml" />
+    <Content Include="auction\templates\getstatus.admin.en.xml" />
+    <Content Include="auction\templates\listauctionitems.admin.de.html" />
+    <Content Include="auction\templates\listauctionitems.admin.en.html" />
+    <Content Include="auction\templates\showstatus.admin.de.html" />
+    <Content Include="auction\templates\showstatus.admin.en.html" />
+    <Content Include="config.ini" />
+    <Compile Include="items\items_controller.py" />
+    <Compile Include="items\__init__.py" />
+    <Compile Include="model\dataset.py" />
+    <Compile Include="model\item.py" />
+    <Compile Include="model\table.py" />
+    <Compile Include="model\__init__.py" />
+    <Compile Include="reconciliation\reconciliation_controller.py" />
+    <Compile Include="reconciliation\__init__.py" />
+    <Content Include="items\static\BidsheetFrame.de.svg" />
+    <Content Include="items\static\BidsheetNoSaleFrame.de.svg" />
+    <Content Include="items\static\Bidsheets.xsl" />
+    <Content Include="items\templates\approveimport.admin.de.html" />
+    <Content Include="items\templates\approveimport.admin.en.html" />
+    <Content Include="items\templates\bidsheets.admin.de.xml" />
+    <Content Include="items\templates\bidsheets.admin.en.xml" />
+    <Content Include="items\templates\edititem.admin.de.html" />
+    <Content Include="items\templates\edititem.admin.en.html" />
+    <Content Include="items\templates\finditemtoclose.admin.de.html" />
+    <Content Include="items\templates\finditemtoclose.admin.en.html" />
+    <Content Include="items\templates\listitems.admin.de.html" />
+    <Content Include="items\templates\listitems.admin.en.html" />
+    <Content Include="items\templates\reportimport.admin.cz.html" />
+    <Content Include="items\templates\approveimport.admin.cz.html" />
+    <Content Include="items\templates\bidsheets.admin.cz.xml" />
+    <Content Include="items\templates\reportimport.admin.de.html" />
+    <Content Include="items\templates\reportimport.admin.en.html" />
+    <Content Include="items\templates\selectimportfile.admin.cz.html" />
+    <Content Include="items\templates\selectimportfile.admin.de.html" />
+    <Content Include="items\templates\selectimportfile.admin.en.html" />
+    <Content Include="items\templates\updateitemtoclose.admin.de.html" />
+    <Content Include="items\templates\updateitemtoclose.admin.en.html" />
+    <Content Include="reconciliation\static\Reconciliation.css" />
+    <Content Include="reconciliation\templates\drawersummary.admin.cz.html" />
+    <Content Include="reconciliation\templates\drawersummary.admin.de.html" />
+    <Content Include="reconciliation\templates\drawersummary.admin.en.html" />
+    <Content Include="reconciliation\templates\findbadgetoreconciliate.admin.de.html" />
+    <Content Include="reconciliation\templates\findbadgetoreconciliate.admin.en.html" />
+    <Content Include="reconciliation\templates\receipt.admin.cz.html" />
+    <Content Include="reconciliation\templates\receipt.admin.de.html" />
+    <Content Include="reconciliation\templates\receipt.admin.en.html" />
+    <Content Include="reconciliation\templates\reconciliation.admin.cz.html" />
+    <Content Include="reconciliation\templates\reconciliation.admin.de.html" />
+    <Content Include="reconciliation\templates\reconciliation.admin.en.html" />
+    <Content Include="reconciliation\templates\runneroverview.admin.cz.html" />
+    <Content Include="reconciliation\templates\runneroverview.admin.de.html" />
+    <Content Include="reconciliation\templates\runneroverview.admin.en.html" />
+    <Content Include="settings\templates\viewsettings.admin.cz.html" />
+    <Content Include="settings\templates\viewsettings.admin.de.html" />
+    <Content Include="settings\templates\viewsettings.admin.en.html" />
+    <Content Include="static\Artshow.css" />
+    <Content Include="templates\itemstate.cz.html" />
+    <Content Include="templates\itemstate.de.html" />
+    <Content Include="templates\itemstate.en.html" />
+    <Content Include="templates\main.admin.cz.html" />
+    <Content Include="templates\main.admin.de.html" />
+    <Content Include="templates\main.admin.en.html" />
+    <Content Include="templates\message.admin.cz.html" />
+    <Content Include="auction\static\StatusFrame.css" />
+    <Content Include="auction\static\StatusFrame.js" />
+    <Content Include="auction\static\StatusFrame.svg" />
+    <Content Include="auction\templates\auctionitem.admin.cz.html" />
+    <Content Include="auction\templates\finalizeitem.admin.cz.html" />
+    <Content Include="auction\templates\finditemtoauction.admin.cz.html" />
+    <Content Include="auction\templates\listauctionitems.admin.cz.html" />
+    <Content Include="auction\templates\showstatus.admin.cz.html" />
+    <Content Include="items\static\Bidsheets.css" />
+    <Content Include="items\static\BidsheetFrame.svg" />
+    <Content Include="items\static\BidsheetNoSaleFrame.svg" />
+    <Content Include="items\templates\finditemtoclose.admin.cz.html" />
+    <Content Include="items\templates\listitems.admin.cz.html" />
+    <Content Include="items\templates\edititem.admin.cz.html" />
+    <Content Include="items\templates\updateitemtoclose.admin.cz.html" />
+    <Content Include="reconciliation\templates\findbadgetoreconciliate.admin.cz.html" />
+    <Content Include="templates\message.admin.de.html" />
+    <Content Include="templates\message.admin.en.html" />
+    <Content Include="templates\messagetext.cz.html" />
+    <Content Include="templates\messagetext.de.html" />
+    <Content Include="templates\messagetext.en.html" />
+    <Content Include="test\data\config.ini" />
+    <Content Include="test\data\items_to_csv.bat" />
+    <Content Include="test\data\items_to_csv.xsl" />
+    <Content Include="test\data\test.model.currency.xml" />
+    <Content Include="test\data\test.model.import.txt" />
+    <Content Include="test\data\test.model.import.csv" />
+    <Content Include="test\data\test.model.items.ods" />
+    <Content Include="test\data\test.model.items.xml" />
+    <Content Include="test\data\test.model.session.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="auction" />
+    <Folder Include="auction\static" />
+    <Folder Include="auction\templates" />
+    <Folder Include="common\" />
+    <Folder Include="controller\__pycache__\" />
+    <Folder Include="items" />
+    <Folder Include="items\static" />
+    <Folder Include="items\templates" />
+    <Folder Include="model" />
+    <Folder Include="reconciliation" />
+    <Folder Include="reconciliation\static\" />
+    <Folder Include="reconciliation\templates" />
+    <Folder Include="settings\" />
+    <Folder Include="settings\static\" />
+    <Folder Include="settings\templates\" />
+    <Folder Include="static" />
+    <Folder Include="templates" />
+    <Folder Include="test\" />
+    <Folder Include="test\data\" />
+    <Folder Include="controller\" />
+  </ItemGroup>
+  <ItemGroup>
+    <InterpreterReference Include="{2af0f10d-7135-4994-9156-5d01c9c11b7e}\3.3" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
+</Project>

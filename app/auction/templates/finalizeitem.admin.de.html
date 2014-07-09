@@ -1,0 +1,43 @@
+﻿<!doctype html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='Artshow.css')}}"/>
+    <meta charset="UTF-8"/>
+    <title>ArtShow: Finalizing Item</title>
+</head>
+<body>
+<h1>Finalizing Item {{item.Code|default('?')}}</h1>
+<div class="infoBlock">
+    <p><span>Author:</span> {{item.Author|default('?')}}</p>
+    <p><span>Title:</span> {{item.Title|default('?')}}</p>
+    <p><span>Final Price:</span> {{item.AmountInAuction|default('?')}} €</p>
+</div>
+<form class="main" method="post">
+    <input class="hidden" type="text" name="ItemCode" value="{{item.Code|default('')}}"/>
+    {% if item.AmountInAuction > item.Amount -%}
+    <fieldset>
+        <div class="subblock">
+            <label for="buyer">Buyer:</label>
+            <input id="buyer" name="NewBuyer" type="number" value="" required
+                autocomplete="off" autofocus
+                min="1" pattern="\d+"
+                title="Buyer badge number."/>
+        </div>
+        <div class="subblock">
+            <input class="action" type="submit" formaction="{{sellUpdatedTarget}}"
+                value="Finalize"/>
+        </div>
+    </fieldset>
+    {%- else -%}
+    <fieldset>
+        <input class="action" type="submit" formaction="{{sellNoChangeTarget}}" formnovalidate
+            value="Finalized with Buyer {{item.Buyer}}"/>
+    </fieldset>
+    {%- endif %}
+    <fieldset>
+        <input class="action" type="submit" formaction="{{cancelledTarget}}" formnovalidate
+            value="Go back"/>
+    </fieldset>
+</form>
+</body>
+</html>

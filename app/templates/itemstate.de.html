@@ -1,0 +1,9 @@
+﻿{%- macro present(state) %}{% if state == 'OPEN' -%}Open
+{%- elif state == 'SHOW' -%}Show Only
+{%- elif state == 'ONSL' -%}For Sale
+{%- elif state == 'AUCT' -%}In Auction
+{%- elif state == 'DLVR' -%}Delivered to Buyer
+{%- elif state == 'NSOL' -%}To Be Returned
+{%- elif state == 'SOLD' -%}Ready for Buyer
+{%- elif state == 'FINI' -%}Finished
+{%- else -%}({{state}}){%- endif %}{% endmacro -%}

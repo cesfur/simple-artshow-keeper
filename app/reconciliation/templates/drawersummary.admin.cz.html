@@ -1,0 +1,108 @@
+﻿<!doctype html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='Artshow.css')}}" />
+    <link rel="stylesheet" type="text/css" href="{{url_for('.static', filename='Reconciliation.css')}}" />
+    <meta charset="UTF-8" />
+    <title>ArtShow: Shrnutí pokladny</title>
+    <script>
+    </script>
+</head>
+<body class="narrow">
+    <h1>Souhrn pokladny</h1>
+
+    {% import 'itemstate.' + language + '.html' as itemstate %}
+
+    <form class="main notPrintable" id="mainControl" method="post">
+        <fieldset>
+            <input class="action" type="submit" formaction="{{cancelledTarget}}" formnovalidate
+                   value="Zpět na hlavní" />
+            <input class="action" type="button" onclick="window.print()" formnovalidate
+                   value="Tiskni" />
+        </fieldset>
+    </form>
+
+    <div class="listSection receiptSection col2">
+        <table>
+            <tr class="hidden"><th>A</th><th>C</th></tr>
+            <tr>
+                <td class="colA">Datum:</td>
+                <td class="colC numerical">{{datetime.day}}. {{datetime.month}}. {{datetime.year}}</td>
+            </tr>
+            <tr>
+                <td class="colA">Čas:</td>
+                <td class="colC numerical">{{"%d:%02d"|format(datetime.hour, datetime.minute)}}</td>
+            </tr>
+            <tr>
+                <td class="colA">Na charitu:</td>
+                <td class="colC numerical">{{summary.TotalNetCharityAmount}} Kč</td>
+            </tr>
+            <tr>
+                <td class="colA">K vyplacení:</td>
+                <td class="colC numerical">{{summary.TotalNetAvailableAmount}} Kč</td>
+            </tr>
+            <tr>
+                <td class="colA">V pokladně:</td>
+                <td class="colC numerical">{{summary.TotalGrossCashDrawerAmount}} Kč</td>
+            </tr>
+        </table>
+    </div>
+    {% if summary.BuyersToBeCleared|length > 0 %}
+    <div class="listSection receiptSection col3">
+        <h2>Kupci k uhrazení</h2>
+        <table>
+            <tr>
+                <th class="colA">Vis.č.</th>
+                <th class="colB">Předměty</th>
+                <th class="colC">Částka</th>
+            </tr>
+            {% for actorSummary in summary.BuyersToBeCleared %}
+            <tr>
+                <td class="colA">{{actorSummary.Badge}}</td>
+                <td class="colB">{{actorSummary.ItemsToRetrieve}} ks</td>
+                <td class="colC numerical">{{actorSummary.AmountToPay}} Kč</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    {% endif %}
+    {% if summary.OwnersToBeCreared|length > 0 %}
+    <div class="listSection receiptSection col3">
+        <h2>Vlastníci k vyřízení</h2>
+        <table>
+            <tr>
+                <th class="colA">Vis.č.</th>
+                <th class="colB">Předměty</th>
+                <th class="colC">Částka</th>
+            </tr>
+            {% for actorSummary in summary.OwnersToBeCreared %}
+            <tr>
+                <td class="colA">{{actorSummary.Badge}}</td>
+                <td class="colB">{{actorSummary.ItemsToFinish}} ks</td>
+                <td class="colC numerical">{{actorSummary.AmountToReceive}} Kč</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    {% endif %}
+    {% if summary.PendingItems|length > 0 %}
+    <div class="listSection notPrintable">
+        <h2>Nevydatelné předměty</h2>
+        <table>
+            <tr>
+                <th class="colA">Kód</th>
+                <th class="colB">Název</th>
+                <th class="colC">Stav</th>
+            </tr>
+            {% for item in summary.PendingItems %}
+            <tr>
+                <td class="colA">{{item.Code}}</td>
+                <td class="colB">{{item.Title}}</td>
+                <td class="colC numerical">{{itemstate.present(item.State)}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    {% endif %}
+</body>
+</html>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CurrencyList>
+    <Currency>
+        <Code>czk</Code>
+        <AmountInPrimary>1</AmountInPrimary>
+        <DecimalPlaces>0</DecimalPlaces>
+    </Currency>
+    <Currency>
+        <Code>eur</Code>
+        <AmountInPrimary>27.13</AmountInPrimary>
+        <DecimalPlaces>2</DecimalPlaces>
+    </Currency>
+    <Currency>
+        <Code>usd</Code>
+        <AmountInPrimary>19.71</AmountInPrimary>
+        <DecimalPlaces>2</DecimalPlaces>
+    </Currency>
+</CurrencyList>

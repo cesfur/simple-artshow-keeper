@@ -1,0 +1,9 @@
+﻿{%- macro present(state) %}{% if state == 'OPEN' -%}V přípravě
+{%- elif state == 'SHOW' -%}Jen vystaven
+{%- elif state == 'ONSL' -%}Na prodej
+{%- elif state == 'AUCT' -%}V aukci
+{%- elif state == 'DLVR' -%}Předán kupci
+{%- elif state == 'NSOL' -%}K vydání vlastníkovi
+{%- elif state == 'SOLD' -%}K předání kupci
+{%- elif state == 'FINI' -%}Vyřízen
+{%- else -%}({{state}}){%- endif %}{% endmacro -%}

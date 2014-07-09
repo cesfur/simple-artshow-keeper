@@ -1,0 +1,92 @@
+﻿{% macro present(message, badge, itemCode, buyer, amount) -%}
+{%- if message == 'SUCCESS' -%}
+    <p class="message info">Operation completed successfully.</p>
+{%- elif message == 'ERROR' -%}
+    <p class="message error">Error has ocurred.</p>
+{%- elif message == 'CRITICAL_ERROR' -%}
+    <p class="message error">Critical error has ocurred. Ongoing operation might not finished completely. Please, repeat the operation.</p>
+{%- elif message == 'PARTIAL_SUCCESS' -%}
+    <p class="message info">Operation has succeeded partially. Please, repeat the operation.</p>
+{%- elif message == 'INPUT_ERROR' -%}
+    <p class="message error">Entered data contain an error. Input not accepted.</p>
+{%- elif message == 'NO_ITEMS_SELECTED' -%}
+    <p class="message error">No item has been selected.</p>
+{%- elif message == 'ITEMS_DELETED' -%}
+    <p class="message info">Item codes "{{itemCode}}" were deleted.</p>
+{%- elif message == 'NO_ITEM_TO_CLOSE' -%}
+    <p class="message info">All items are closed already.</p>
+{%- elif message == 'INVALID_INPUT' -%}
+    <p class="message error">Invalid input.</p>
+{%- elif message == 'INVALID_ITEM_CODE' -%}
+    <p class="message error">Invalid item code.</p>
+{%- elif message == 'DUPLICATE_ITEM' -%}
+    <p class="message error">Duplicate item. Please, update the input data and try again.</p>
+{%- elif message == 'ITEM_NOT_FOUND' -%}
+    <p class="message error">Item {{itemCode}} not found.</p>
+{%- elif message == 'ITEM_NOT_CLOSABLE' -%}
+    <p class="message error">Item {{itemCode}} cannot be closed now.</p>
+{%- elif message == 'INVALID_BUYER' -%}
+    <p class="message error">Buyer '{{buyer|default('neznámý')}}' is invalid.</p>
+{%- elif message == 'INVALID_AMOUNT' -%}
+    <p class="message error">Amount {{amount|default('?')}} is not valid.</p>
+{%- elif message == 'INVALID_VALUE' -%}
+    <p class="message error">Input value is not valid.</p>
+{%- elif message == 'AMOUNT_TOO_LOW' -%}
+    <p class="message error">Amount {{amount|default('?')}} is lower than the minimal amount {{minAmount}}.</p>
+{%- elif message == 'NO_ITEM_TO_AUCTION' -%}
+    <p class="message info">No item available for auction found.</p>
+{%- elif message == 'CANNOT_AUCTION_THIS_ITEM' -%}
+    <p class="message error">Item {{itemCode}} cannot be auctioned.</p>
+{%- elif message == 'INVALID_AUCTION_ITEM' -%}
+    <p class="message info">Item cannot be auctioned.</p>
+{%- elif message == 'NEW_AMOUNT_FAILED' -%}
+    <p class="message error">Unable to use a new auction amount.</p>
+{%- elif message == 'NEW_BUYER_FAILED' -%}
+    <p class="message error">Unable to use a new buyer {{buyer|default('?')}}.</p>
+{%- elif message == 'INVALID_BADGE' -%}
+    <p class="message error">Badge number {{badge|default('?')}} in valid.</p>
+{%- elif message == 'BADGE_ALREADY_RECONCILIATED' -%}
+    <p class="message info">Badge number {{badge|default('?')}} has been reconciliated already.</p>
+{%- elif message == 'RECONCILIATION_DATA_CHANGED' -%}
+    <p class="message error">Data of the badge number {{badge|default('?')}} were changes in background. Please, start reconcialiation of this badge again.</p>
+{%- elif message == 'BADGE_RECONCILIATION_FAILED' -%}
+    <p class="message error">Reconciliation of a badge number {{badge|default('?')}} has failed.</p>
+{%- elif message == 'BADGE_RECONCILIATION_SUCCEEDED' -%}
+    <p class="message info">Badge number {{badge|default('?')}} has been reconcialiated.</p>
+{%- elif message == 'INITIAL_AMOUNT_NOT_DEFINED' -%}
+    <p class="message error">Initial amount not defined.</p>
+{%- elif message == 'CHARITY_NOT_DEFINED' -%}
+    <p class="message error">Charity not defined.</p>
+{%- elif message == 'AMOUNT_NOT_DEFINED' -%}
+    <p class="message error">Final amount not defined.</p>
+{%- elif message == 'BUYER_NOT_DEFINED' -%}
+    <p class="message error">Final buyer not defined.</p>
+{%- elif message == 'INVALID_FILE' -%}
+    <p class="message error">File is invalid or corrupted.</p>
+{%- elif message == 'INVALID_CHECKSUM' -%}
+    <p class="message error">Control checksum is invalid.</p>
+{%- elif message == 'PRINT_CANCELLED' -%}
+    <p class="message info">Printing cancelled.</p>
+{%- elif message == 'PRIMARY_AMOUNT_IN_PRIMARY_INVALID' -%}
+    <p class="message error">Invalid conversion rate for the primary currency. Conversion rate for the primary currency has to be 1 all the time.</p>
+{%- elif message == 'NOTHING_TO_PRINT' -%}
+    <p class="message error">There is nothing to print. Please, repeat the operation.</p>
+{%- else -%}
+    <p class="message error">Unknown message: '{{message}}'.</p>
+{%- endif -%}
+{%- endmacro -%}
+
+{%- macro presentShort(message) -%}
+{%- if message == 'SUCCESS' -%}OK
+{%- elif message == 'ERROR' -%}Error
+{%- elif message == 'INVALID_INPUT' -%}Invalid input
+{%- elif message == 'INVALID_AUTHOR' -%}Invalid author
+{%- elif message == 'INVALID_TITLE' -%}Invalid title
+{%- elif message == 'INVALID_BUYER' -%}Invalid buyer
+{%- elif message == 'INVALID_AMOUNT' -%}Invalid amount
+{%- elif message == 'INVALID_CHARITY' -%}Invalid charity
+{%- elif message == 'INCOMPLETE_SALE_INFO' -%}Incomplete sale info
+{%- elif message == 'DUPLICATE_ITEM' -%}Duplicate
+{%- else -%}Other ({{message}})
+{%- endif -%}
+{%- endmacro %}

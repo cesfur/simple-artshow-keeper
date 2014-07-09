@@ -1,0 +1,6 @@
+flask
+    setuptools
+    itsdangerous
+    werkzeug
+    jinja2
+        markupsafe

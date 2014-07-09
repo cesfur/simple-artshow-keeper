@@ -1,0 +1,21 @@
+﻿<!doctype html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="/static/Artshow.css"/>
+    <meta charset="UTF-8"/>
+    <title>ArtShow: Message</title>
+</head>
+<body>
+<h1>ArtShow: Message</h1>
+    {% import 'messagetext.' + language + '.html' as messagetext %}
+    <div class="messageFrame">
+        {{messagetext.present(message, badge, itemCode, buyer, amount)}}
+        <form class="main">
+        {% if okTarget %}
+            <input class="action" type="submit" formaction="{{okTarget}}"
+                value="OK"/>
+        {% endif %}
+        </form>
+    </div>
+</body>
+</html>

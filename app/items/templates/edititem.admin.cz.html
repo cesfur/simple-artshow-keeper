@@ -1,0 +1,215 @@
+﻿<!doctype html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="/static/Artshow.css" />
+    <meta charset="UTF-8" />
+    <title>Artshow: {% if addNewTarget -%}Nový předmět
+        {%- elif updateItemTarget -%}Úprava předmětu {{item.Code}}
+        {%- endif %}</title>
+    <script type="text/javascript">
+        var startingValues = {}
+        startingValues.owner = "{{item.Owner}}";
+        startingValues.author = "{{item.Author}}";
+        startingValues.title = "{{item.Title}}";
+        startingValues.state = "{{item.State}}";
+        startingValues.initialAmount = "{{item.InitialAmount if item.InitialAmount != None else ''}}";
+        startingValues.amount = "{{item.Amount if item.Amount != None else ''}}";
+        startingValues.buyer = "{{item.Buyer if item.Buyer != None else ''}}";
+        startingValues.charity = "{{item.Charity if item.Charity != None else ''}}";
+
+        var amountSensitiveStates = {"": false {%- for state in amountSensitiveItemStates -%}, "{{state}}": true{% endfor %}}
+
+        function setElementRequiredDisabled(elementId, required, disabled) {
+            var element = document.getElementById(elementId);
+            if (element != null) {
+                element.required = required;
+                element.disabled = disabled;
+            }
+        }
+
+        function getValue(elementId, defaultValue) {
+            var element = document.getElementById(elementId);
+            if (element != null) {
+                return element.value;
+            }
+            else {
+                return defaultValue;
+            }
+        }
+
+        function isValueChanged(elementId, oldValue) {
+            var value = getValue(elementId, null);
+            return value != null && String(value) != String(oldValue);
+        }
+
+        function updateElements() {
+            var forSaleElement = document.getElementById("forSale");
+            if (forSaleElement != null) {
+                var forSale = forSaleElement.checked;
+                setElementRequiredDisabled("initialAmount", forSale, !forSale);
+                setElementRequiredDisabled("charity", forSale, !forSale);
+            }
+        }
+
+        function onUpdateClick() {
+            var sensitive = false;
+
+            var state = getValue("state", "")
+            if (state != startingValues.state) {
+                sensitive |=  amountSensitiveStates[state] || amountSensitiveStates[startingValues.state];
+            }
+            if (amountSensitiveStates[state]) {
+                sensitive |= getValue("amount", 0) != startingValues.amount
+                    || getValue("charity", 0) != startingValues.charity
+                    || getValue("buyer", 0) != startingValues.buyer;
+            }
+
+            return !sensitive || window.confirm("Tato změna může způsobit změnu vyúčtování.");
+        }
+
+        function onCancelClick() {
+            var changed = isValueChanged("owner", startingValues.owner)
+                || isValueChanged("author", startingValues.author)
+                || isValueChanged("title", startingValues.title)
+                || isValueChanged("state", startingValues.state)
+                || isValueChanged("initialAmount", startingValues.initialAmount)
+                || isValueChanged("amount", startingValues.amount)
+                || isValueChanged("charity", startingValues.charity)
+                || isValueChanged("buyer", startingValues.buyer)
+            return !changed || window.confirm("Zadané změny budou ztraceny. Pokračovat?");
+        }
+    </script>
+</head>
+<body onload="updateElements()">
+    {% import 'itemstate.' + language + '.html' as itemstate %}
+
+    <h1>{% if addNewTarget -%}Nový předmět
+        {%- elif updateItemTarget -%}Úprava předmětu {{item.Code}}
+        {%- endif %}</h1>
+
+    {% if message -%}
+        <div class="popupMessage">
+            {% import 'messagetext.' + language + '.html' as messagetext %}
+            {{messagetext.present(message, item.Owner, item.Code, item.Buyer, item.Amount)}}
+        </div>
+    {%- endif %}
+
+    <form class="main" method="post">
+        <!-- Basic Information -->
+        {% if updateItemTarget -%}
+        <input class="hidden" type="text" name="ItemCode" value="{{item.Code}}" />
+        {%- endif %}
+        <fieldset>
+            <label for="owner">Vlastník:</label>
+            <input id="owner" name="Owner" type="number" value="{{item.Owner|default('')}}"
+                   autocomplete="off" autofocus required
+                   pattern="[1-9][0-9]*" min="1" title="Číslo visačky větší, než 1" />
+        </fieldset>
+        <fieldset>
+            <label for="author">Autor:</label>
+            <input id="author" name="Author" type="text" value="{{item.Author|default('')}}"
+                   required />
+        </fieldset>
+        <fieldset>
+            <label for="title">Název:</label>
+            <input id="title" name="Title" type="text" value="{{item.Title|default('')}}"
+                   autocomplete="off"
+                   required />
+        </fieldset>
+        <!-- State Information -->
+        {% if updateItemTarget %}
+        <fieldset>
+            <label for="state">Stav:</label>
+            <select id="state" name="State" required>
+                {% for state in itemStates -%}
+                    {% if state == item.State -%}
+                        <option selected value="{{state}}">{{itemstate.present(state)}} *</option>
+                    {%- else -%}
+                        <option value="{{state}}">{{itemstate.present(state)}}</option>
+                    {%- endif %}
+                {%- endfor %}
+            </select>
+        </fieldset>
+        {% endif %}
+        <!-- Sale Information -->
+        {% if addNewTarget %}
+        <fieldset>
+            <input id="forSale" name="ForSale" type="checkbox"
+                   {{'checked' if item.ForSale else ''}} onchange="updateElements()" />
+            <label for="forSale">Na prodej</label>
+            <div class="subblock">
+                <label for="initialAmount">Cena (v Kč):</label>
+                <input id="initialAmount" name="InitialAmount" type="number" value="{{item.InitialAmount if item.InitialAmount != None}}"
+                       autocomplete="off"
+                       min="1" pattern="[1-9][0-9]*"
+                       title="Nejmenší monžná cena je 1" />
+            </div>
+            <div class="subblock">
+                <label for="charity">Charita (v %):</label>
+                <input id="charity" name="Charity" type="number" value="{{item.Charity|default('')}}"
+                       autocomplete="off"
+                       min="0" max="100" pattern="[0-9][0-9]?[0-9]?"
+                       title="Procenta od 0 do 100" />
+            </div>
+        </fieldset>
+        {% elif updateItemTarget %}
+        <fieldset>
+            <div class="subblock">
+                <label for="initialAmount">Počáteční cena (v Kč):</label>
+                <input id="initialAmount" name="InitialAmount" type="number" value="{{item.InitialAmount if item.InitialAmount != None}}"
+                       autocomplete="off"
+                       min="1" pattern="[1-9][0-9]*"
+                       title="Nejmenší monžná cena je 1" />
+            </div>
+            <div class="subblock">
+                <label for="charity">Charita (v %):</label>
+                <input id="charity" name="Charity" type="number" value="{{item.Charity if item.Charity != None}}"
+                       autocomplete="off"
+                       min="0" max="100" pattern="[0-9][0-9]?[0-9]?"
+                       title="Procenta od 0 do 100" />
+            </div>
+        </fieldset>
+        <fieldset>
+            <div class="subblock">
+                <label for="buyer">Kupec:</label>
+                <input id="buyer" name="Buyer" type="number" value="{{item.Buyer if item.Buyer != None}}"
+                       autocomplete="off"
+                       pattern="[1-9][0-9]*" min="1"
+                       title="Číslo visačky větší, než 1" />
+            </div>
+            <div class="subblock">
+                <label for="amount">Cena (v Kč):</label>
+                <input id="amount" name="Amount" type="number" value="{{item.Amount if item.Amount != None}}"
+                       autocomplete="off"
+                       min="1" pattern="[1-9][0-9]*"
+                       title="Nejmenší monžná cena je 1" />
+            </div>
+        </fieldset>
+        {% endif %}
+        <!-- Action -->
+        <fieldset>
+            {% if addNewTarget -%}
+            <input class="action" type="submit" formaction="{{cancelledTarget}}" formnovalidate
+                   onclick="return onCancelClick()"
+                   value="Zpět na hlavní" />
+            <input class="action" type="submit" formaction="{{addNewTarget}}"
+                   value="Přidej" />
+            <input class="action" type="submit" formaction="{{importFileTarget}}" formnovalidate
+                   value="Importuj" />
+            {%- elif updateItemTarget -%}
+            <input class="action" type="submit" formaction="{{cancelledTarget}}" formnovalidate
+                   onclick="return onCancelClick()"
+                   value="Zpět na seznam" />
+            <input class="action" type="submit" formaction="{{updateItemTarget}}"
+                   onclick="return onUpdateClick()"
+                   value="Uprav" />
+            {%- endif %}
+            {% if printAddedTarget -%}
+            <input class="action" type="submit" formaction="{{printAddedTarget}}" formnovalidate
+                   {{'disabled' if not bidsheetsToPrint|default(false) else '' }}
+                   value="Tiskni přidané" />
+            {%- endif %}
+        </fieldset>
+    </form>
+</body>
+</html>

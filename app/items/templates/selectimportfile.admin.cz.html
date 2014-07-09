@@ -1,0 +1,30 @@
+﻿<!doctype html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='Artshow.css')}}" />
+    <meta charset="UTF-8" />
+    <title>ArtShow: Výběr soubor k importu</title>
+</head>
+<body>
+    <h1>Vyber data k importu</h1>
+
+    <form class="main notPrintable" enctype="multipart/form-data">
+        <fieldset>
+            <input class="action" type="file" name="ImportFile"/><br/>
+            <input class="action" type="submit" formaction="{{targetUploadFile}}" formmethod="post"
+                   value="Použij soubor" />
+        </fieldset>
+        <fieldset>
+            <textarea class="action" name="ImportText"
+                      rows="20" cols="60"
+                      maxlength="10000"></textarea><br/>
+            <input class="action" type="submit" formaction="{{targetUploadText}}" formmethod="post"
+                   value="Použij text" />
+        </fieldset>
+        <fieldset>
+            <input class="action" type="submit" formaction="{{targetCancelled}}" formnovalidate
+                   value="Zpět na nový předmět" />
+        </fieldset>
+    </form>
+</body>
+</html>

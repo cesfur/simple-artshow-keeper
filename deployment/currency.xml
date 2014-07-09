@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CurrencyList>
+    <Currency>
+        <Code>czk</Code>
+        <AmountInPrimary>1</AmountInPrimary>
+        <DecimalPlaces>0</DecimalPlaces>
+        <FormatPrefix></FormatPrefix>
+        <FormatSuffix> Kč</FormatSuffix>
+        <Description>CZK - Koruna česká</Description>
+    </Currency>
+    <Currency>
+        <Code>eur</Code>
+        <AmountInPrimary>1</AmountInPrimary>
+        <DecimalPlaces>2</DecimalPlaces>
+        <FormatPrefix></FormatPrefix>
+        <FormatSuffix>€</FormatSuffix>
+        <Description>EUR - Euro</Description>
+    </Currency>
+    <Currency>
+        <Code>gbp</Code>
+        <AmountInPrimary>1</AmountInPrimary>
+        <DecimalPlaces>2</DecimalPlaces>
+        <FormatPrefix>£</FormatPrefix>
+        <FormatSuffix></FormatSuffix>
+        <Description>GPB - British Pound</Description>
+    </Currency>
+    <Currency>
+        <Code>usd</Code>
+        <AmountInPrimary>1</AmountInPrimary>
+        <DecimalPlaces>2</DecimalPlaces>
+        <FormatPrefix>$</FormatPrefix>
+        <FormatSuffix></FormatSuffix>
+        <Description>USD - U.S. Dollar</Description>
+    </Currency>
+</CurrencyList>

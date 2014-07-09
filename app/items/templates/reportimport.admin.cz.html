@@ -1,0 +1,53 @@
+﻿<!doctype html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='Artshow.css')}}" />
+    <meta charset="UTF-8" />
+    <title>ArtShow: Přehled vynechaných předmětů</title>
+</head>
+<body>
+    {% import 'messagetext.' + language + '.html' as messagetext %}
+    <h1>Přehled vynechaných předmětů</h1>
+
+    <form class="main notPrintable" enctype="multipart/form-data">
+        <fieldset>
+            <input class="action" type="submit" formaction="{{targetContinue}}" formnovalidate
+                   value="Pokračuj na nový předmět" />
+        </fieldset>
+    </form>
+
+    {% if skippedItems|length > 0 -%}
+    <div class="listSection">
+        <table>
+            <tr>
+                <th>Důvod<br/>vynechání</th>
+                <th>Autor</th>
+                <th>Název</th>
+                <th>Počáteční<br/>cena</th>
+                <th>Charita</th>
+            </tr>
+            {% for item in skippedItems -%}
+            <tr>
+                <td>{{messagetext.presentShort(item.IRES)}}</td>
+                <td>{{item.AUTH|default('')}}</td>
+                <td>{{item.TITL|default('')}}</td>
+                {%- if item.IAMT != None -%}
+                <td class="numerical">{{item.IAMT}} Kč</td>
+                {%- else -%}
+                <td class="irrelevant"></td>
+                {%- endif -%}
+                {%- if item.CHAR != None -%}
+                <td class="numerical">{{item.CHAR}} %</td>
+                {%- else -%}
+                <td class="irrelevant"></td>
+                {%- endif -%}
+            </tr>
+            {%- endfor %}
+        </table>
+        <p class="note">Celkem vynecháno položek: {{skippedItems|length}}</p>
+    </div>
+    {%- else -%}
+    <p>Nebyly vynechány žádné položky.</p>
+    {%- endif %}
+</body>
+</html>

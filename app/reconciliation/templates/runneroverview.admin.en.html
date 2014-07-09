@@ -1,0 +1,40 @@
+﻿<!doctype html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='Artshow.css')}}"/>
+    <link rel="stylesheet" type="text/css" href="{{url_for('.static', filename='Reconciliation.css')}}" />
+    <meta charset="UTF-8"/>
+    <title>ArtShow: Runned Overview</title>
+    <script>
+        function printAndSubmit()
+        {
+            window.print();
+            document.getElementById("printControl").submit();
+        }
+    </script>
+</head>
+<body class="narrow" onload="printAndSubmit()">
+    <form class="notPrintable" id="printControl" action="{{printedTarget}}" method="post">
+        <input class="hidden" name="Badge" type="number"
+               value="{{badge}}" />
+        <input class="hidden" name="SummaryChecksum" type="number"
+               value="{{summaryChecksum}}" />
+    </form>
+    <h1>Badge: {{badge|default('?')}}</h1>
+    <div class="listSection receiptSection col3">
+        <table>
+            <tr>
+                <th class="colA">Code</th>
+                <th class="colBC">Title</th>
+            </tr>
+            {% for item in items %}
+            <tr>
+                <td class="colA">{{item.Code}}</td>
+                <td class="colBC">{{item.Title}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        <p>Number of items: {{items|length}}</p>
+    </div>
+</body>
+</html>
