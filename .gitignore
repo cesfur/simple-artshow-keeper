@@ -66,8 +66,9 @@ TestResults/
 
 # Application
 data/
-*.bak
 experiments/
+private*/
+*.bak
 
 # Others
 *.~lock*
