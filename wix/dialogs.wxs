@@ -125,6 +125,7 @@
                         <ListItem Text="British Pound (GBP)" Value="gbp" />
                         <ListItem Text="Czech Crown (CZK)" Value="czk" />
                         <ListItem Text="Euro (EUR)" Value="eur" />
+                        <ListItem Text="Polish Zloty (PLN)" Value="pln" />
                         <ListItem Text="U.S. Dollar (USD)" Value="usd" />
                     </ComboBox>
                 </Control>
@@ -137,6 +138,7 @@
                         <ListItem Text="British Pound (GBP)" Value="gbp" />
                         <ListItem Text="Czech Crown (CZK)" Value="czk" />
                         <ListItem Text="Euro (EUR)" Value="eur" />
+                        <ListItem Text="Polish Zloty (PLN)" Value="pln" />
                         <ListItem Text="U.S. Dollar (USD)" Value="usd" />
                     </ComboBox>
                 </Control>
@@ -149,6 +151,7 @@
                         <ListItem Text="British Pound (GBP)" Value="gbp" />
                         <ListItem Text="Czech Crown (CZK)" Value="czk" />
                         <ListItem Text="Euro (EUR)" Value="eur" />
+                        <ListItem Text="Polish Zloty (PLN)" Value="pln" />
                         <ListItem Text="U.S. Dollar (USD)" Value="usd" />
                     </ComboBox>
                 </Control>

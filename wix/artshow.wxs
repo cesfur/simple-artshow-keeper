@@ -1,12 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Wix RequiredVersion="3.8.1128.0"
     xmlns="http://schemas.microsoft.com/wix/2006/wi">
+
+    <?include Version.wxi ?>    
+
     <Product Id="{5DE3D850-6E49-4487-BE2E-1A283422B947}"
         UpgradeCode="{AEA60A19-9B58-47da-88E1-2CFA3CB7F47E}"
         Language="1033"
         Manufacturer="Unofficial Cesfur"
         Name="Artshow Keeper"
-        Version="2.1.2">
+        Version="$(var.Version)">
 
         <Package InstallerVersion="300" Compressed="yes" InstallScope="perMachine"/>
         <Media Id="1" Cabinet="Artshow.cab" EmbedCab="yes" />
@@ -14,12 +17,12 @@
         <Upgrade Id="{AEA60A19-9B58-47da-88E1-2CFA3CB7F47E}"> 
             <UpgradeVersion
                 OnlyDetect="yes"
-                Minimum="2.1.1"
+                Minimum="$(var.Version)"
                 Property="NEWERVERSIONDETECTED"
                 IncludeMinimum="no" />
             <UpgradeVersion
                 OnlyDetect="no"
-                Maximum="2.1.1"
+                Maximum="$(var.Version)"
                 Property="OLDERVERSIONBEINGUPGRADED"
                 IncludeMaximum="no" />
         </Upgrade>         

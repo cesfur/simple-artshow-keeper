@@ -25,6 +25,14 @@
         <Description>GPB - British Pound</Description>
     </Currency>
     <Currency>
+        <Code>pln</Code>
+        <AmountInPrimary>1</AmountInPrimary>
+        <DecimalPlaces>2</DecimalPlaces>
+        <FormatPrefix></FormatPrefix>
+        <FormatSuffix> zł</FormatSuffix>
+        <Description>PLN - Polski złoty</Description>
+    </Currency>
+    <Currency>
         <Code>usd</Code>
         <AmountInPrimary>1</AmountInPrimary>
         <DecimalPlaces>2</DecimalPlaces>
