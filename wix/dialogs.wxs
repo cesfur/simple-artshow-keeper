@@ -2,46 +2,6 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
     <Fragment>        
         <UI>
-            <Dialog Id="PythonNotFoundDlg" Width="370" Height="270" Title="[ProductName] Setup" NoMinimize="yes">
-                <Control Id="BannerBitmap" Type="Bitmap" X="0" Y="0" Width="370" Height="44" TabSkip="no" Text="WixUI_Bmp_Banner" />
-                <Control Id="BottomLine" Type="Line" X="0" Y="234" Width="370" Height="0" />
-                <Control Id="Title" Type="Text" X="15" Y="6" Width="200" Height="15" Transparent="yes" NoPrefix="yes">
-                    <Text>{\WixUI_Font_Title}Python 3.3 Not Found</Text>
-                </Control>
-                <Control Id="BannerLine" Type="Line" X="0" Y="44" Width="370" Height="0" />
-
-                <Control Id="Label1" Type="Text" X="45" Y="73" Width="200" Height="15"
-                    TabSkip="no" Text="Please, install Python 3.3 first." />
-                <Control Id="Label2" Type="Text" X="45" Y="88" Width="200" Height="15"
-                    TabSkip="no" Text="You can find Python 3.3 at the following link:" />
-                <Control Id="LabelLink" Type="Text" X="95" Y="109" Width="150" Height="15"
-                    TabSkip="no" Text="http://www.python.org" />
-
-                <Control Id="Cancel" Type="PushButton" X="304" Y="243" Width="56" Height="17" Cancel="yes" Text="Exit Install">
-                    <Publish Event="EndDialog" Value="Exit">1</Publish>
-                </Control>
-            </Dialog>
-
-            <Dialog Id="FirefoxNotFoundDlg" Width="370" Height="270" Title="[ProductName] Setup" NoMinimize="yes">
-                <Control Id="BannerBitmap" Type="Bitmap" X="0" Y="0" Width="370" Height="44" TabSkip="no" Text="WixUI_Bmp_Banner" />
-                <Control Id="BottomLine" Type="Line" X="0" Y="234" Width="370" Height="0" />
-                <Control Id="Title" Type="Text" X="15" Y="6" Width="200" Height="15" Transparent="yes" NoPrefix="yes">
-                    <Text>{\WixUI_Font_Title}Firefox Not Found</Text>
-                </Control>
-                <Control Id="BannerLine" Type="Line" X="0" Y="44" Width="370" Height="0" />
-
-                <Control Id="Label1" Type="Text" X="45" Y="73" Width="200" Height="15"
-                    TabSkip="no" Text="Please, install Firefox first." />
-                <Control Id="Label2" Type="Text" X="45" Y="88" Width="200" Height="15"
-                    TabSkip="no" Text="You can find Firefox at the following link:" />
-                <Control Id="LabelLink" Type="Text" X="95" Y="109" Width="150" Height="15"
-                    TabSkip="no" Text="http://www.mozilla.org/en-US/firefox/new/" />
-
-                <Control Id="Cancel" Type="PushButton" X="304" Y="243" Width="56" Height="17" Cancel="yes" Text="Exit Install">
-                    <Publish Event="EndDialog" Value="Exit">1</Publish>
-                </Control>
-            </Dialog>
-
             <Dialog Id="PythonPackagesInfoDlg" Width="370" Height="270" Title="[ProductName] Setup" NoMinimize="yes">
                 <Control Id="BannerBitmap" Type="Bitmap" X="0" Y="0" Width="370" Height="44" TabSkip="no" Text="WixUI_Bmp_Banner" />
                 <Control Id="BottomLine" Type="Line" X="0" Y="234" Width="370" Height="0" />
@@ -181,16 +141,12 @@
             <DialogRef Id="ResumeDlg" />
             <DialogRef Id="UserExit" />
 
-            <DialogRef Id="PythonNotFoundDlg" />
-            <DialogRef Id="FirefoxNotFoundDlg" />
             <DialogRef Id="SelectLanguageDlg" />
             <DialogRef Id="SelectCurencyDlg" />
 
             <Publish Dialog="ExitDialog" Control="Finish" Event="EndDialog" Value="Return" Order="999">1</Publish>
 
-            <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="LicenseAgreementDlg">PYTHON_PATH AND FIREFOX_PATH</Publish>
-            <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="PythonNotFoundDlg">NOT PYTHON_PATH</Publish>
-            <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="FirefoxNotFoundDlg">NOT FIREFOX_PATH</Publish>
+            <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="LicenseAgreementDlg">1</Publish>
 
             <Publish Dialog="LicenseAgreementDlg" Control="Back" Event="NewDialog" Value="WelcomeDlg">1</Publish>
             <Publish Dialog="LicenseAgreementDlg" Control="Next" Event="NewDialog" Value="PythonPackagesInfoDlg">LicenseAccepted = "1"</Publish>

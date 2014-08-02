@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Fragment>
+        <Property Id="PYTHON_PATH">
+            <RegistrySearch Id="Python33Search"
+                Root="HKLM"
+                Key="SOFTWARE\Python\PythonCore\3.3\InstallPath"
+                Type="raw" />
+            <RegistrySearch Id="Python34Search"
+                Root="HKLM"
+                Key="SOFTWARE\Python\PythonCore\3.4\InstallPath"
+                Type="raw" />
+        </Property>
+
+        <Property Id="FIREFOX_PATH">
+            <RegistrySearch Id="FirefoxPathSearch"
+                Root="HKLM"
+                Key="SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\firefox.exe"
+                Type="raw" />
+        </Property>
+    </Fragment>
+</Wix>

@@ -377,24 +377,21 @@
             <ComponentRef Id="DemoData" />
         </Feature>
 
-        <Property Id="RequiredPythonVersion">3.3</Property>
-        <Property Id="PYTHON_PATH">
-            <RegistrySearch Id="PythonPathSearch"
-                Root="HKLM"
-                Key="SOFTWARE\Python\PythonCore\[RequiredPythonVersion]\InstallPath"
-                Type="raw" />
-        </Property>
-        <Property Id="FIREFOX_PATH">
-            <RegistrySearch Id="FirefoxPathSearch"
-                Root="HKLM"
-                Key="SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\firefox.exe"
-                Type="raw" />
-        </Property>
         <Property Id="DEFAULT_LANGUAGE">cz</Property>
         <Property Id="DEFAULT_CURRENCY_1">czk</Property>
         <Property Id="DEFAULT_CURRENCY_2">eur</Property>
         <Property Id="DEFAULT_CURRENCY_3">usd</Property>
 
+        <PropertyRef Id="PYTHON_PATH"/>
+        <Condition Message="Python version 3.3 (32-bit) or 3.4 (32-bit) not installed on this machine. Install Python prior running this installer.">
+            (Installed AND (NOT UPGRADINGPRODUCTCODE) AND (REMOVE="ALL")) OR PYTHON_PATH
+        </Condition>
+        
+        <PropertyRef Id="FIREFOX_PATH"/>
+        <Condition Message="Firefox version 30.0 or newer not installed on this machine. Install Firefox prior running this installer.">
+            (Installed AND (NOT UPGRADINGPRODUCTCODE) AND (REMOVE="ALL")) OR FIREFOX_PATH
+        </Condition>
+        
         <CustomAction Id="InstallAllPythonPackages"
             Execute="deferred"
             FileKey="Install_CheckPython"

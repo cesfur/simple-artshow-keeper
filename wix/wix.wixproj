@@ -32,6 +32,7 @@
   <ItemGroup>
     <Compile Include="artshow.wxs" />
     <Compile Include="dialogs.wxs" />
+    <Compile Include="prerequisites.wxs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="version.wxi" />
