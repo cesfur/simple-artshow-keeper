@@ -1,7 +1,7 @@
 ﻿<!doctype html>
 <html>
 <head>
-    <link rel="stylesheet" type="text/css" href="/static/Artshow.css" />
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='Artshow.css')}}" />
     <meta charset="UTF-8" />
     <title>Artshow: {% if addNewTarget -%}New Item
         {%- elif updateItemTarget -%}Editing Item {{item.Code}}
@@ -12,73 +12,19 @@
         startingValues.author = "{{item.Author}}";
         startingValues.title = "{{item.Title}}";
         startingValues.state = "{{item.State}}";
+        startingValues.medium = "{{item.Medium if item.Medium != None else ''}}";
         startingValues.initialAmount = "{{item.InitialAmount if item.InitialAmount != None else ''}}";
         startingValues.amount = "{{item.Amount if item.Amount != None else ''}}";
         startingValues.buyer = "{{item.Buyer if item.Buyer != None else ''}}";
         startingValues.charity = "{{item.Charity if item.Charity != None else ''}}";
+        startingValues.note = "{{item.Note if item.Note != None else ''}}";
 
         var amountSensitiveStates = {"": false {%- for state in amountSensitiveItemStates -%}, "{{state}}": true{% endfor %}}
 
-        function setElementRequiredDisabled(elementId, required, disabled) {
-            var element = document.getElementById(elementId);
-            if (element != null) {
-                element.required = required;
-                element.disabled = disabled;
-            }
-        }
-
-        function getValue(elementId, defaultValue) {
-            var element = document.getElementById(elementId);
-            if (element != null) {
-                return element.value;
-            }
-            else {
-                return defaultValue;
-            }
-        }
-
-        function isValueChanged(elementId, oldValue) {
-            var value = getValue(elementId, null);
-            return value != null && String(value) != String(oldValue);
-        }
-
-        function updateElements() {
-            var forSaleElement = document.getElementById("forSale");
-            if (forSaleElement != null) {
-                var forSale = forSaleElement.checked;
-                setElementRequiredDisabled("initialAmount", forSale, !forSale);
-                setElementRequiredDisabled("charity", forSale, !forSale);
-            }
-        }
-
-        function onUpdateClick() {
-            var sensitive = false;
-
-            var state = getValue("state", "")
-            if (state != startingValues.state) {
-                sensitive |=  amountSensitiveStates[state] || amountSensitiveStates[startingValues.state];
-            }
-            if (amountSensitiveStates[state]) {
-                sensitive |= getValue("amount", 0) != startingValues.amount
-                    || getValue("charity", 0) != startingValues.charity
-                    || getValue("buyer", 0) != startingValues.buyer;
-            }
-
-            return !sensitive || window.confirm("This change might cause discrepancy in reconciliation.");
-        }
-
-        function onCancelClick() {
-            var changed = isValueChanged("owner", startingValues.owner)
-                || isValueChanged("author", startingValues.author)
-                || isValueChanged("title", startingValues.title)
-                || isValueChanged("state", startingValues.state)
-                || isValueChanged("initialAmount", startingValues.initialAmount)
-                || isValueChanged("amount", startingValues.amount)
-                || isValueChanged("charity", startingValues.charity)
-                || isValueChanged("buyer", startingValues.buyer)
-            return !changed || window.confirm("Entered data will be lost. Continue?");
-        }
+        var promptUpdateLost = "Entered data will be lost. Continue?";
+        var promptReconcialitionChange = "This change might cause discrepancy in reconciliation.";
     </script>
+    <script src="{{url_for('.static', filename='EditItem.js')}}" type="text/javascript"></script>
 </head>
 <body onload="updateElements()">
     {% import 'itemstate.' + language + '.html' as itemstate %}
@@ -115,6 +61,11 @@
             <input id="title" name="Title" type="text" value="{{item.Title|default('')}}"
                    autocomplete="off"
                    required />
+        </fieldset>
+        <fieldset>
+            <label for="medium">Medium:</label>
+            <input id="medium" name="Medium" type="text" value="{{item.Medium|default('') if item.Medium != None else ''}}"
+                   autocomplete="off" />
         </fieldset>
         <!-- State Information -->
         {% if updateItemTarget %}
@@ -186,6 +137,11 @@
             </div>
         </fieldset>
         {% endif %}
+        <fieldset>
+            <label for="note">Note:</label>
+            <input id="note" name="Note" type="text" value="{{item.Note|default('') if item.Note != None else ''}}"
+                   autocomplete="off" />
+        </fieldset>
         <!-- Action -->
         <fieldset>
             {% if addNewTarget -%}

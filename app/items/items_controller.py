@@ -84,8 +84,10 @@ def addNewItem():
             owner=flask.request.form[ItemField.OWNER],
             author=flask.request.form[ItemField.AUTHOR],
             title=flask.request.form[ItemField.TITLE],
+            medium=flask.request.form[ItemField.MEDIUM],
             amount=flask.request.form[ItemField.INITIAL_AMOUNT] if ItemField.FOR_SALE in flask.request.form else None,
-            charity=flask.request.form[ItemField.CHARITY] if ItemField.FOR_SALE in flask.request.form else None)
+            charity=flask.request.form[ItemField.CHARITY] if ItemField.FOR_SALE in flask.request.form else None,
+            note=flask.request.form[ItemField.NOTE])
 
     # Show a result
     if result == Result.SUCCESS:
@@ -203,11 +205,13 @@ def updateItem(itemCode):
                 owner=flask.request.form[ItemField.OWNER],
                 author=flask.request.form[ItemField.AUTHOR],
                 title=flask.request.form[ItemField.TITLE],
+                medium=flask.request.form[ItemField.MEDIUM],
                 state=flask.request.form[ItemField.STATE],
                 initialAmount=flask.request.form[ItemField.INITIAL_AMOUNT],
                 charity=flask.request.form[ItemField.CHARITY],
                 amount=flask.request.form[ItemField.AMOUNT],
-                buyer=flask.request.form[ItemField.BUYER])
+                buyer=flask.request.form[ItemField.BUYER],
+                note=flask.request.form[ItemField.NOTE])
 
         if result != Result.SUCCESS:
             itemData = flask.request.form.copy()

@@ -19,6 +19,7 @@
         <Code>{{item.Code}}</Code>
         <Title>{{item.Title}}</Title>
         <Author>{{item.Author}}</Author>
+        <Medium>{{item.Medium if item.Medium != None else ''}}</Medium>
         {% if item.InitialAmount != None and item.Charity != None -%}
         <Amount>
             <Value>{{item.InitialAmount}}</Value>
@@ -27,6 +28,7 @@
             {% endfor %}
         </Amount>
         <Charity>{{item.Charity}}</Charity>
+        <Note>{{item.Note if item.Note != None else ''}}</Note>
         {% endif %}
     </Item>
     {% endfor %}

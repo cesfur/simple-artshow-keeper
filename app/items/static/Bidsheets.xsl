@@ -120,6 +120,14 @@
         </xsl:copy>
     </xsl:template>
 
+    <xsl:template match="svg:text[@id='item_medium']/svg:tspan | svg:text[(@id='item_medium') and (count(child::*) = 0)]">
+        <xsl:param name="item" />
+        <xsl:copy>
+            <xsl:copy-of select="@*"/>
+            <xsl:value-of select="$item/Medium"/>
+        </xsl:copy>
+    </xsl:template>
+
     <xsl:template match="svg:text[@id='item_amount_1']/svg:tspan | svg:text[(@id='item_amount_1') and (count(child::*) = 0)]">
         <xsl:param name="item" />
         <xsl:copy>
@@ -149,6 +157,14 @@
         <xsl:copy>
             <xsl:copy-of select="@*"/>
             <xsl:value-of select="$item/Charity"/>
+        </xsl:copy>
+    </xsl:template>
+
+    <xsl:template match="svg:text[@id='item_note']/svg:tspan | svg:text[(@id='item_note') and (count(child::*) = 0)]">
+        <xsl:param name="item" />
+        <xsl:copy>
+            <xsl:copy-of select="@*"/>
+            <xsl:value-of select="$item/Note"/>
         </xsl:copy>
     </xsl:template>
 

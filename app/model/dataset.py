@@ -139,7 +139,7 @@ class Dataset:
 
         return str(reservedCode)
 
-    def addItem(self, code, owner, title, author, state, initialAmount, charity):
+    def addItem(self, code, owner, title, author, medium, state, initialAmount, charity, note):
         if len(str(code)) == 0:
             self.__logger.error('addItem: Code is invalid')
             return False
@@ -153,9 +153,11 @@ class Dataset:
                         ItemField.OWNER: str(owner),
                         ItemField.TITLE: str(title),
                         ItemField.AUTHOR: str(author),
+                        ItemField.MEDIUM: toNonEmptyStr(medium),
                         ItemField.STATE: str(state),
                         ItemField.INITIAL_AMOUNT: toDecimal(initialAmount),
-                        ItemField.CHARITY: toInt(charity)},
+                        ItemField.CHARITY: toInt(charity),
+                        ItemField.NOTE: toNonEmptyStr(note) },
                     ItemField.CODE)                    
 
     def readImportLine(self, itemLine):
@@ -278,8 +280,8 @@ class Dataset:
                 return items[0]
 
     def __unifyFields(self, fields):
-        """Unify item fiels to pairs (string, string)."""
-        return {key: str(value) for key, value in fields.items()}
+        """Unify item fiels to pairs (string, string) or (string, None)."""
+        return {key: toNonEmptyStr(value) for key, value in fields.items()}
 
     def updateItem(self, itemCode, **item):
         """Update an item of a given item code.

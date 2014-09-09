@@ -18,6 +18,18 @@ import json
 from decimal import Decimal
 from decimal import InvalidOperation
 
+def toNonEmptyStr(value, default=None):
+    """Convert a value to a string if not None or empty string.
+    Returns:
+        string or supplied default
+    """
+    if value is None:
+        return default
+    elif isinstance(value, str) and len(value) == 0:
+        return default
+    else:
+        return str(value)
+
 def toQuotedStr(list):
     """Convert a list to a string of quoted values separated by a comma.
     """

@@ -111,7 +111,7 @@ class Model:
         """Remove a (key, value) in a session."""
         self.__dataset.updateSessionPairs(sessionID, **{key: None})        
 
-    def addNewItem(self, sessionID, owner, title, author, amount, charity):
+    def addNewItem(self, sessionID, owner, title, author, medium, amount, charity, note):
         """Add a new item.
         Returns:
             Result (class Result).
@@ -154,8 +154,8 @@ class Model:
         # 4. Build a code and insert.
         code = self.__dataset.getNextItemCode()
         if not self.__dataset.addItem(
-                    code=code, owner=owner, title=title, author=author,
-                    state=state, initialAmount=amount, charity=charity):
+                    code=code, owner=owner, title=title, author=author, medium=medium,
+                    state=state, initialAmount=amount, charity=charity, note=note):
             self.__logger.error('addNewItem: Adding item "{0}" failed. Item not added.'.format(code))
             return Result.ERROR
 
@@ -442,8 +442,10 @@ class Model:
                         owner=owner, 
                         title=item[ImportedItemField.TITLE],
                         author=item[ImportedItemField.AUTHOR],
+                        medium=None,
                         amount=item[ImportedItemField.INITIAL_AMOUNT],
-                        charity=item[ImportedItemField.CHARITY])
+                        charity=item[ImportedItemField.CHARITY],
+                        note=None)
                 if addResult != Result.SUCCESS:
                     self.__logger.error('applyImport: Adding item {0} failed with an error {1}.'.format(
                             json.dumps(item, cls=JSONDecimalEncoder), addResult))
@@ -530,7 +532,7 @@ class Model:
 
         return Result.SUCCESS
 
-    def updateItem(self, itemCode, owner, title, author, state, initialAmount, charity, amount, buyer):
+    def updateItem(self, itemCode, owner, title, author, medium, state, initialAmount, charity, amount, buyer, note):
         """Update item based on the item code.
         Returns:
             Result code (class Result).
@@ -554,6 +556,9 @@ class Model:
                     itemDiff, ItemField.AUTHOR, item,
                     author, author, False)
             self.__diffAndUpdateItem(
+                    itemDiff, ItemField.MEDIUM, item,
+                    medium, medium, False)
+            self.__diffAndUpdateItem(
                     itemDiff, ItemField.STATE, item,
                     state, state, True)
             self.__diffAndUpdateItem(
@@ -568,6 +573,9 @@ class Model:
             self.__diffAndUpdateItem(
                     itemDiff, ItemField.BUYER, item,
                     checkRange(toInt(buyer), 1, None), buyer, False)
+            self.__diffAndUpdateItem(
+                    itemDiff, ItemField.NOTE, item,
+                    note, note, False)
         except FieldValueError as error:
             self.__logger.error('updateItem: Update of an item "{0}" failed due to a value "{1}" of a field {2}'.format(
                     itemCode, error.rawValue, error.name))

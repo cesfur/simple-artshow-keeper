@@ -33,6 +33,8 @@ class ItemField:
     OWNER = 'Owner'
     TITLE = 'Title'
     AUTHOR = 'Author'
+    MEDIUM = 'Medium'
+    NOTE = 'Note'
     STATE = 'State'
     CHARITY = 'Charity'    
     INITIAL_AMOUNT = 'InitialAmount'
@@ -54,7 +56,7 @@ class ItemField:
 
     FORMATTED = 'Formatted'
 
-    ALL_PERSISTENT = sorted([CODE, STATE, OWNER, AUTHOR, TITLE, CHARITY, INITIAL_AMOUNT, BUYER, AMOUNT, AMOUNT_IN_AUCTION])
+    ALL_PERSISTENT = sorted([CODE, STATE, OWNER, AUTHOR, TITLE, MEDIUM, NOTE, CHARITY, INITIAL_AMOUNT, BUYER, AMOUNT, AMOUNT_IN_AUCTION])
         
 class ImportedItemField:
     AUTHOR = 'AUTH'

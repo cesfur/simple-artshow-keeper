@@ -24,11 +24,11 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.4"
-     inkscape:cx="453.18335"
-     inkscape:cy="239.46932"
+     inkscape:zoom="0.49497475"
+     inkscape:cx="116.83284"
+     inkscape:cy="137.71567"
      inkscape:document-units="px"
-     inkscape:current-layer="layer1"
+     inkscape:current-layer="g3113"
      showgrid="false"
      inkscape:window-width="1280"
      inkscape:window-height="1002"
@@ -81,13 +81,13 @@
        width="110"
        height="144.99113"
        x="25.714283"
-       y="551.31744"
+       y="549.29712"
        rx="13.406823"
        ry="11.978251" />
     <rect
        ry="11.978251"
        rx="13.406823"
-       y="551.31744"
+       y="549.29712"
        x="144.85715"
        height="69.616142"
        width="578.57141"
@@ -97,26 +97,26 @@
        xml:space="preserve"
        style="font-size:24px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Book Antiqua;-inkscape-font-specification:Book Antiqua"
        x="165.44283"
-       y="571.37231"
+       y="569.35199"
        id="text2989"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan2991"
          x="165.44283"
-         y="571.37231"
+         y="569.35199"
          style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;text-anchor:start;font-family:Tahoma;-inkscape-font-specification:Tahoma">Název / <tspan
    style="font-style:italic"
    id="tspan3099">Title</tspan></tspan></text>
     <text
        sodipodi:linespacing="125%"
        id="item_title"
-       y="609.79071"
+       y="603.77039"
        x="164.76508"
        style="font-size:40px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Book Antiqua;-inkscape-font-specification:Book Antiqua Bold"
        xml:space="preserve"
        inkscape:label="#item_title"><tspan
-         style="font-size:40px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;font-family:Book Antiqua;-inkscape-font-specification:Book Antiqua Bold"
-         y="609.79071"
+         style="font-size:32px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;font-family:Book Antiqua;-inkscape-font-specification:Book Antiqua Bold"
+         y="603.77039"
          x="164.76508"
          id="tspan3035"
          sodipodi:role="line">Wolf Treasure</tspan></text>
@@ -126,18 +126,18 @@
        width="578.57141"
        height="69.616142"
        x="144.85715"
-       y="627.31744"
+       y="625.29712"
        rx="13.406823"
        ry="11.978251" />
     <text
        sodipodi:linespacing="125%"
        id="text3050"
-       y="645.37231"
+       y="643.35199"
        x="165.44283"
        style="font-size:24px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Book Antiqua;-inkscape-font-specification:Book Antiqua"
        xml:space="preserve"><tspan
          style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;text-anchor:start;font-family:Tahoma;-inkscape-font-specification:Tahoma"
-         y="645.37231"
+         y="643.35199"
          x="165.44283"
          id="tspan3052"
          sodipodi:role="line">Autor / <tspan
@@ -148,175 +148,173 @@
        xml:space="preserve"
        style="font-size:40px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Book Antiqua;-inkscape-font-specification:Book Antiqua Bold"
        x="164.76508"
-       y="681.2193"
+       y="679.19897"
        id="item_author"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3056"
          x="164.76508"
-         y="681.2193"
+         y="679.19897"
          style="font-size:40px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;font-family:Book Antiqua;-inkscape-font-specification:Book Antiqua Bold">Jimmy Jack</tspan></text>
     <text
        sodipodi:linespacing="100%"
        id="item_code"
-       y="606.84711"
+       y="604.82678"
        x="81.065849"
        style="font-size:48px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:100%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Courier New;-inkscape-font-specification:Courier New Bold"
        xml:space="preserve"
        inkscape:label="#item_code"><tspan
          style="font-size:48px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:100%;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;font-family:Courier New;-inkscape-font-specification:Courier New Bold"
-         y="606.84711"
+         y="604.82678"
          x="81.065849"
          id="tspan3064"
          sodipodi:role="line">J23</tspan></text>
-    <rect
-       ry="11.978251"
-       rx="13.406824"
-       y="703.82245"
-       x="144.85715"
-       height="334.26617"
-       width="369.1015"
-       id="rect3087"
-       style="color:#000000;fill:none;stroke:#000000;stroke-width:1.41732287;stroke-miterlimit:4;stroke-dasharray:none;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
-    <text
-       sodipodi:linespacing="125%"
-       id="text3089"
-       y="723.62097"
-       x="165.44283"
-       style="font-size:24px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Book Antiqua;-inkscape-font-specification:Book Antiqua"
-       xml:space="preserve"><tspan
-         style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;text-anchor:start;font-family:Tahoma;-inkscape-font-specification:Tahoma"
-         y="723.62097"
-         x="165.44283"
-         id="tspan3091"
-         sodipodi:role="line">Visačka č. / <tspan
-   style="font-style:italic"
-   id="tspan3105">Badge#</tspan></tspan></text>
-    <text
-       xml:space="preserve"
-       style="font-size:24px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Book Antiqua;-inkscape-font-specification:Book Antiqua"
-       x="343.3718"
-       y="723.62097"
-       id="text3107"
-       sodipodi:linespacing="125%"><tspan
-         sodipodi:role="line"
-         id="tspan3109"
-         x="343.3718"
-         y="723.62097"
-         style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;text-anchor:start;font-family:Tahoma;-inkscape-font-specification:Tahoma">Nabídka / <tspan
-   style="font-style:italic"
-   id="tspan3113">Offer</tspan></tspan></text>
-    <path
-       style="fill:none;stroke:#000000;stroke-width:1.41732275;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-       d="m 151.8052,731.76478 354.09437,0"
-       id="path3121"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cc" />
-    <path
-       sodipodi:nodetypes="cc"
-       inkscape:connector-curvature="0"
-       id="path3893"
-       d="m 323.53113,1031.0806 0,-319.07523"
-       style="fill:none;stroke:#000000;stroke-width:1.41732287;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
-    <text
-       sodipodi:linespacing="125%"
-       id="text3895"
-       y="785.74878"
-       x="466.03012"
-       style="font-size:31.77592659px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Book Antiqua;-inkscape-font-specification:Book Antiqua Bold"
-       xml:space="preserve"
-       inkscape:label="#text3895"><tspan
-         style="font-size:31.77592659px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;font-family:Book Antiqua;-inkscape-font-specification:Book Antiqua"
-         y="785.74878"
-         x="466.03012"
-         id="tspan3897"
-         sodipodi:role="line">Kč</tspan></text>
-    <path
-       sodipodi:nodetypes="cc"
-       inkscape:connector-curvature="0"
-       id="path3901"
-       d="m 151.8052,790.89588 354.09437,0"
-       style="fill:none;stroke:#000000;stroke-width:1.41732275;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
-    <path
-       style="fill:none;stroke:#000000;stroke-width:1.41732275;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-       d="m 151.8052,850.02696 354.09437,0"
-       id="path3903"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cc" />
-    <path
-       sodipodi:nodetypes="cc"
-       inkscape:connector-curvature="0"
-       id="path3905"
-       d="m 151.8052,909.15803 354.09437,0"
-       style="fill:none;stroke:#000000;stroke-width:1.41732275;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
-    <path
-       style="fill:none;stroke:#000000;stroke-width:1.41732275;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-       d="m 151.8052,968.28912 354.09437,0"
-       id="path3907"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cc" />
-    <path
-       sodipodi:nodetypes="cc"
-       inkscape:connector-curvature="0"
-       id="path3909"
-       d="m 151.8052,1027.4202 354.09437,0"
-       style="fill:none;stroke:#000000;stroke-width:1.41732275;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
-    <text
-       inkscape:label="#text3895"
-       xml:space="preserve"
-       style="font-size:31.77592659px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Book Antiqua;-inkscape-font-specification:Book Antiqua Bold"
-       x="466.03012"
-       y="844.487"
-       id="text3931"
-       sodipodi:linespacing="125%"><tspan
-         sodipodi:role="line"
-         id="tspan3933"
-         x="466.03012"
-         y="844.487"
-         style="font-size:31.77592659px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;font-family:Book Antiqua;-inkscape-font-specification:Book Antiqua">Kč</tspan></text>
-    <text
-       sodipodi:linespacing="125%"
-       id="text3935"
-       y="903.22522"
-       x="466.03012"
-       style="font-size:31.77592659px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Book Antiqua;-inkscape-font-specification:Book Antiqua Bold"
-       xml:space="preserve"
-       inkscape:label="#text3895"><tspan
-         style="font-size:31.77592659px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;font-family:Book Antiqua;-inkscape-font-specification:Book Antiqua"
-         y="903.22522"
-         x="466.03012"
-         id="tspan3937"
-         sodipodi:role="line">Kč</tspan></text>
-    <text
-       inkscape:label="#text3895"
-       xml:space="preserve"
-       style="font-size:31.77592659px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Book Antiqua;-inkscape-font-specification:Book Antiqua Bold"
-       x="466.03012"
-       y="961.9635"
-       id="text3939"
-       sodipodi:linespacing="125%"><tspan
-         sodipodi:role="line"
-         id="tspan3941"
-         x="466.03012"
-         y="961.9635"
-         style="font-size:31.77592659px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;font-family:Book Antiqua;-inkscape-font-specification:Book Antiqua">Kč</tspan></text>
-    <text
-       sodipodi:linespacing="125%"
-       id="text3943"
-       y="1020.7017"
-       x="466.03012"
-       style="font-size:31.77592659px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Book Antiqua;-inkscape-font-specification:Book Antiqua Bold"
-       xml:space="preserve"
-       inkscape:label="#text3895"><tspan
-         style="font-size:31.77592659px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;font-family:Book Antiqua;-inkscape-font-specification:Book Antiqua"
-         y="1020.7017"
-         x="466.03012"
-         id="tspan3945"
-         sodipodi:role="line">Kč</tspan></text>
+    <g
+       id="g3113"
+       transform="translate(16.434212,-15.285645)">
+      <rect
+         style="color:#000000;fill:none;stroke:#000000;stroke-width:1.41732287;stroke-miterlimit:4;stroke-dasharray:none;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+         id="rect3087"
+         width="369.1015"
+         height="252.12332"
+         x="127.71429"
+         y="795.08783"
+         rx="13.406824"
+         ry="11.978251" />
+      <text
+         xml:space="preserve"
+         style="font-size:24px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Book Antiqua;-inkscape-font-specification:Book Antiqua"
+         x="148.29996"
+         y="814.88635"
+         id="text3089"
+         sodipodi:linespacing="125%"><tspan
+           sodipodi:role="line"
+           id="tspan3091"
+           x="148.29996"
+           y="814.88635"
+           style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;text-anchor:start;font-family:Tahoma;-inkscape-font-specification:Tahoma">Visačka č. / <tspan
+   id="tspan3105"
+   style="font-style:italic">Badge#</tspan></tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text3107"
+         y="814.88635"
+         x="326.22894"
+         style="font-size:24px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Book Antiqua;-inkscape-font-specification:Book Antiqua"
+         xml:space="preserve"><tspan
+           style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;text-anchor:start;font-family:Tahoma;-inkscape-font-specification:Tahoma"
+           y="814.88635"
+           x="326.22894"
+           id="tspan3109"
+           sodipodi:role="line">Nabídka / <tspan
+   id="tspan3113"
+   style="font-style:italic">Offer</tspan></tspan></text>
+      <path
+         sodipodi:nodetypes="cc"
+         inkscape:connector-curvature="0"
+         id="path3121"
+         d="m 134.66235,823.03021 354.09437,0"
+         style="fill:none;stroke:#000000;stroke-width:1.41732275;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+      <path
+         style="fill:none;stroke:#000000;stroke-width:1.41732287;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         d="m 306.38828,1043.2356 0,-240.14014"
+         id="path3893"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="cc" />
+      <text
+         inkscape:label="#text3895"
+         xml:space="preserve"
+         style="font-size:31.77592659px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Book Antiqua;-inkscape-font-specification:Book Antiqua Bold"
+         x="449.60156"
+         y="855.58557"
+         id="text3895"
+         sodipodi:linespacing="125%"><tspan
+           sodipodi:role="line"
+           id="tspan3897"
+           x="449.60156"
+           y="855.58557"
+           style="font-size:31.77592659px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;font-family:Book Antiqua;-inkscape-font-specification:Book Antiqua">Kč</tspan></text>
+      <path
+         style="fill:none;stroke:#000000;stroke-width:1.41732275;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         d="m 134.66235,911.06848 354.09437,0"
+         id="path3901"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="cc" />
+      <path
+         sodipodi:nodetypes="cc"
+         inkscape:connector-curvature="0"
+         id="path3903"
+         d="m 134.66235,955.08762 354.09437,0"
+         style="fill:none;stroke:#000000;stroke-width:1.41732275;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+      <path
+         style="fill:none;stroke:#000000;stroke-width:1.41732275;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         d="m 134.66235,999.10679 354.09437,0"
+         id="path3905"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="cc" />
+      <path
+         style="fill:none;stroke:#000000;stroke-width:1.41732275;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         d="m 134.66235,867.04935 354.09437,0"
+         id="path3909"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="cc" />
+      <text
+         sodipodi:linespacing="125%"
+         id="text3931"
+         y="900.02539"
+         x="449.60156"
+         style="font-size:31.77592659px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Book Antiqua;-inkscape-font-specification:Book Antiqua Bold"
+         xml:space="preserve"
+         inkscape:label="#text3895"><tspan
+           style="font-size:31.77592659px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;font-family:Book Antiqua;-inkscape-font-specification:Book Antiqua"
+           y="900.02539"
+           x="449.60156"
+           id="tspan3933"
+           sodipodi:role="line">Kč</tspan></text>
+      <text
+         inkscape:label="#text3895"
+         xml:space="preserve"
+         style="font-size:31.77592659px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Book Antiqua;-inkscape-font-specification:Book Antiqua Bold"
+         x="449.60156"
+         y="944.46521"
+         id="text3935"
+         sodipodi:linespacing="125%"><tspan
+           sodipodi:role="line"
+           id="tspan3937"
+           x="449.60156"
+           y="944.46521"
+           style="font-size:31.77592659px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;font-family:Book Antiqua;-inkscape-font-specification:Book Antiqua">Kč</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text3939"
+         y="988.90503"
+         x="449.60156"
+         style="font-size:31.77592659px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Book Antiqua;-inkscape-font-specification:Book Antiqua Bold"
+         xml:space="preserve"
+         inkscape:label="#text3895"><tspan
+           style="font-size:31.77592659px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;font-family:Book Antiqua;-inkscape-font-specification:Book Antiqua"
+           y="988.90503"
+           x="449.60156"
+           id="tspan3941"
+           sodipodi:role="line">Kč</tspan></text>
+      <text
+         inkscape:label="#text3895"
+         xml:space="preserve"
+         style="font-size:31.77592659px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Book Antiqua;-inkscape-font-specification:Book Antiqua Bold"
+         x="449.60156"
+         y="1033.3448"
+         id="text3943"
+         sodipodi:linespacing="125%"><tspan
+           sodipodi:role="line"
+           id="tspan3945"
+           x="449.60156"
+           y="1033.3448"
+           style="font-size:31.77592659px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;font-family:Book Antiqua;-inkscape-font-specification:Book Antiqua">Kč</tspan></text>
+    </g>
     <rect
        ry="11.978251"
        rx="13.406823"
-       y="703.82251"
+       y="701.80219"
        x="525.68469"
        height="69.616142"
        width="197.66023"
@@ -326,26 +324,26 @@
        xml:space="preserve"
        style="font-size:24px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Book Antiqua;-inkscape-font-specification:Book Antiqua"
        x="546.27039"
-       y="721.87738"
+       y="719.85706"
        id="text3955"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3957"
          x="546.27039"
-         y="721.87738"
+         y="719.85706"
          style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;text-anchor:start;font-family:Tahoma;-inkscape-font-specification:Tahoma">Cena / <tspan
    style="font-style:italic"
    id="tspan4001">Price</tspan></tspan></text>
     <text
        sodipodi:linespacing="125%"
        id="item_amount_1"
-       y="757.72437"
+       y="755.70404"
        x="705.41565"
        style="font-size:40px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:end;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:end;fill:#000000;fill-opacity:1;stroke:none;font-family:Book Antiqua;-inkscape-font-specification:Book Antiqua Bold"
        xml:space="preserve"
        inkscape:label="#item_amount_1"><tspan
          style="font-size:40px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:end;line-height:125%;writing-mode:lr-tb;text-anchor:end;font-family:Book Antiqua;-inkscape-font-specification:Book Antiqua Bold"
-         y="757.72437"
+         y="755.70404"
          x="705.41565"
          id="tspan3963"
          sodipodi:role="line">99999 Kč</tspan></text>
@@ -355,18 +353,18 @@
        width="197.66023"
        height="81.044708"
        x="525.68469"
-       y="781.82251"
+       y="779.80219"
        rx="13.406823"
        ry="11.978251" />
     <text
        sodipodi:linespacing="125%"
        id="text4027"
-       y="799.87738"
+       y="797.85706"
        x="546.27039"
        style="font-size:24px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Book Antiqua;-inkscape-font-specification:Book Antiqua"
        xml:space="preserve"><tspan
          style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;text-anchor:start;font-family:Tahoma;-inkscape-font-specification:Tahoma"
-         y="799.87738"
+         y="797.85706"
          x="546.27039"
          id="tspan4029"
          sodipodi:role="line">Charita / <tspan
@@ -377,26 +375,66 @@
        xml:space="preserve"
        style="font-size:60.68094254px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:end;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:end;fill:#000000;fill-opacity:1;stroke:none;font-family:Book Antiqua;-inkscape-font-specification:Book Antiqua Bold"
        x="635.89313"
-       y="850.44745"
+       y="848.42712"
        id="item_charity"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan4035"
          x="635.89313"
-         y="850.44745"
+         y="848.42712"
          style="font-size:60.68094254px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:end;line-height:125%;writing-mode:lr-tb;text-anchor:end;font-family:Book Antiqua;-inkscape-font-specification:Book Antiqua Bold">100</tspan></text>
     <text
        sodipodi:linespacing="125%"
        id="text4037"
-       y="850.44745"
+       y="848.42712"
        x="646.84479"
        style="font-size:60.68094254px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:end;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:end;fill:#000000;fill-opacity:1;stroke:none;font-family:Book Antiqua;-inkscape-font-specification:Book Antiqua Bold"
        xml:space="preserve"
        inkscape:label="#text4003"><tspan
          style="font-size:60.68094254px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;font-family:Book Antiqua;-inkscape-font-specification:Book Antiqua Bold"
-         y="850.44745"
+         y="848.42712"
          x="646.84479"
          id="tspan4039"
          sodipodi:role="line">%</tspan></text>
+    <g
+       id="g3099"
+       transform="translate(0,247.33627)">
+      <rect
+         style="color:#000000;fill:none;stroke:#000000;stroke-width:1.41732287;stroke-miterlimit:4;stroke-dasharray:none;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+         id="rect3069"
+         width="368.39285"
+         height="69.616142"
+         x="144.85715"
+         y="455.17459"
+         rx="13.406823"
+         ry="11.978251" />
+      <text
+         sodipodi:linespacing="125%"
+         id="text3071"
+         y="473.22946"
+         x="165.44283"
+         style="font-size:24px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Book Antiqua;-inkscape-font-specification:Book Antiqua"
+         xml:space="preserve"><tspan
+           style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;text-anchor:start;font-family:Tahoma;-inkscape-font-specification:Tahoma"
+           y="473.22946"
+           x="165.44283"
+           id="tspan3073"
+           sodipodi:role="line">Médium / <tspan
+   id="tspan3089"
+   style="font-style:italic">Medium</tspan></tspan></text>
+      <text
+         inkscape:label="#item_medium"
+         xml:space="preserve"
+         style="font-size:40px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Book Antiqua;-inkscape-font-specification:Book Antiqua Bold"
+         x="164.76508"
+         y="507.64789"
+         id="item_medium"
+         sodipodi:linespacing="125%"><tspan
+           sodipodi:role="line"
+           id="tspan3079"
+           x="164.76508"
+           y="507.64789"
+           style="font-size:32px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;font-family:Book Antiqua;-inkscape-font-specification:Book Antiqua Bold">Good Paper</tspan></text>
+    </g>
   </g>
 </svg>

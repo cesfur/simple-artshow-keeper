@@ -69,6 +69,7 @@
     <Content Include="items\static\BidsheetFrame.de.svg" />
     <Content Include="items\static\BidsheetNoSaleFrame.de.svg" />
     <Content Include="items\static\Bidsheets.xsl" />
+    <Content Include="items\static\EditItem.js" />
     <Content Include="items\templates\approveimport.admin.de.html" />
     <Content Include="items\templates\approveimport.admin.en.html" />
     <Content Include="items\templates\bidsheets.admin.de.xml" />

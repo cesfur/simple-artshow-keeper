@@ -31,6 +31,12 @@ class TestCommon(unittest.TestCase):
     def setUp(self):
         self.logger = logging.getLogger()
 
+    def test_toNonEmptyStr(self):
+        self.assertIsNone(toNonEmptyStr(None))
+        self.assertIsNone(toNonEmptyStr(''))
+        self.assertEqual('Tiger', toNonEmptyStr('Tiger'))
+        self.assertEqual('123', toNonEmptyStr('123'))
+
     def test_toQuotedStr(self):
         self.assertEqual(toQuotedStr(["24", "45", "Ab"]), '"24","45","Ab"')
         self.assertEqual(toQuotedStr([24, 45, Decimal('13.4')]), '"24","45","13.4"')

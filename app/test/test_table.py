@@ -46,10 +46,14 @@ class TestTable(unittest.TestCase):
     def test_select(self):
         self.assertTrue(self.table.load())
 
-        # Select exactly one row
-        rows = self.table.select(['Code', 'Title'], 'Code == "A2"')
-        self.assertTrue(len(rows) == 1 and len(rows[0]) == 2 and rows[0]['Title'] == 'Cougar',
-            'Table.Select: Expected (A2, Cougar) but received %(row)s' % {'row': str(rows)})
+        # Select exactly one row with a mandatory column that is not available
+        rows = self.table.select(['Code', 'Title', 'Note'], 'Code == "A2"')
+        self.assertEqual(1, len(rows))
+        self.assertDictEqual({
+                        'Title': 'Cougar',
+                        'Code': 'A2',
+                        'Note': None},
+                rows[0]);
         self.assertFalse(self.table.changed(),
             'Table.Select: Run SELECT but the table is marked as changed')
 

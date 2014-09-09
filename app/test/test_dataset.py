@@ -112,9 +112,11 @@ class TestDataset(unittest.TestCase):
                 owner=34,
                 title='Clever Bull',
                 author='Redfox',
+                medium='Pencil',
                 state='OTHER',
                 initialAmount='12.3',
-                charity='43'))
+                charity='43',
+                note=None))
 
         # get new item and verify data types
         item = self.dataset.getItem(code)
@@ -125,6 +127,8 @@ class TestDataset(unittest.TestCase):
         self.assertTrue(isinstance(item[ItemField.AUTHOR], str))
         self.assertTrue(isinstance(item[ItemField.STATE], str))
         self.assertTrue(isinstance(item[ItemField.CODE], str))
+        self.assertTrue(isinstance(item[ItemField.MEDIUM], str))
+        self.assertIsNone(item[ItemField.NOTE])
 
         # get all items again and see whether we have added just one item
         # i.e. the reserved item is not present

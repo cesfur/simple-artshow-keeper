@@ -79,47 +79,65 @@ class TestModel(unittest.TestCase):
 
         # add (on show)
         self.assertEqual(
-                self.model.addNewItem(sessionID, 23, 'Mysteria', 'Wolf', None, None),
+                self.model.addNewItem(sessionID, 23, 'Mysteria', 'Wolf', 'Pastel', None, None, None),
                 Result.SUCCESS)
         addedItem = self.dataset.getItems('Owner=="23" and Title=="Mysteria" and Author=="Wolf"')[0]
-        self.assertEqual(addedItem[ItemField.STATE], ItemState.ON_SHOW);
+        self.assertDictContainsSubset({
+                        ItemField.STATE: ItemState.ON_SHOW,
+                        ItemField.MEDIUM: 'Pastel',
+                        ItemField.NOTE: None},
+                addedItem);
 
         # duplicate add
         self.assertEqual(
-                self.model.addNewItem(sessionID, 23, 'Mysteria', 'Wolf', None, None),
+                self.model.addNewItem(sessionID, 23, 'Mysteria', 'Wolf', None, None, None, None),
                 Result.DUPLICATE_ITEM)
 
         # add (on sale)
         self.assertEqual(
-                self.model.addNewItem(sessionID, 35, 'Mysteria', 'Tiger', '123', '10'),
+                self.model.addNewItem(sessionID, 35, 'Mysteria', 'Tiger', '', '123', '10', 'Good Stuff'),
                 Result.SUCCESS)
         addedItem = self.dataset.getItems('Owner=="35" and Title=="Mysteria" and Author=="Tiger"')[0]
-        self.assertEqual(addedItem[ItemField.STATE], ItemState.ON_SALE);
+        self.assertDictContainsSubset({
+                        ItemField.STATE: ItemState.ON_SALE,
+                        ItemField.MEDIUM: None,
+                        ItemField.NOTE: 'Good Stuff'},
+                addedItem);
 
         # add (quotes)
         self.assertEqual(
-                self.model.addNewItem(sessionID, 98, 'Quotted"Title', 'Qu"es', None, None),
+                self.model.addNewItem(sessionID, 98, 'Quotted"Title', 'Qu"es', 'Photo', None, None, 'Do not touch.'),
                 Result.SUCCESS)
+
+        # add (empty parameters)
+        self.assertEqual(
+                self.model.addNewItem(sessionID, 99, 'Strong', 'Lemur', None, None, None, ''),
+                Result.SUCCESS)
+        addedItem = self.dataset.getItems('Owner=="99" and Title=="Strong" and Author=="Lemur"')[0]
+        self.assertDictContainsSubset({
+                        ItemField.MEDIUM: None,
+                        ItemField.NOTE: None},
+                addedItem);
 
         # added list
         addedItemCodes = self.model.getAdded(sessionID)
-        self.assertEqual(len(addedItemCodes), 3);
+        self.assertEqual(len(addedItemCodes), 4);
 
 
     def test_getAddedItems(self):
         sessionID = 11111
 
         # add items
-        self.assertEqual(self.model.addNewItem(sessionID, 23, 'Mysteria', 'Wolf', None, None), Result.SUCCESS)
-        self.assertEqual(self.model.addNewItem(sessionID, 35, 'Mysteria', 'Tiger', '123', '10'), Result.SUCCESS)
+        self.assertEqual(self.model.addNewItem(sessionID, 23, 'Mysteria', 'Wolf', 'Oil', None, None, None), Result.SUCCESS)
+        self.assertEqual(self.model.addNewItem(sessionID, 35, 'Mysteria', 'Tiger', 'Pencil', '123', '10', None), Result.SUCCESS)
 
         # get added items
         addedItems = self.model.getAddedItems(sessionID)
 
         self.assertEqual(len(addedItems), 2);
-        item = next(item for item in addedItems if item[ItemField.OWNER] == 23)
+        item = [item for item in addedItems if item[ItemField.OWNER] == 23][0]
         self.assertListEqual([], [currencyAmount[CurrencyField.AMOUNT] for currencyAmount in item[ItemField.INITIAL_AMOUNT_IN_CURRENCY]])
-        item = next(item for item in addedItems if item[ItemField.OWNER] == 35)
+        item = [item for item in addedItems if item[ItemField.OWNER] == 35][0]
         self.assertListEqual(
                 [Decimal('123'), Decimal('4.53')],
                 [currencyAmount[CurrencyField.AMOUNT] for currencyAmount in item[ItemField.INITIAL_AMOUNT_IN_CURRENCY]])
@@ -129,28 +147,32 @@ class TestModel(unittest.TestCase):
         # update item
         self.assertEqual(
                 self.model.updateItem(56,
-                    owner=1, title='Wolf', author='Greenwolf', state=ItemState.ON_SALE,
-                    initialAmount='105', charity='50', amount=None, buyer=None),
+                    owner=1, title='Wolf', author='Greenwolf', medium='Color Pencils', state=ItemState.ON_SALE, 
+                    initialAmount='105', charity='50', amount=None, buyer=None, note=None),
                 Result.SUCCESS)
-        updatedItem = self.dataset.getItems('Owner=="1" and Title=="Wolf" and Author=="Greenwolf"')[0]
-        self.assertEqual(updatedItem[ItemField.STATE], ItemState.ON_SALE);
-        self.assertEqual(updatedItem[ItemField.INITIAL_AMOUNT], 105);
-        self.assertEqual(updatedItem[ItemField.CHARITY], 50);
+        updatedItem = self.dataset.getItems('Owner=="1" and Title=="Wolf" and Author=="Greenwolf" and Medium=="Color Pencils"')[0]
+        self.assertDictContainsSubset({
+                        ItemField.STATE: ItemState.ON_SALE,
+                        ItemField.INITIAL_AMOUNT: 105,
+                        ItemField.CHARITY: 50,
+                        ItemField.AMOUNT: None,
+                        ItemField.NOTE: None},
+                updatedItem);        
         self.assertIsNone(updatedItem[ItemField.AMOUNT]);
         self.assertIsNone(updatedItem[ItemField.BUYER]);
 
         # update item (range error of charity)
         self.assertEqual(
                 self.model.updateItem(56,
-                    owner=1, title='Wolf', author='Greenwolf', state=ItemState.FINISHED,
-                    initialAmount='105', charity='150', amount='200', buyer='20'),
+                    owner=1, title='Wolf', author='Greenwolf', medium='Color Pencils', state=ItemState.FINISHED,
+                    initialAmount='105', charity='150', amount='200', buyer='20', note=None),
                 Result.INVALID_VALUE)
 
         # update item (consistency error)
         self.assertEqual(
                 self.model.updateItem(56,
-                    owner=1, title='Wolf', author='Greenwolf', state=ItemState.FINISHED,
-                    initialAmount='105', charity='10', amount=None, buyer=None),
+                    owner=1, title='Wolf', author='Greenwolf', medium='Color Pencils', state=ItemState.FINISHED,
+                    initialAmount='105', charity='10', amount=None, buyer=None, note=None),
                 Result.AMOUNT_NOT_DEFINED)
 
     def test_deleteItems(self):

@@ -246,6 +246,8 @@
                 <!-- DE -->
                 <File Source="$(var.SolutionDir)app/items/static/BidsheetFrame.de.svg"/>
                 <File Source="$(var.SolutionDir)app/items/static/BidsheetNoSaleFrame.de.svg"/>
+
+                <File Source="$(var.SolutionDir)app/items/static/EditItem.css"/>
             </Component>
         </DirectoryRef>
         <DirectoryRef Id="ItemsTemplatesDir">
