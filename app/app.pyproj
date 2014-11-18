@@ -109,12 +109,14 @@
     <Content Include="settings\templates\viewsettings.admin.de.html" />
     <Content Include="settings\templates\viewsettings.admin.en.html" />
     <Content Include="static\Artshow.css" />
+    <Content Include="static\translation.cz.xml" />
+    <Content Include="static\translation.de.xml" />
+    <Content Include="static\translation.en.xml" />
+    <Content Include="static\translate.xsl" />
     <Content Include="templates\itemstate.cz.html" />
     <Content Include="templates\itemstate.de.html" />
     <Content Include="templates\itemstate.en.html" />
-    <Content Include="templates\main.admin.cz.html" />
-    <Content Include="templates\main.admin.de.html" />
-    <Content Include="templates\main.admin.en.html" />
+    <Content Include="templates\main.admin.xhtml" />
     <Content Include="templates\message.admin.cz.html" />
     <Content Include="auction\static\StatusFrame.css" />
     <Content Include="auction\static\StatusFrame.js" />

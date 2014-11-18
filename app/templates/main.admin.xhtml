@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="{{transform}}"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='Artshow.css')}}" />
+    <meta name="translation" content="{{translation}}" />
+    <title>ArtShow</title>
+</head>
+<body>
+    <h1>ArtShow</h1>
+    <form class="main">
+        <fieldset>
+            <legend>__Setup</legend>
+            <input class="action" type="submit" formaction="{{url_for('items.enterNewItem')}}" value="__New Item" />
+            <input class="action" type="submit" formaction="{{url_for('items.listItems')}}" value="__Item List" />
+            <input class="action" type="submit" formaction="{{url_for('items.selectItemToClose')}}" value="__Close Item" />
+        </fieldset>
+        <fieldset>
+            <legend>__Auction</legend>
+            <input class="action" type="submit" formaction="{{url_for('auction.listItems')}}"
+                   value="__List Auction Items" />
+            <input class="action" type="button"
+                   onclick="window.open('{{url_for('auction.showStatus')}}',
+                'ArtshowStatus',
+                'menubar=no,scrollbars=no,status=no,toolbar=no,location=no,titlebar=no',
+                true)"
+                   value="__Show Auction Screen" />
+            <input class="action" type="submit" formaction="{{url_for('auction.selectItemToAuction')}}"
+                   value="__Start Auction" />
+        </fieldset>
+        <fieldset>
+            <legend>__Handout</legend>
+            <input class="action" type="submit" formaction="{{url_for('reconciliation.selectBadgeToReconciliate')}}" value="__Reconcile Attendee" />
+            <input class="action" type="submit" formaction="{{url_for('reconciliation.showSummary')}}" value="__Cash Drawer Info" />
+        </fieldset>
+    </form>
+</body>
+</html>
