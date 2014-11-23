@@ -22,7 +22,10 @@ import decimal
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
+from datafile import Datafile
 from common.convert import *
+from common.translate import *
+from common.phrase_dictionary import *
 
 class TestCommon(unittest.TestCase):
     def setUpClass():
@@ -30,6 +33,11 @@ class TestCommon(unittest.TestCase):
 
     def setUp(self):
         self.logger = logging.getLogger()
+
+        self.phraseDictionaryFile = Datafile('test.common.phrase_dictionary.xml', self.id())
+
+    def tearDown(self):
+        self.phraseDictionaryFile.clear()
 
     def test_toNonEmptyStr(self):
         self.assertIsNone(toNonEmptyStr(None))
@@ -65,4 +73,65 @@ class TestCommon(unittest.TestCase):
                 cls=JSONDecimalEncoder),
                          '{"int": 23}')
 
+    def test_PhraseDictionary(self):
+        phrases = PhraseDictionary(self.logger, self.phraseDictionaryFile.getFilename())
+        self.assertEqual(17, phrases.count())
+        self.assertEqual('Stav pokladny', phrases.get('Cash Drawer Info'))
+        self.assertEqual('Unknown String', phrases.get('Unknown String'))
 
+        phrases.add('String', 'Added String')
+        self.assertEqual(18, phrases.count())
+        self.assertEqual('Added String', phrases.get('String'))
+
+    def test_translateString(self):
+        # Setup and register dictionary.
+        LANGUAGE = 'en'
+        OTHER_LANGUAGE = 'cz'
+        phrases = PhraseDictionary(self.logger)
+        phrases.add('String 1', 'Translated String 1')
+        phrases.add('String 2', 'Translated String 2')
+        registerDictionary(LANGUAGE, phrases)
+
+        # Translated string
+        self.assertEqual('Not Translated', translateString(LANGUAGE, 'Not Translated'))
+        self.assertEqual('String Not Found', translateString(LANGUAGE, '__String Not Found'))
+        self.assertEqual('Translated String 2', translateString(LANGUAGE, '__String 2'))
+        self.assertEqual('String 2', translateString(OTHER_LANGUAGE, '__String 2'))
+
+    def test_translateXhtml(self):
+        # Setup and register dictionary.
+        LANGUAGE = 'en'
+        phrases = PhraseDictionary(self.logger)
+        phrases.add('String 1', 'Translated String 1')
+        phrases.add('String 2', 'Translated String 2')
+        registerDictionary(LANGUAGE, phrases)
+
+        # Prepare HTML
+        xml = '''<?xml version="1.0" ?>
+        <html>
+            <body>
+                <!-- Comment -->
+                <h1>Not translated</h1>
+                <p>__String not found</p>
+                <p>__String 1</p>
+                <form>
+                    <input value="__String not found"/>
+                    <input value="__String 2" title="__String not found"/>
+                </form>
+            </body>
+        </html>'''
+        expectedXml = '''<?xml version="1.0" ?><html>
+            <body>
+                <!-- Comment -->
+                <h1>Not translated</h1>
+                <p>String not found</p>
+                <p>Translated String 1</p>
+                <form>
+                    <input value="String not found"/>
+                    <input title="String not found" value="Translated String 2"/>
+                </form>
+            </body>
+        </html>'''
+        translatedXml = translateXhtml(LANGUAGE, xml)
+        print(translatedXml)
+        self.assertEqual(expectedXml, translatedXml)

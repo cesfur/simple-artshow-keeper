@@ -17,6 +17,9 @@
 class Field:
     ADDED_ITEM_CODES = 'AddedItemCodes'
     CREATED_TIMESTAMP = 'CreatedTimestamp'
+    USER_GROUP = 'UserGroup'
+    USER_ID = 'UserId'
+    LANGUAGE = 'Language'
 
     IMPORTED_CHECKSUM = 'ImportedChecksum'
     IMPORTED_ITEMS = 'ImportedItems'

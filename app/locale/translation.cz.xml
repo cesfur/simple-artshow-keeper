@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<dictionary>
+    <!-- main -->
+    <phrase id="Setup">Příjem</phrase>
+    <phrase id="New Item">Nový předmět</phrase>
+    <phrase id="Item List">Seznam předmětů</phrase>
+    <phrase id="Close Item">Uzavři předmět</phrase>
+    <phrase id="Auction">Aukce</phrase>
+    <phrase id="List Auction Items">Předměty do aukce</phrase>
+    <phrase id="Show Auction Screen">Zobraz aukční okno</phrase>
+    <phrase id="Start Auction">Zahaj aukci</phrase>
+    <phrase id="Handout">Výdej</phrase>
+    <phrase id="Reconcile Attendee">Vypořádej účastníka</phrase>
+    <phrase id="Cash Drawer Info">Stav pokladny</phrase>
+    <!-- login -->
+    <phrase id="ArtShow Login">Artshow: Příhlášení</phrase>
+    <phrase id="Artshow Code:">Kód pro Artshow: </phrase>
+    <phrase id="Artshow Code Hint">Kód vydaný vystavujícímu (6 cifer)</phrase>
+    <phrase id="Login">Přihlásit se kódem</phrase>
+    <phrase id="Login Admin">Přihlásit se jako správce</phrase>
+    <phrase id=""></phrase>
+</dictionary>

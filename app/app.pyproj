@@ -17,6 +17,9 @@
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
   <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
   <ItemGroup>
+    <Compile Include="authentication.py" />
+    <Compile Include="common\phrase_dictionary.py" />
+    <Compile Include="common\translate.py" />
     <Compile Include="config.py" />
     <Compile Include="main.py" />
     <Compile Include="model\field_value_error.py" />
@@ -90,6 +93,9 @@
     <Content Include="items\templates\selectimportfile.admin.en.html" />
     <Content Include="items\templates\updateitemtoclose.admin.de.html" />
     <Content Include="items\templates\updateitemtoclose.admin.en.html" />
+    <Content Include="locale\translation.cz.xml" />
+    <Content Include="locale\translation.de.xml" />
+    <Content Include="locale\translation.en.xml" />
     <Content Include="reconciliation\static\Reconciliation.css" />
     <Content Include="reconciliation\templates\drawersummary.admin.cz.html" />
     <Content Include="reconciliation\templates\drawersummary.admin.de.html" />
@@ -109,15 +115,13 @@
     <Content Include="settings\templates\viewsettings.admin.de.html" />
     <Content Include="settings\templates\viewsettings.admin.en.html" />
     <Content Include="static\Artshow.css" />
-    <Content Include="static\translation.cz.xml" />
-    <Content Include="static\translation.de.xml" />
-    <Content Include="static\translation.en.xml" />
-    <Content Include="static\translate.xsl" />
+    <Content Include="static\Artshow.js" />
     <Content Include="templates\itemstate.cz.html" />
     <Content Include="templates\itemstate.de.html" />
     <Content Include="templates\itemstate.en.html" />
+    <Content Include="templates\login.xhtml" />
     <Content Include="templates\main.admin.xhtml" />
-    <Content Include="templates\message.admin.cz.html" />
+    <Content Include="templates\message.cz.html" />
     <Content Include="auction\static\StatusFrame.css" />
     <Content Include="auction\static\StatusFrame.js" />
     <Content Include="auction\static\StatusFrame.svg" />
@@ -134,14 +138,15 @@
     <Content Include="items\templates\edititem.admin.cz.html" />
     <Content Include="items\templates\updateitemtoclose.admin.cz.html" />
     <Content Include="reconciliation\templates\findbadgetoreconciliate.admin.cz.html" />
-    <Content Include="templates\message.admin.de.html" />
-    <Content Include="templates\message.admin.en.html" />
+    <Content Include="templates\message.de.html" />
+    <Content Include="templates\message.en.html" />
     <Content Include="templates\messagetext.cz.html" />
     <Content Include="templates\messagetext.de.html" />
     <Content Include="templates\messagetext.en.html" />
     <Content Include="test\data\config.ini" />
     <Content Include="test\data\items_to_csv.bat" />
     <Content Include="test\data\items_to_csv.xsl" />
+    <Content Include="test\data\test.common.phrase_dictionary.xml" />
     <Content Include="test\data\test.model.currency.xml" />
     <Content Include="test\data\test.model.import.txt" />
     <Content Include="test\data\test.model.import.csv" />
@@ -158,6 +163,7 @@
     <Folder Include="items" />
     <Folder Include="items\static" />
     <Folder Include="items\templates" />
+    <Folder Include="locale\" />
     <Folder Include="model" />
     <Folder Include="reconciliation" />
     <Folder Include="reconciliation\static\" />

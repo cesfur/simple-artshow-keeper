@@ -1,29 +1,5 @@
-<?xml-stylesheet type="text/xsl" href="{{transform}}"><!--<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">--><html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='Artshow.css')}}"></link>
-<meta name="translations" content="{{translation}}"></meta>
-<title>ArtShow</title>
-</head>
-<body>
-<h1>ArtShow</h1>
-<form class="main">
-<fieldset>
-<legend>Příjem</legend>
-<input class="action" type="submit" formaction="{{url_for('items.enterNewItem')}}" value="__Nový předmět"></input>
-<input class="action" type="submit" formaction="{{url_for('items.listItems')}}" value="Seznam předmětů"></input>
-<input class="action" type="submit" formaction="{{url_for('items.selectItemToClose')}}" value="Uzavři předmět"></input>
-</fieldset>
-<fieldset>
-<legend>Aukce</legend>
-<input class="action" type="submit" formaction="{{url_for('auction.listItems')}}" value="Předměty do aukce"></input>
-<input class="action" type="button" onclick="window.open('{{url_for('auction.showStatus')}}',&#xA;                'ArtshowStatus',&#xA;                'menubar=no,scrollbars=no,status=no,toolbar=no,location=no,titlebar=no',&#xA;                true)" value="Zobraz aukční okno"></input>
-<input class="action" type="submit" formaction="{{url_for('auction.selectItemToAuction')}}" value="Zahaj aukci"></input>
-</fieldset>
-<fieldset>
-<legend>Výdej</legend>
-<input class="action" type="submit" formaction="{{url_for('reconciliation.selectBadgeToReconciliate')}}" value="Vypořádej účastníka"></input>
-<input class="action" type="submit" formaction="{{url_for('reconciliation.showSummary')}}" value="Stav pokladny"></input>
-</fieldset>
-</form>
-</body>
-</html>
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="{{transform}}"?><!--<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">--><html xmlns="http://www.w3.org/1999/xhtml">ArtShow Login__ArtShow Login__Artshow Code:
+        {% if addNewTarget -%}
+        
+        {%- endif %}
+    </html>

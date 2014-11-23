@@ -23,8 +23,12 @@ ROOT_PATH = os.path.abspath(os.path.normpath(os.path.dirname(__file__)))
 import config
 config.load(os.path.normpath(os.path.join(ROOT_PATH, 'config.ini')))
 
+from authentication import UserGroups, admin_auth_required, user_auth_required
+
 from common.result import Result
 from common.response import respondHtml, respondXml
+from common.translate import registerDictionary
+from common.phrase_dictionary import PhraseDictionary
 from model.dataset import Dataset
 from model.model import Model
 
@@ -54,16 +58,24 @@ dataset.restore()
 model = Model(
         logging.getLogger('model'), dataset,
         currencyList=config.CURRENCY)
-
+dictionaryPath = os.path.join(os.path.dirname(__file__), 'locale')
+for language in config.LANGUAGES:
+    registerDictionary(
+            language,
+            PhraseDictionary(
+                    logging.getLogger('dictionary'),
+                    os.path.join(dictionaryPath, 'translation.{0}.xml'.format(language))))
+del dictionaryPath
 
 @app.before_request
 def before_request():
-    flask.g.language = config.DEFAULT_LANGUAGE
-    flask.g.userGroup = 'admin'
     if not model.findSession(flask.session.get('SessionID', None)):
         flask.session['SessionID'] = model.startNewSession()
 
     flask.g.sessionID = flask.session['SessionID']
+    flask.g.userGroup = UserGroups.ADMIN
+    flask.g.userID = 'userID'
+    flask.g.language = config.DEFAULT_LANGUAGE
     flask.g.model = model
 
 @app.after_request
@@ -73,8 +85,32 @@ def after_request(response):
     return response
     
 @app.route("/")
+@user_auth_required
 def index():
     return respondHtml('main', flask.g.userGroup, flask.g.language)
+
+@app.route('/login', methods = ['GET', 'POST'])
+def login():
+    # verify that admin login is possible (local client)    
+    return respondHtml('login', flask.g.userGroup, flask.g.language, {
+            'loginTarget': flask.url_for('authenticate'),
+            'loginAdminTarget': None})
+
+@app.route('/authenticate', methods = ['POST'])
+def authenticate():
+    # clear credential (model.resetSession())
+    # verify that provided code is known
+    return respondHtml('message', flask.g.userGroup, flask.g.language, {
+            'message': Result.ACCESS_DENIED, #flask.request.remote_addr, # ,
+            'okTarget': flask.url_for('login')})
+
+@app.route('/authenticateadmin', methods = ['POST'])
+def authenticateAdmin():
+    # clear credentials (model.resetSession())
+    # verify that admin login is possible (local client)
+    return respondHtml('login', flask.g.userGroup, flask.g.language, {
+            'message': Result.ACCESS_DENIED,
+            'okTarget': flask.url_for('login')})
 
 @app.errorhandler(Exception)
 def catch_all(err):
@@ -85,7 +121,8 @@ def catch_all(err):
 
 def run():
     print("Starting")
-    app.run(debug=True, use_reloader=False)
+    app.run(debug=True, use_reloader=False) # Local address only
+    #app.run(host='0.0.0.0', debug=True, use_reloader=False) # Any address
     print("Finished")
 
 if __name__ == "__main__":

@@ -28,6 +28,7 @@ SESSION_KEY = None
 DATA_FOLDER = None
 LOG_FILE = None
 CURRENCY = None
+LANGUAGES = None
 
 def __normalize_path(path):
     if not os.path.isabs(path):
@@ -43,6 +44,7 @@ def load(iniFile):
     global DATA_FOLDER
     global LOG_FILE
     global CURRENCY
+    global LANGUAGES
 
     config = configparser.ConfigParser()
     config.read(iniFile)
@@ -51,4 +53,5 @@ def load(iniFile):
     DATA_FOLDER = __normalize_path(config['DEFAULT'].get('DATA_FOLDER', '.'))
     LOG_FILE = __normalize_path(config['DEFAULT'].get('LOG_FILE', 'artshow.log'))
     CURRENCY = __normalize_list(config['DEFAULT'].get('CURRENCY', 'usd').split(','))
+    LANGUAGES = __normalize_list(config['DEFAULT'].get('LANGUAGES', 'en').split(','))
     SESSION_KEY = binascii.unhexlify(config['DEFAULT'].get('SECRET_KEY', '00'))

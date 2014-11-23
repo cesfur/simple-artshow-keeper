@@ -62,6 +62,7 @@
                     <Directory Id="AppDir" Name="app">
                         <Directory Id="CoreStaticDir" Name="static"/>
                         <Directory Id="CoreTemplatesDir" Name="templates"/>
+                        <Directory Id="CoreLocaleDir" Name="locale"/>
                         <Directory Id="CommonDir" Name="common"/>
                         <Directory Id="ModelDir" Name="model"/>
                         <Directory Id="AuctionDir" Name="auction">
@@ -116,6 +117,7 @@
             <Component Id="Core" Guid="{6E3E9E09-F519-4eae-A742-2FD9914EE1DA}">
                 <File Id="Core___init__" Source="$(var.SolutionDir)app/__init__.py"/>
                 <File Source="$(var.SolutionDir)app/main.py" KeyPath="yes"/>
+                <File Source="$(var.SolutionDir)app/authentication.py"/>
                 <File Source="$(var.SolutionDir)app/config.py"/>                
             </Component>
             <Component Id="CoreIni" Guid="{1B1DF4E5-BEE3-4e01-AFE0-BF579454AE09}">            
@@ -135,27 +137,32 @@
         <DirectoryRef Id="CoreStaticDir">
             <Component Id="CoreStatic" Guid="{5525A256-9387-4191-AA4C-C4BD19A3191C}">
                 <File Source="$(var.SolutionDir)app/static/Artshow.css"/>
-                <File Source="$(var.SolutionDir)app/static/translate.xsl"/>
-                <File Source="$(var.SolutionDir)app/static/translation.cz.xml"/>
-                <File Source="$(var.SolutionDir)app/static/translation.en.xml"/>
-                <File Source="$(var.SolutionDir)app/static/translation.de.xml"/>
+                <File Source="$(var.SolutionDir)app/static/Artshow.js"/>
+            </Component>
+        </DirectoryRef>
+        <DirectoryRef Id="CoreLocaleDir">
+            <Component Id="CoreLocale" Guid="{9C616029-DB1B-4da0-9C13-6CE01DCA98EC}">
+                <File Source="$(var.SolutionDir)app/locale/translation.cz.xml"/>
+                <File Source="$(var.SolutionDir)app/locale/translation.en.xml"/>
+                <File Source="$(var.SolutionDir)app/locale/translation.de.xml"/>
             </Component>
         </DirectoryRef>
         <DirectoryRef Id="CoreTemplatesDir">
             <Component Id="CoreTemplates" Guid="{95143405-EFE2-4648-B00F-4E0FD1DF87DE}">
                 <!-- Multilingual -->
+                <File Source="$(var.SolutionDir)app/templates/login.xhtml"/>
                 <File Source="$(var.SolutionDir)app/templates/main.admin.xhtml"/>
                 <!-- CZ -->
                 <File Source="$(var.SolutionDir)app/templates/itemstate.cz.html"/>
-                <File Source="$(var.SolutionDir)app/templates/message.admin.cz.html"/>
+                <File Source="$(var.SolutionDir)app/templates/message.cz.html"/>
                 <File Source="$(var.SolutionDir)app/templates/messagetext.cz.html"/>
                 <!-- EN -->
                 <File Source="$(var.SolutionDir)app/templates/itemstate.en.html"/>
-                <File Source="$(var.SolutionDir)app/templates/message.admin.en.html"/>
+                <File Source="$(var.SolutionDir)app/templates/message.en.html"/>
                 <File Source="$(var.SolutionDir)app/templates/messagetext.en.html"/>
                 <!-- DE -->
                 <File Source="$(var.SolutionDir)app/templates/itemstate.de.html"/>
-                <File Source="$(var.SolutionDir)app/templates/message.admin.de.html"/>
+                <File Source="$(var.SolutionDir)app/templates/message.de.html"/>
                 <File Source="$(var.SolutionDir)app/templates/messagetext.de.html"/>
             </Component>
         </DirectoryRef>
@@ -351,6 +358,7 @@
             <ComponentRef Id="CoreIni" />
             <ComponentRef Id="CoreStatic" />
             <ComponentRef Id="CoreTemplates" />
+            <ComponentRef Id="CoreLocale" />
 
             <ComponentRef Id="Common" />
             <ComponentRef Id="Model" />

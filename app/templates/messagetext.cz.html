@@ -71,6 +71,8 @@
     <p class="message error">Neplatná převodní hodnota pro primární měnu. Primární měna musí mít vždy hodnotu 1.</p>
 {%- elif message == 'NOTHING_TO_PRINT' -%}
     <p class="message error">Není zadáno nic k vytištění. Opakujte operaci.</p>
+{%- elif message == 'ACCESS_DENIED' -%}
+    <p class="message error">Přístup zamítnut. Operace vyžaduje přihlášení.</p>
 {%- else -%}
     <p class="message error">Neznámá zpráva: '{{message}}'.</p>
 {%- endif -%}

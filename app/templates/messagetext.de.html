@@ -71,6 +71,8 @@
     <p class="message error">Invalid conversion rate for the primary currency. Conversion rate for the primary currency has to be 1 all the time.</p>
 {%- elif message == 'NOTHING_TO_PRINT' -%}
     <p class="message error">There is nothing to print. Please, repeat the operation.</p>
+{%- elif message == 'ACCESS_DENIED' -%}
+    <p class="message error">Zugriff verweigert.</p>
 {%- else -%}
     <p class="message error">Unknown message: '{{message}}'.</p>
 {%- endif -%}

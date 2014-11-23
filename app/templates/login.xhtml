@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='Artshow.css')}}" />
+    <title>__ArtShow Login</title>
+    <script type="text/javascript" src="{{url_for('.static', filename='Artshow.js')}}"></script>
+</head>
+<body onload="setInputFocus('Code')">
+    <h1>__ArtShow Login</h1>
+    <form class="main" method="post">
+        <div class="subblock">
+            <label for="code">__Artshow Code:</label>
+            <input id="code" name="Code" type="text" value=""
+                    autocomplete="off" required="required"
+                    pattern="[0-9]{6}" title="__Artshow Code Hint" />
+        </div>
+        <input class="action" type="submit" formaction="{{loginTarget}}" value="__Login" />
+        {% if loginAdminTarget and loginAdminTarget != None -%}
+        <input class="action" type="submit" formaction="{{loginAdminTarget}}" formnovalidate="formnovalidate" value="__Login Admin" />
+        {%- endif %}
+    </form>
+</body>
+</html>
