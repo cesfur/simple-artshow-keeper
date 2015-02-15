@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='Artshow.css')}}" />
+    <meta charset="UTF-8" />
+    <title>__Import.ApproveHeader</title>
+</head>
+<body>
+    {% import 'messagetext.' + language + '.html' as messagetext %}
+    <h1>__Import.ApproveTitle</h1>
+
+    <div class="infoBlock">
+        {% if importFilename -%}
+        <p><span>__Import.FileImport:</span> {{importFilename|default('?')}}</p>
+        {%- else -%}
+        <p>__Import.TextImport</p>
+        {%- endif %}
+    </div>
+    <form class="main notPrintable" enctype="multipart/form-data">
+        <input class="hidden" type="number" name="ImportChecksum" value="{{importChecksum}}" />
+        {% if importRequiresOwner -%}
+        <fieldset>
+            <legend>__AdditionalInfo</legend>
+            <label for="owner">__Owner:</label>
+            <input id="owner" name="Owner" type="number"
+                   autocomplete="off" required="required"
+                   pattern="\d+" min="1" title="__OwnerHelp" />
+        </fieldset>
+        {%- endif %}
+        <fieldset>
+            <legend>__Import.ReviewImportedItems</legend>
+            {% if importItems|length > 0 -%}
+            <div class="listSection">
+                <table>
+                    <tr>
+                        <th>__Import.Result</th>
+                        <th>__ItemNumber</th>
+                        <th>__Owner</th>
+                        <th>__Author</th>
+                        <th>__Title</th>
+                        <th>__Medium</th>
+                        <th>__InitialAmount</th>
+                        <th>__Charita</th>
+                        <th>__Note</th>
+                    </tr>
+                    {% for item in importItems -%}
+                    <tr>
+                        <td class="{{'error' if item.IRES != 'SUCCESS' else ''}}">{{messagetext.presentShort(item.IRES)}}</td>
+                        <td>{{item.NMBR if item.NMBR != None}}</td>
+                        <td>{{item.OWNR if item.OWNR != None}}</td>
+                        <td>{{item.AUTH if item.AUTH != None}}</td>
+                        <td>{{item.TITL if item.TITL != None}}</td>
+                        <td>{{item.MEDM if item.MEDM != None}}</td>
+                        {%- if item.IAMT != None -%}
+                        <td class="numerical">{{item.IAMT}} Kč</td>
+                        {%- else -%}
+                        <td class="irrelevant"></td>
+                        {%- endif -%}
+                        {%- if item.CHAR != None -%}
+                        <td class="numerical">{{item.CHAR}} %</td>
+                        {%- else -%}
+                        <td class="irrelevant"></td>
+                        {%- endif -%}
+                        <td>{{item.NOTE if item.NOTE != None}}</td>
+                    </tr>
+                    {%- endfor %}
+                </table>
+                <p class="note"><span>__TotalRecords:</span> {{importItems|length}}</p>
+            </div>
+            {%- else -%}
+            <p>__Import.IsEmpty</p>
+            {%- endif %}
+        </fieldset>
+        <fieldset>
+            <input class="action" type="submit" formaction="{{targetCancelled}}" formnovalidate="formnovalidate"
+                   value="__Import.BackToNewItem" />
+            <input class="action" type="submit" formaction="{{targetChangeFile}}" formnovalidate="formnovalidate"
+                   value="__Import.ChooseDifferentInput" />
+            <input class="action" type="submit" formaction="{{targetApproved}}" formmethod="post"
+                   value="__Import.Finish" />
+        </fieldset>
+    </form>
+</body>
+</html>

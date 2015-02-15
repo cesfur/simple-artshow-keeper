@@ -20,26 +20,24 @@ import random
 import decimal
 import io
 import json
+import csv
 from datetime import datetime
 from decimal import Decimal
 
 from . import session
 from . dataset import Dataset
 from . item import ItemField, ItemState, ImportedItemField, calculateImportedItemChecksum
-from . currency import CurrencyField
+from . currency import Currency, CurrencyField
 from . summary import SummaryField, DrawerSummaryField, ActorSummary
 from . field_value_error import FieldValueError
 from common.convert import *
 from common.result import Result
 
 class Model:
-    def __init__(self, logger, dataset, currencyList):
+    def __init__(self, logger, dataset, currency):
         self.__logger = logger
         self.__dataset = dataset
-        self.__currencyList = currencyList
-
-        # Use decimal place of the primary currency.
-        self.__amountDecimalPlaces = self.__dataset.getCurrencyInfo(self.__currencyList)[0][CurrencyField.DECIMAL_PLACES]
+        self.__currency = currency
 
     def persist(self):
         self.__dataset.persist()
@@ -101,7 +99,7 @@ class Model:
                     items.append(item)
                 else:
                     self.__logger.error('getAddedItems: Skipping item ''{0}'' because it has not been found.'.format(itemCode))
-        return self.__updateAmountCurrency(items)
+        return self.__updateItemAmountCurrency(items)
     
     def setSessionValue(self, sessionID, key, value):
         """Set a pair (key, value) in a session."""
@@ -111,23 +109,25 @@ class Model:
         """Remove a (key, value) in a session."""
         self.__dataset.updateSessionPairs(sessionID, **{key: None})        
 
-    def addNewItem(self, sessionID, owner, title, author, medium, amount, charity, note):
+    def addNewItem(self, sessionID, owner, title, author, medium, amount, charity, note, importNumber=None):
         """Add a new item.
         Returns:
             Result (class Result).
         """
         ownerRaw = owner
+        importNumberRaw = importNumber
 
         # 1. Evaluate state.
-        if amount is not None and charity is not None:
-            state = ItemState.ON_SALE
-        else:
-            state = ItemState.ON_SHOW
+        state = self.__evaluateState(amount, charity)
 
         # 2. Check validity of the input range.
         owner = toInt(owner)
         if owner is None:
             self.__logger.error('addNewItem: Owner "{0}" is not an integer.'.format(ownerRaw))
+            return Result.INPUT_ERROR
+        importNumber = toInt(importNumber)
+        if importNumberRaw is not None and importNumber is None:
+            self.__logger.error('addNewItem: Import Number "{0}" is not an integer.'.format(importNumber))
             return Result.INPUT_ERROR
 
         if state == ItemState.ON_SALE:
@@ -145,27 +145,59 @@ class Model:
             charity = None
         
         # 3. Evaluate duplicity.
-        if self.__dataset.countItems(
-                    'Owner == "{0}" and Author == "{1}" and Title == "{2}"'.format(
-                        owner, toQuoteSafeStr(author), toQuoteSafeStr(title))) > 0:
-            self.__logger.error('addNewItem: Item is a duplicate.')
+        if self.__getImportedItem(owner, importNumber) is not None:
+            self.__logger.error(
+                    'addNewItem: Import item number "{0}" is already defined for owner "{1}".'.format(
+                            importNumber, owner))
+            return Result.DUPLICATE_IMPORT_NUMBER
+        if self.__getSimilarItem(owner, author, title) is not None:
+            self.__logger.error('addNewItem: There is a similar item already.')
             return Result.DUPLICATE_ITEM
 
         # 4. Build a code and insert.
         code = self.__dataset.getNextItemCode()
         if not self.__dataset.addItem(
                     code=code, owner=owner, title=title, author=author, medium=medium,
-                    state=state, initialAmount=amount, charity=charity, note=note):
+                    state=state, initialAmount=amount, charity=charity, note=note,
+                    importNumber=importNumber):
             self.__logger.error('addNewItem: Adding item "{0}" failed. Item not added.'.format(code))
             return Result.ERROR
 
         # 5. Update items added in the session
+        addedItemCodes = self.__appendAddedCode(sessionID, code)
+        self.__logger.info('addNewItem: Added item "{0}" (added codes: {1})'.format(code, addedItemCodes))
+
+        return Result.SUCCESS
+
+    def __evaluateState(self, amount, charity):
+        if amount is not None and charity is not None:
+            return ItemState.ON_SALE
+        else:
+            return ItemState.ON_SHOW
+
+    def __appendAddedCode(self, sessionID, code):
         addedItemCodes = self.__dataset.getSessionValue(sessionID, session.Field.ADDED_ITEM_CODES, '')
         addedItemCodes = addedItemCodes + code + ','
         self.__dataset.updateSessionPairs(sessionID, **{session.Field.ADDED_ITEM_CODES: addedItemCodes})
+        return addedItemCodes
 
-        self.__logger.info('addNewItem: Added item "{0}" (added codes: {1})'.format(code, addedItemCodes))
-        return Result.SUCCESS
+    def __getImportedItem(self, owner, importNumber):
+        item = None
+        if owner is not None and importNumber is not None:
+            importedItems = self.__dataset.getItems('Owner == "{0}" and ImportNumber == "{1}"'.format(
+                owner, importNumber))
+            if len(importedItems) > 0:
+                item = importedItems[0]
+        return item
+
+    def __getSimilarItem(self, owner, author, title):
+        similarItems = self.__dataset.getItems(
+                'Owner == "{0}" and Author == "{1}" and Title == "{2}"'.format(
+                owner, toQuoteSafeStr(author), toQuoteSafeStr(title)))
+        if len(similarItems) > 0:
+            return similarItems[0]
+        else:
+            return None
 
     def dropImport(self, sessionID):
         """Drop import.
@@ -200,24 +232,6 @@ class Model:
             return Result.INVALID_CHARITY
         return Result.SUCCESS
 
-    def __importFileLine(self, line):
-        """Import single line of a file.
-        Returns:
-            Imported item with the result inside.
-        """
-        result, item = self.__dataset.readImportLine(line)
-        if result != Result.SUCCESS:
-            self.__logger.error('__importFileLine: Reading a line "{0}" failed with a result {1}.'.format(
-                    line, result))
-        else:
-            result = self.__checkImportedItemConsistency(item)
-            if result != Result.SUCCESS:
-                self.__logger.error('__importFileLine: Line "{0}" failed consistency check with a result {1}.'.format(
-                        line, result))
-
-        item[ImportedItemField.IMPORT_RESULT] = result
-        return item
-
     def __calculateImportItemsChecksum(self, importedItems):
         """Calculate checksum of the import.
         Returns:
@@ -249,8 +263,8 @@ class Model:
                 self.__matchStrings(itemA[ImportedItemField.AUTHOR], itemB[ImportedItemField.AUTHOR]) and \
                 self.__matchStrings(itemA[ImportedItemField.TITLE], itemB[ImportedItemField.TITLE])
 
-    def __checkImportedItemsDuplicity(self, importedItems):
-        """Check whether there are duplicities in the import items."""
+    def __checkDuplicityWithinImport(self, importedItems):
+        """Check whether there are duplicities within the import items."""
         for i in range(1, len(importedItems)):
             item = importedItems[i]
             if item[ImportedItemField.IMPORT_RESULT] == Result.SUCCESS:
@@ -263,14 +277,14 @@ class Model:
                         break
 
     def __postProcessImport(self, sessionID, importedItems):
-        # 1. Remove preivous data (if any).
+        # 1. Remove previous data (if any).
         self.dropImport(sessionID)
 
         # 2. Calculate checksum
         importedItemsChecksum = self.__calculateImportItemsChecksum(importedItems)
 
-        # 3. Check duplicity.
-        self.__checkImportedItemsDuplicity(importedItems)
+        # 3. Check for duplicites
+        self.__checkDuplicityWithinImport(importedItems)
 
         # 4. Update session.
         self.__dataset.updateSessionPairs(sessionID, **{
@@ -279,31 +293,40 @@ class Model:
 
         return importedItemsChecksum
 
-    def importFile(self, sessionID, stream):
+    def isOwnerDefinedInImport(self, importedItems):
+        """
+        Returns:
+            true if the owner is defined
+        """
+        ownerDefined = True
+        for importedItem in importedItems:
+            if importedItem[ImportedItemField.OWNER] is None \
+                    or importedItem[ImportedItemField.OWNER] == '':
+                ownerDefined = False
+                break
+        return ownerDefined
+
+    def importCSVFile(self, sessionID, stream, headerRow=True, encoding='utf-8'):
         """Import from a CSV file.
         Args:
             sessionID -- Session ID.
             stream -- File stream.
+            headerRow -- True if the first row is the header
+            encoding -- Encoding of the file.
         Returns:
-            Imported items, checksum.
+            imported items, checksum
         """
 
         # 1. Import stream.
         importedItems = []
-        textReader = io.TextIOWrapper(buffer=stream, encoding='cp1250', errors='replace')
+        textReader = io.TextIOWrapper(buffer=stream, encoding=encoding, errors='replace')
         try:
             lineIndex = 0
             done = False
-            while not done:
-                line = textReader.readline().rstrip('\n\r')
-                if len(line) == 0:
-                    done = True
-                elif lineIndex > 0:
-                    importedItems.append(self.__importFileLine(line))
-                else:
-                    self.__logger.info('importFile: Line "{0}" has been skipped.'.format(
-                            line))
-
+            csvReader = csv.reader(textReader)
+            for row in csvReader:
+                if not headerRow or lineIndex > 0:
+                    importedItems.append(self.__procesItemImport(self.__mapCSVRowToImport(row)))
                 lineIndex = lineIndex + 1
         finally:
             textReader.detach()
@@ -316,20 +339,37 @@ class Model:
 
         return importedItems, importedItemsChecksum
 
-    def __importRawItem(self, rawItem):
-        """Import raw item.
+    def __mapCSVRowToImport(self, row):
+        rowValueOrder = [
+                ImportedItemField.NUMBER,
+                ImportedItemField.OWNER,
+                ImportedItemField.AUTHOR,
+                ImportedItemField.TITLE,
+                ImportedItemField.MEDIUM,
+                ImportedItemField.NOTE,
+                ImportedItemField.INITIAL_AMOUNT,
+                ImportedItemField.CHARITY]
+        mappedRow = {}
+        i = 0
+        while i < len(row) and i < len(rowValueOrder):
+            mappedRow[rowValueOrder[i]] = row[i]
+            i = i + 1
+        return mappedRow
+
+    def __procesItemImport(self, rawItemImport):
+        """Proces item import.
         Returns:
             Imported item with the result inside.
         """
-        result, item = self.__dataset.readImportedRawItem(rawItem)
+        result, item = self.__dataset.normalizeItemImport(rawItemImport)
         if result != Result.SUCCESS:
             self.__logger.error('__importRawItem: Reading a raw item "{0}" failed with a result {1}.'.format(
-                    json.dumps(rawItem, cls=JSONDecimalEncoder), result))
+                    json.dumps(rawItemImport, cls=JSONDecimalEncoder), result))
         else:
             result = self.__checkImportedItemConsistency(item)
             if result != Result.SUCCESS:
                 self.__logger.error('__importRawItem: Line "{0}" failed consistency check with a result {1}.'.format(
-                        json.dumps(rawItem, cls=JSONDecimalEncoder), result))
+                        json.dumps(rawItemImport, cls=JSONDecimalEncoder), result))
 
         item[ImportedItemField.IMPORT_RESULT] = result
         return item
@@ -356,7 +396,7 @@ class Model:
                 if valueIndex < 0:
                     return field, ''
                 else:
-                    return field, line[(valueIndex + 1):]
+                    return field, line[(valueIndex + 1):].strip(' \t\r\n')
 
         return None, None
 
@@ -364,8 +404,9 @@ class Model:
         """Import from text."""
 
         # 1. Import stream.
+        firstTag = 'A)'
         tags = {
-                'A)': None,
+                'A)': ImportedItemField.NUMBER,
                 'B)': ImportedItemField.AUTHOR,
                 'C)': ImportedItemField.TITLE,
                 'D)': ImportedItemField.INITIAL_AMOUNT,
@@ -374,19 +415,17 @@ class Model:
         importedItems = []
         rawItem = {}
         textStream = io.StringIO(initial_value=text)
-        firstTaggedLineFound = False
         for line in textStream:
             tagField, tagValue = self.__extractTaggedValue(line, tags)
             if tagValue is not None:            
-                if tagField is not None:
-                    rawItem[tagField] = tagValue
-                elif firstTaggedLineFound:
-                    importedItems.append(self.__importRawItem(rawItem))
-                    rawItem.clear()
-                firstTaggedLineFound = True
+                if tagField == tags[firstTag]:
+                    if len(rawItem) != 0:
+                        importedItems.append(self.__procesItemImport(rawItem))
+                        rawItem.clear()
+                rawItem[tagField] = tagValue
 
         if len(rawItem) != 0:
-            importedItems.append(self.__importRawItem(rawItem))
+            importedItems.append(self.__procesItemImport(rawItem))
 
         # 2. Postprocess data.
         importedItemsChecksum = self.__postProcessImport(sessionID, importedItems)
@@ -396,13 +435,13 @@ class Model:
 
         return importedItems, importedItemsChecksum
 
-    def applyImport(self, sessionID, checksum, owner):
+    def applyImport(self, sessionID, checksum, defaultOwner):
         """Apply items from an item.
         Items which did not import well are skipped.
         Args:
             sessionID -- Session ID.
             checksum -- Import checsum.
-            owner -- Owner.
+            defaultOwner -- Owner in case owner is not defined.
         Returns:
             (result, skipped items).
         """
@@ -419,10 +458,10 @@ class Model:
             self.__logger.debug('applyImport: Checksum "{0}" does not match stored checksum "{1}".'.format(checksumRaw, importedChecksum))
             return Result.INVALID_CHECKSUM, []
 
-        ownerRaw = owner
-        owner = toInt(owner)
-        if owner == None:
-            self.__logger.error('applyImport: Owner "{0}" is not an integer.'.format(ownerRaw))
+        defaultOwnerRaw = defaultOwner
+        defaultOwner = toInt(defaultOwner)
+        if defaultOwner is not None and defaultOwner is None:
+            self.__logger.error('applyImport: Default owner "{0}" is not an integer.'.format(defaultOwnerRaw))
             return Result.INPUT_ERROR, []
 
         importedItems = []
@@ -437,17 +476,32 @@ class Model:
         skippedItems = []
         for item in importedItems:
             if item[ImportedItemField.IMPORT_RESULT] == Result.SUCCESS:
+                owner = item[ImportedItemField.OWNER] if item[ImportedItemField.OWNER] is not None else defaultOwner
                 addResult = self.addNewItem(
                         sessionID,
-                        owner=owner, 
+                        owner=owner,
                         title=item[ImportedItemField.TITLE],
                         author=item[ImportedItemField.AUTHOR],
-                        medium=None,
+                        medium=item[ImportedItemField.MEDIUM],
                         amount=item[ImportedItemField.INITIAL_AMOUNT],
                         charity=item[ImportedItemField.CHARITY],
-                        note=None)
+                        note=item[ImportedItemField.NOTE],
+                        importNumber=item[ImportedItemField.NUMBER])
+
+                if addResult == Result.DUPLICATE_IMPORT_NUMBER:
+                    addResult = self.__updateImportedItem(
+                        sessionID,
+                        owner=owner,
+                        importNumber=item[ImportedItemField.NUMBER],
+                        title=item[ImportedItemField.TITLE],
+                        author=item[ImportedItemField.AUTHOR],
+                        medium=item[ImportedItemField.MEDIUM],
+                        amount=item[ImportedItemField.INITIAL_AMOUNT],
+                        charity=item[ImportedItemField.CHARITY],
+                        note=item[ImportedItemField.NOTE])
+
                 if addResult != Result.SUCCESS:
-                    self.__logger.error('applyImport: Adding item {0} failed with an error {1}.'.format(
+                    self.__logger.error('applyImport: Importing item {0} failed with an error {1}.'.format(
                             json.dumps(item, cls=JSONDecimalEncoder), addResult))
                     item[ImportedItemField.IMPORT_RESULT] = addResult
 
@@ -456,7 +510,7 @@ class Model:
                         json.dumps(item, cls=JSONDecimalEncoder)))
                 skippedItems.append(item)
             else:
-                self.__logger.debug('applyImport: Item {0} has been added.'.format(
+                self.__logger.debug('applyImport: Item {0} has been processed.'.format(
                         json.dumps(item, cls=JSONDecimalEncoder)))
 
         self.__logger.info('applyImport: Added {0} item(s). Skipped {1} item(s).'.format(
@@ -474,17 +528,21 @@ class Model:
         """
         if valueNew is not None:
             if item[fieldName] != valueNew:
+                valueOld = item[fieldName]
                 item[fieldName] = valueNew
                 itemDiff[fieldName] = valueNew
+                self.__logger.debug(
+                        '__diffAndUpdateItem: Field "{0}" will be updated from "{1}" to "{2}".'.format(
+                                fieldName, valueOld, valueNew))
             else:
-                self.__logger.debug('__enlistFieldForUpdate: Field "{0}" not update because it is the same.'.format(fieldName))
+                self.__logger.debug('__diffAndUpdateItem: Field "{0}" not updated because it is the same.'.format(fieldName))
 
         elif valueRaw is None or valueRaw == '':
-            if not required:
+            if required:
+                raise FieldValueError(fieldName, valueRaw)
+            elif item[fieldName] is not None and item[fieldName] != '':
                 item[fieldName] = None
                 itemDiff[fieldName] = None
-            else:
-                raise FieldValueError(fieldName, valueRaw)
 
         else:
             raise FieldValueError(fieldName, valueRaw)
@@ -532,11 +590,44 @@ class Model:
 
         return Result.SUCCESS
 
-    def updateItem(self, itemCode, owner, title, author, medium, state, initialAmount, charity, amount, buyer, note):
-        """Update item based on the item code.
+    def __updateImportedItem(self, sessionID, owner, importNumber, title, author, medium, amount, charity, note):
+        """Update item based on the pair (owner, importNumber).
         Returns:
             Result code (class Result).
         """
+        item = self.__getImportedItem(owner, importNumber)
+        if item is None:
+            self.__logger.error(
+                    'updateImportedItem: Import number "{0}" of owner "{1}" not fount.'.format(
+                    importNumber, owner))
+            return Result.ITEM_NOT_FOUND
+
+        if item[ItemField.STATE] in ItemState.AMOUNT_SENSITIVE:
+            self.__logger.error(
+                    'updateImportedItem: Import number "{0}" of owner "{1}" is already closed.'.format(
+                    importNumber, owner))
+            return Result.ITEM_CLOSED_ALREADY
+
+        updateResult = self.updateItem(
+                itemCode=item[ItemField.CODE],
+                owner=item[ItemField.OWNER],
+                title=title,
+                author=author,
+                medium=medium,
+                initialAmount=amount,
+                charity=charity,
+                note=note,
+                state=self.__evaluateState(amount, charity),
+                amount=item[ItemField.AMOUNT],
+                buyer=item[ItemField.BUYER])
+
+        if updateResult == Result.SUCCESS:
+            addedItemCodes = self.__appendAddedCode(sessionID, item[ItemField.CODE])
+            self.__logger.info('__updateImportedItem: Updated item "{0}" (added codes: {1})'.format(item[ItemField.CODE], addedItemCodes))
+
+        return updateResult
+
+    def updateItem(self, itemCode, owner, title, author, medium, state, initialAmount, charity, amount, buyer, note):
         # 1. Get the original item.
         item = self.getItem(itemCode)
         if item is None:
@@ -590,7 +681,7 @@ class Model:
         # 4. Perform an update.
         if len(itemDiff) == 0:
             self.__logger.info('updateItem: Item "{0}" not updated because there is nothing to update'.format(itemCode))
-            return Result.SUCCESS
+            return Result.NOTHING_TO_UPDATE
         elif self.__dataset.updateItem(itemCode, **itemDiff):
             self.__logger.info('updateItem: Item "{0}" has been updated.'.format(itemCode))
             return Result.SUCCESS
@@ -633,17 +724,13 @@ class Model:
                     item[ItemField.NET_CHARITY_AMOUNT] = None
         return items
 
-    def __updateAmountCurrency(self, items):
+    def __updateItemAmountCurrency(self, items):
         """Update items with currency specific amount for each item."""
-        if items is not None and len(items) > 0:
-            currencyInfoList = self.getCurrencyInfo()
-            for item in items:
-                item[ItemField.INITIAL_AMOUNT_IN_CURRENCY] =  self.__convertAmountToCurrencies(
-                        item[ItemField.INITIAL_AMOUNT], currencyInfoList)
-                item[ItemField.AMOUNT_IN_CURRENCY] =  self.__convertAmountToCurrencies(
-                        item[ItemField.AMOUNT], currencyInfoList)
-                item[ItemField.AMOUNT_IN_AUCTION_IN_CURRENCY] =  self.__convertAmountToCurrencies(
-                        item[ItemField.AMOUNT_IN_AUCTION], currencyInfoList)
+        self.__currency.updateAmountWithAllCurrencies(
+                items, {
+                        ItemField.INITIAL_AMOUNT: ItemField.INITIAL_AMOUNT_IN_CURRENCY,
+                        ItemField.AMOUNT: ItemField.AMOUNT_IN_CURRENCY,
+                        ItemField.AMOUNT_IN_AUCTION: ItemField.AMOUNT_IN_AUCTION_IN_CURRENCY })
         return items
 
     def getAllItems(self):
@@ -695,9 +782,8 @@ class Model:
                 return (Decimal(0), Decimal(0))
             else:
                 grossCharity = charityPercent / Decimal(100)
-                charityAmount = (grossAmount * grossCharity).quantize(
-                        Decimal(10) ** -self.__amountDecimalPlaces,
-                        rounding=decimal.ROUND_HALF_UP)
+
+                charityAmount = self.__currency.roundInPrimary(grossAmount * grossCharity)
                 netSaleAmount = grossAmount - charityAmount
                 return (netSaleAmount, charityAmount)
         except decimal.InvalidOperation:
@@ -744,7 +830,7 @@ class Model:
 
     def getItems(self, itemCodes):
         if len(itemCodes) > 0:
-            return self.__updateAmountCurrency(
+            return self.__updateItemAmountCurrency(
                     self.__updateSortCode(
                             self.__dataset.getItems(
                                     'Code in [{0}]'.format(toQuotedStr(itemCodes)))))
@@ -877,7 +963,8 @@ class Model:
             amount(Decimal)
             currencyInfoList(list of dict[CurrencyField])
         Returns:
-            A list of currency amount (CurrencyField)
+            Array of amount in various currencies including formatting info (CurrencyField).
+            Primary currency is at index 0.
         """
         if amount is None:
             return []
@@ -891,38 +978,19 @@ class Model:
                     currencyInfo[CurrencyField.AMOUNT] = convertedAmountFixedPoint.quantize(1, rounding=decimal.ROUND_HALF_UP) / oneInFixedPoint
                 except decimal.InvalidOperation:
                     self.__logger.exception(
-                            'convertToAllCurrencies: Amount "{0}" and currency "{1}" caused invalid opreration. Returning zeros.'.format(
+                            '__convertAmountToCurrencies: Amount "{0}" and currency "{1}" caused invalid opreration. Returning zeros.'.format(
                                         str(amount), str(currencyInfo[CurrencyField.CODE])))
                     currencyInfo[CurrencyField.AMOUNT] = Decimal(0)
             else:
                 currencyInfo[CurrencyField.AMOUNT] = Decimal(0)
         return currencyInfoList
 
-    def getCurrencyInfo(self):
-        """ Get currency info.
+    def getCurrency(self):
+        """ Get currency setup.
         Returns:
-            List of dict(CurrencyField)
+            Instance of the active class Currency.
         """
-        return self.__dataset.getCurrencyInfo(self.__currencyList)
-
-    def updateCurrencyInfo(self, currencyInfoList):
-        """ Update currency info with amount in primary.
-        Args:
-            currencyInfoList(list of dict(CurrencyField))
-        Returns:
-            Result
-        """
-        if currencyInfoList is not None and len(currencyInfoList) > 0:
-            primaryAmountInPrimary = toDecimal(currencyInfoList[0].get(CurrencyField.AMOUNT_IN_PRIMARY, None))
-            if primaryAmountInPrimary is not None and primaryAmountInPrimary != Decimal(1):
-                return Result.PRIMARY_AMOUNT_IN_PRIMARY_INVALID
-
-        return self.__dataset.updateCurrencyInfo(currencyInfoList)
-
-    def convertToAllCurrencies(self, amount):
-        return self.__convertAmountToCurrencies(
-                amount,
-                self.getCurrencyInfo())
+        return self.__currency
      
     def getPotentialCharityAmount(self):
         soldItems = self.getAllPontentiallySoldItems()
@@ -940,7 +1008,7 @@ class Model:
         elif itemInAuction is None:
             return None
         else:
-            return self.__updateAmountCurrency([itemInAuction])[0]
+            return self.__updateItemAmountCurrency([itemInAuction])[0]
 
     def sendItemToAuction(self, itemCode):
         item = self.__dataset.getItem(itemCode)

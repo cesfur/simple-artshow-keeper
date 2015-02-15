@@ -103,7 +103,7 @@ class TestDataset(unittest.TestCase):
 
         # get all items
         items = self.dataset.getItems(None)
-        self.assertEqual(len(items), 27)
+        self.assertEqual(len(items), 30)
 
         # add a new item
         code = self.dataset.getNextItemCode()
@@ -116,7 +116,8 @@ class TestDataset(unittest.TestCase):
                 state='OTHER',
                 initialAmount='12.3',
                 charity='43',
-                note=None))
+                note=None,
+                importNumber=None))
 
         # get new item and verify data types
         item = self.dataset.getItem(code)
@@ -129,11 +130,12 @@ class TestDataset(unittest.TestCase):
         self.assertTrue(isinstance(item[ItemField.CODE], str))
         self.assertTrue(isinstance(item[ItemField.MEDIUM], str))
         self.assertIsNone(item[ItemField.NOTE])
+        self.assertIsNone(item[ItemField.IMPORT_NUMBER])
 
         # get all items again and see whether we have added just one item
         # i.e. the reserved item is not present
         items = self.dataset.getItems(None)
-        self.assertEqual(len(items), 28)
+        self.assertEqual(len(items), 31)
 
 
     def test_getUpdateItem(self):
@@ -171,15 +173,96 @@ class TestDataset(unittest.TestCase):
         code = self.dataset.getNextItemCode()
         self.assertEqual(code, '59')
 
-    def test_readImportLine(self):
+    def test_normalizeItemImport(self):
         # Item not for sale.
-        result, item = self.dataset.readImportLine('Wolf\tTrees\t\t\n')
-        self.assertEqual(result, Result.SUCCESS)
-        self.assertDictEqual(item, {
+        result, item = self.dataset.normalizeItemImport({
+                ImportedItemField.NUMBER: '1',
+                ImportedItemField.OWNER: '23',
                 ImportedItemField.AUTHOR: 'Wolf',
                 ImportedItemField.TITLE: 'Trees',
+                ImportedItemField.MEDIUM: '',
+                ImportedItemField.NOTE: 'Note',
+                ImportedItemField.INITIAL_AMOUNT: '',
+                ImportedItemField.CHARITY: ''})
+        self.assertEqual(result, Result.SUCCESS)
+        self.assertDictEqual(item, {
+                ImportedItemField.NUMBER: 1,
+                ImportedItemField.OWNER: 23,
+                ImportedItemField.AUTHOR: 'Wolf',
+                ImportedItemField.TITLE: 'Trees',
+                ImportedItemField.MEDIUM: None,
+                ImportedItemField.NOTE: 'Note',
                 ImportedItemField.INITIAL_AMOUNT: None,
                 ImportedItemField.CHARITY: None })
+
+        # Item for sale.
+        result, item = self.dataset.normalizeItemImport({
+                ImportedItemField.NUMBER: '',
+                ImportedItemField.OWNER: '',
+                ImportedItemField.AUTHOR: 'Wolf',
+                ImportedItemField.TITLE: 'Trees',
+                ImportedItemField.MEDIUM: 'Pencils',
+                ImportedItemField.NOTE: 'Note',
+                ImportedItemField.INITIAL_AMOUNT: '23.50',
+                ImportedItemField.CHARITY: '100'})
+        self.assertEqual(result, Result.SUCCESS)
+        self.assertDictEqual(item, {
+                ImportedItemField.NUMBER: None,
+                ImportedItemField.OWNER: None,
+                ImportedItemField.AUTHOR: 'Wolf',
+                ImportedItemField.TITLE: 'Trees',
+                ImportedItemField.MEDIUM: 'Pencils',
+                ImportedItemField.NOTE: 'Note',
+                ImportedItemField.INITIAL_AMOUNT: '23.50',
+                ImportedItemField.CHARITY: 100 })
+
+        # Invalid amount
+        result, item = self.dataset.normalizeItemImport({
+                ImportedItemField.NUMBER: '',
+                ImportedItemField.OWNER: '23',
+                ImportedItemField.AUTHOR: 'Wolf',
+                ImportedItemField.TITLE: 'Trees',
+                ImportedItemField.MEDIUM: '',
+                ImportedItemField.NOTE: 'Note',
+                ImportedItemField.INITIAL_AMOUNT: '23.M',
+                ImportedItemField.CHARITY: '100'})
+        self.assertEqual(result, Result.INVALID_AMOUNT)
+
+        # Invalid charity
+        result, item = self.dataset.normalizeItemImport({
+                ImportedItemField.NUMBER: '',
+                ImportedItemField.OWNER: '23',
+                ImportedItemField.AUTHOR: 'Wolf',
+                ImportedItemField.TITLE: 'Trees',
+                ImportedItemField.MEDIUM: 'Pencil',
+                ImportedItemField.NOTE: 'Note',
+                ImportedItemField.INITIAL_AMOUNT: '23.5',
+                ImportedItemField.CHARITY: 'X'})
+        self.assertEqual(result, Result.INVALID_CHARITY)
+
+        # Invalid owner
+        result, item = self.dataset.normalizeItemImport({
+                ImportedItemField.NUMBER: '',
+                ImportedItemField.OWNER: 'DX',
+                ImportedItemField.AUTHOR: 'Wolf',
+                ImportedItemField.TITLE: 'Trees',
+                ImportedItemField.MEDIUM: 'Pencil',
+                ImportedItemField.NOTE: 'Note',
+                ImportedItemField.INITIAL_AMOUNT: '23.5',
+                ImportedItemField.CHARITY: '100'})
+        self.assertEqual(result, Result.INVALID_ITEM_OWNER)
+
+        # Invalid number
+        result, item = self.dataset.normalizeItemImport({
+                ImportedItemField.NUMBER: '??',
+                ImportedItemField.OWNER: '',
+                ImportedItemField.AUTHOR: 'Wolf',
+                ImportedItemField.TITLE: 'Trees',
+                ImportedItemField.MEDIUM: 'Pencil',
+                ImportedItemField.NOTE: 'Note',
+                ImportedItemField.INITIAL_AMOUNT: '23.5',
+                ImportedItemField.CHARITY: '100'})
+        self.assertEqual(result, Result.INVALID_ITEM_NUMBER)
 
     def test_getCurrencyInfo(self):
         self.dataset.restore()

@@ -52,6 +52,22 @@ class TestCommon(unittest.TestCase):
     def test_toQuoteSafeStr(self):
         self.assertEqual(toQuoteSafeStr('ab"cd"ef'), 'ab\\"cd\\"ef')
 
+    def test_toDecimal(self):
+        # Possitive numbers
+        self.assertEqual(toDecimal(20), Decimal('20'))
+        self.assertEqual(toDecimal('20'), Decimal('20'))
+        self.assertEqual(toDecimal(20.125), Decimal('20.125'))
+        self.assertEqual(toDecimal('20.125'), Decimal('20.125'))
+
+        # Negative numbers
+        self.assertEqual(toDecimal(-20), Decimal('-20'))
+        self.assertEqual(toDecimal('-20'), Decimal('-20'))
+
+        # Zero
+        self.assertEqual(toDecimal(0), Decimal('0'))
+        self.assertEqual(toDecimal('0.00'), Decimal('0'))
+        self.assertEqual(toDecimal('0'), Decimal('0'))
+
     def test_checkRange(self):
         self.assertEqual(checkRange(23, 1, 100), 23)
         self.assertEqual(checkRange(123, 1, None), 123)

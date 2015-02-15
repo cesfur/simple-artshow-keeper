@@ -29,7 +29,7 @@ from common.result import Result
 from model.model import Model
 from model.dataset import Dataset
 from model.item import ItemState, ItemField, ImportedItemField
-from model.currency import CurrencyField
+from model.currency import Currency, CurrencyField
 from model.summary import SummaryField, Summary, DrawerSummaryField, ActorSummary
 
 class TestModel(unittest.TestCase):
@@ -52,10 +52,14 @@ class TestModel(unittest.TestCase):
                 self.currencyFile.getFilename())
         self.dataset.restore()
 
+        self.currency = Currency(
+                self.logger,
+                self.dataset,
+                currencyCodes=['czk', 'eur'])
         self.model = Model(
                 self.logger,
                 self.dataset,
-                currencyList=['czk', 'eur'])
+                self.currency)
 
     def tearDown(self):
         self.itemFile.clear()
@@ -64,8 +68,9 @@ class TestModel(unittest.TestCase):
         self.importFileCsv.clear()
         self.importFileTxt.clear()
 
-        del self.dataset
         del self.model
+        del self.currency
+        del self.dataset
         
     def test_getItem(self):
         item = self.model.getItem('A2')
@@ -93,12 +98,14 @@ class TestModel(unittest.TestCase):
                 self.model.addNewItem(sessionID, 23, 'Mysteria', 'Wolf', None, None, None, None),
                 Result.DUPLICATE_ITEM)
 
-        # add (on sale)
+        # add (on sale) (amount/charity is converted but search expression assumes strings)
         self.assertEqual(
-                self.model.addNewItem(sessionID, 35, 'Mysteria', 'Tiger', '', '123', '10', 'Good Stuff'),
+                self.model.addNewItem(sessionID, 35, 'Mysteria', 'Tiger', '', 123.5, 10, 'Good Stuff'),
                 Result.SUCCESS)
-        addedItem = self.dataset.getItems('Owner=="35" and Title=="Mysteria" and Author=="Tiger"')[0]
+        addedItem = self.dataset.getItems('Owner=="35" and Title=="Mysteria" and Author=="Tiger" and Charity=="10" and InitialAmount=="123.5"')[0]
         self.assertDictContainsSubset({
+                        ItemField.INITIAL_AMOUNT: 123.5,
+                        ItemField.CHARITY: 10,
                         ItemField.STATE: ItemState.ON_SALE,
                         ItemField.MEDIUM: None,
                         ItemField.NOTE: 'Good Stuff'},
@@ -119,9 +126,29 @@ class TestModel(unittest.TestCase):
                         ItemField.NOTE: None},
                 addedItem);
 
+        # add item from an import
+        importNumber = 3
+        self.assertEqual(
+                self.model.addNewItem(sessionID, 99, 'Shy', 'Lemur', None, None, None, '', importNumber),
+                Result.SUCCESS)
+        addedItem = self.dataset.getItems('Owner=="99" and Title=="Shy" and Author=="Lemur"')[0]
+        self.assertDictContainsSubset({
+                        ItemField.IMPORT_NUMBER: importNumber},
+                addedItem);
+
+        # add updated item (differs in amount/charity)
+        self.assertEqual(
+                self.model.addNewItem(sessionID, 99, 'Shy', 'Lemur', None, '12.5', 100, 'Some note', importNumber),
+                Result.DUPLICATE_IMPORT_NUMBER)
+
+        # add updated item (differs in name)
+        self.assertEqual(
+                self.model.addNewItem(sessionID, 99, 'Smiling', 'Lemur', None, None, None, 'Some note', importNumber),
+                Result.DUPLICATE_IMPORT_NUMBER)
+
         # added list
         addedItemCodes = self.model.getAdded(sessionID)
-        self.assertEqual(len(addedItemCodes), 4);
+        self.assertEqual(len(addedItemCodes), 5);
 
 
     def test_getAddedItems(self):
@@ -324,18 +351,19 @@ class TestModel(unittest.TestCase):
                 [1, 3, 4, 11, 13])
         self.assertListEqual(
                 sorted([actorSummary.Badge for actorSummary in summary[DrawerSummaryField.OWNERS_TO_BE_CLEARED]]),
-                [1, 2, 3, 4, 6])
+                [1, 2, 3, 4, 6, 7])
         self.assertEqual(len(summary[DrawerSummaryField.PENDING_ITEMS]), 3)
+
 
     def test_importItemsFromCsv(self):
         # 1. Import
         sessionID = 11111
         binaryStream = io.open(self.importFileCsv.getFilename(), mode='rb')
-        importedItems, importedChecksum = self.model.importFile(sessionID, binaryStream)
+        importedItems, importedChecksum = self.model.importCSVFile(sessionID, binaryStream)
         binaryStream.close()
 
         # 2. Verify
-        self.assertEqual(len(importedItems), 9)
+        self.assertEqual(len(importedItems), 12)
         self.assertEqual(importedItems[0][ImportedItemField.IMPORT_RESULT], Result.SUCCESS)
         self.assertEqual(importedItems[1][ImportedItemField.IMPORT_RESULT], Result.SUCCESS)
         self.assertEqual(importedItems[2][ImportedItemField.IMPORT_RESULT], Result.INVALID_CHARITY)
@@ -344,15 +372,18 @@ class TestModel(unittest.TestCase):
         self.assertEqual(importedItems[5][ImportedItemField.IMPORT_RESULT], Result.INVALID_AUTHOR)
         self.assertEqual(importedItems[6][ImportedItemField.IMPORT_RESULT], Result.INVALID_TITLE)
         self.assertEqual(importedItems[7][ImportedItemField.IMPORT_RESULT], Result.DUPLICATE_ITEM)
-        self.assertDictContainsSubset({ImportedItemField.IMPORT_RESULT: Result.SUCCESS}, importedItems[8])
+        self.assertEqual(importedItems[8][ImportedItemField.IMPORT_RESULT], Result.SUCCESS)
+        self.assertEqual(importedItems[9][ImportedItemField.IMPORT_RESULT], Result.SUCCESS)
+        self.assertEqual(importedItems[10][ImportedItemField.IMPORT_RESULT], Result.SUCCESS)
+        self.assertEqual(importedItems[11][ImportedItemField.IMPORT_RESULT], Result.SUCCESS)
 
         # 3. Apply
         owner = 2
         result, skippedItems = self.model.applyImport(sessionID, importedChecksum, owner)
         self.assertEqual(result, Result.SUCCESS)
-        self.assertEqual(len(self.model.getAdded(sessionID)), 2)
+        self.assertEqual(len(self.model.getAdded(sessionID)), 5)
         self.assertEqual(len(self.dataset.getItems(
-                'Owner=="{0}" and Title=="Smooth Frog" and Author=="Greentiger" and State=="{1}" and InitialAmount==120 and Charity==47'.format(
+                'Owner=="{0}" and Title=="Smooth \\\"Frog\\\"" and Author=="Greentiger" and State=="{1}" and InitialAmount=="120" and Charity=="47"'.format(
                         owner, ItemState.ON_SALE))), 1)
         self.assertEqual(len(self.dataset.getItems(
                 'Owner=="{0}" and Title=="Žluťoučký kůň" and Author=="Greentiger" and State=="{1}"'.format(
@@ -360,14 +391,16 @@ class TestModel(unittest.TestCase):
         self.assertEqual(len(self.dataset.getItems(
                 'Owner=="{0}" and Title=="Eastern Dragon" and Author=="Redwolf" and State=="{1}"'.format(
                         owner, ItemState.SOLD))), 1)
-
+        self.assertEqual(len(self.dataset.getItems(
+                'Owner=="7" and Title=="More Wolves" and Author=="Greenfox" and State=="{0}" and InitialAmount=="280" and Charity=="50"'.format(
+                        ItemState.ON_SALE))), 1)
         # 4. Re-apply
         result, skippedItems = self.model.applyImport(sessionID, importedChecksum, owner)
         self.assertEqual(result, Result.NO_IMPORT)
 
         # 5. Re-apply with invalid checksum
         binaryStream = io.open(self.importFileCsv.getFilename(), mode='rb')
-        importedItems, importedChecksum = self.model.importFile(sessionID, binaryStream)
+        importedItems, importedChecksum = self.model.importCSVFile(sessionID, binaryStream)
         binaryStream.close()
         result, skippedItems = self.model.applyImport(sessionID, importedChecksum + 50, owner)
         self.assertEqual(result, Result.INVALID_CHECKSUM)
@@ -391,7 +424,7 @@ class TestModel(unittest.TestCase):
         self.assertEqual(importedItems[5][ImportedItemField.IMPORT_RESULT], Result.INVALID_AUTHOR)
         self.assertEqual(importedItems[6][ImportedItemField.IMPORT_RESULT], Result.INVALID_TITLE)
         self.assertEqual(importedItems[7][ImportedItemField.IMPORT_RESULT], Result.DUPLICATE_ITEM)
-        self.assertDictContainsSubset({ImportedItemField.IMPORT_RESULT: Result.SUCCESS}, importedItems[8])
+        self.assertEqual(importedItems[8][ImportedItemField.IMPORT_RESULT], Result.SUCCESS)
 
         # 3. Apply
         owner = 2
@@ -399,7 +432,7 @@ class TestModel(unittest.TestCase):
         self.assertEqual(result, Result.SUCCESS)
         self.assertEqual(len(self.model.getAdded(sessionID)), 2)
         self.assertEqual(len(self.dataset.getItems(
-                'Owner=="{0}" and Title=="Smooth Frog" and Author=="Greentiger" and State=="{1}" and InitialAmount==120 and Charity==47'.format(
+                'Owner=="{0}" and Title=="Smooth Frog" and Author=="Greentiger" and State=="{1}" and InitialAmount=="120" and Charity=="47"'.format(
                         owner, ItemState.ON_SALE))), 1)
         self.assertEqual(len(self.dataset.getItems(
                 'Owner=="{0}" and Title=="Žluťoučký kůň" and Author=="Greentiger" and State=="{1}"'.format(
@@ -420,19 +453,6 @@ class TestModel(unittest.TestCase):
 
         # Invalid amount
         self.assertEqual(self.model.getNetAmount(None, 23), (0, 0))
-
-    def test_convertToAllCurrencies(self):
-        # Valid amount
-        currencyAmountList = self.model.convertToAllCurrencies(Decimal('123'))
-        self.assertListEqual(
-                [currencyAmount[CurrencyField.AMOUNT] for currencyAmount in currencyAmountList],
-                [Decimal('123'), Decimal('4.53')])
-
-        # Excessive amount
-        currencyAmountList = self.model.convertToAllCurrencies(Decimal('1E+30'))
-        self.assertListEqual(
-                [currencyAmount[CurrencyField.AMOUNT] for currencyAmount in currencyAmountList],
-                [Decimal('0'), Decimal('0')])
 
     def test_getSendItemToAuction(self):
         # Item of acceptable state (AUCT)

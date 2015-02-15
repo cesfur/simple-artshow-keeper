@@ -213,7 +213,7 @@ def updateItem(itemCode):
                 buyer=flask.request.form[ItemField.BUYER],
                 note=flask.request.form[ItemField.NOTE])
 
-        if result != Result.SUCCESS:
+        if result not in [Result.SUCCESS, Result.NOTHING_TO_UPDATE]:
             itemData = flask.request.form.copy()
             itemData[ItemField.CODE] = itemCode;
             return __respondEditItemHtml(
@@ -336,13 +336,14 @@ def uploadImportFile():
                 'okTarget': flask.url_for('.leaveImport')})
 
     # 2. Load import.
-    importedItems, importedChecksum = flask.g.model.importFile(flask.g.sessionID, file.stream)
+    importedItems, importedChecksum = flask.g.model.importCSVFile(flask.g.sessionID, file.stream)
 
     # 3. Present result.
     return respondHtml('approveimport', flask.g.userGroup, flask.g.language, {
             'importItems': importedItems,
             'importChecksum': importedChecksum,
             'importFilename': werkzeug.utils.secure_filename(file.filename),
+            'importRequiresOwner': not flask.g.model.isOwnerDefinedInImport(importedItems),
             'targetApproved': flask.url_for('.applyImport'),
             'targetChangeFile': flask.url_for('.selectImportFile'),
             'targetCancelled': flask.url_for('.leaveImport')})
@@ -363,6 +364,7 @@ def uploadImportText():
     return respondHtml('approveimport', flask.g.userGroup, flask.g.language, {
             'importItems': importedItems,
             'importChecksum': importedChecksum,
+            'importRequiresOwner': not flask.g.model.isOwnerDefinedInImport(importedItems),
             'targetApproved': flask.url_for('.applyImport'),
             'targetChangeFile': flask.url_for('.selectImportFile'),
             'targetCancelled': flask.url_for('.leaveImport')})

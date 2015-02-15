@@ -22,6 +22,7 @@
     <Compile Include="common\translate.py" />
     <Compile Include="config.py" />
     <Compile Include="main.py" />
+    <Compile Include="model\currency_field.py" />
     <Compile Include="model\field_value_error.py" />
     <Compile Include="model\currency.py" />
     <Compile Include="model\summary.py" />
@@ -38,6 +39,7 @@
     <Compile Include="test\test_common.py" />
     <Compile Include="test\test_config.py" />
     <Compile Include="test\test_dataset.py" />
+    <Compile Include="test\test_currency.py" />
     <Compile Include="test\test_model.py" />
     <Compile Include="test\test_table.py" />
     <Compile Include="test\test_controller.py" />
@@ -73,8 +75,7 @@
     <Content Include="items\static\BidsheetNoSaleFrame.de.svg" />
     <Content Include="items\static\Bidsheets.xsl" />
     <Content Include="items\static\EditItem.js" />
-    <Content Include="items\templates\approveimport.admin.de.html" />
-    <Content Include="items\templates\approveimport.admin.en.html" />
+    <Content Include="items\templates\approveimport.admin.xhtml" />
     <Content Include="items\templates\bidsheets.admin.de.xml" />
     <Content Include="items\templates\bidsheets.admin.en.xml" />
     <Content Include="items\templates\edititem.admin.de.html" />
@@ -83,11 +84,9 @@
     <Content Include="items\templates\finditemtoclose.admin.en.html" />
     <Content Include="items\templates\listitems.admin.de.html" />
     <Content Include="items\templates\listitems.admin.en.html" />
-    <Content Include="items\templates\reportimport.admin.cz.html" />
-    <Content Include="items\templates\approveimport.admin.cz.html" />
+    <Content Include="items\templates\reportimport.admin.xhtml" />
     <Content Include="items\templates\bidsheets.admin.cz.xml" />
-    <Content Include="items\templates\reportimport.admin.de.html" />
-    <Content Include="items\templates\reportimport.admin.en.html" />
+    <Content Include="items\templates\selectimportfile.admin.xhtml" />
     <Content Include="items\templates\selectimportfile.admin.cz.html" />
     <Content Include="items\templates\selectimportfile.admin.de.html" />
     <Content Include="items\templates\selectimportfile.admin.en.html" />
@@ -111,9 +110,7 @@
     <Content Include="reconciliation\templates\runneroverview.admin.cz.html" />
     <Content Include="reconciliation\templates\runneroverview.admin.de.html" />
     <Content Include="reconciliation\templates\runneroverview.admin.en.html" />
-    <Content Include="settings\templates\viewsettings.admin.cz.html" />
-    <Content Include="settings\templates\viewsettings.admin.de.html" />
-    <Content Include="settings\templates\viewsettings.admin.en.html" />
+    <Content Include="settings\templates\viewsettings.admin.xhtml" />
     <Content Include="static\Artshow.css" />
     <Content Include="static\Artshow.js" />
     <Content Include="templates\itemstate.cz.html" />

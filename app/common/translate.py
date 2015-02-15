@@ -15,6 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 import logging
+import string
 import xml.dom
 from xml.dom import minidom
 
@@ -50,6 +51,11 @@ def translateXhtmlElement(language, element):
             node.nodeValue = translateString(language, node.nodeValue)
 
 def translateXhtml(language, xml):
-    xmldoc = minidom.parseString(xml)
-    translateXhtmlElement(language, xmldoc.documentElement)
-    return xmldoc.toxml(encoding=xmldoc.encoding)
+    try:
+        xmldoc = minidom.parseString(xml)
+        translateXhtmlElement(language, xmldoc.documentElement)
+        return xmldoc.toxml(encoding=xmldoc.encoding)
+    except:
+        logging.getLogger('translate').error(u'XML: {0}'.format(xml.encode('ascii', 'ignore')))
+        raise
+

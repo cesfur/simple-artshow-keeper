@@ -26,7 +26,7 @@ class ItemState:
     FINISHED = 'FINI' # Finish
 
     ALL = sorted([OPEN, ON_SHOW, ON_SALE, IN_AUCTION, SOLD, NOT_SOLD, DELIVERED, FINISHED])
-    AMOUNT_SENSITIVE = sorted([IN_AUCTION, SOLD, DELIVERED, FINISHED])
+    AMOUNT_SENSITIVE = sorted([IN_AUCTION, SOLD, NOT_SOLD, DELIVERED, FINISHED])
 
 class ItemField:
     CODE = 'Code'
@@ -40,6 +40,7 @@ class ItemField:
     INITIAL_AMOUNT = 'InitialAmount'
     BUYER = 'Buyer'
     AMOUNT = 'Amount'
+    IMPORT_NUMBER = 'ImportNumber'
 
     AMOUNT_IN_AUCTION = 'AmountInAuction'
 
@@ -56,11 +57,15 @@ class ItemField:
 
     FORMATTED = 'Formatted'
 
-    ALL_PERSISTENT = sorted([CODE, STATE, OWNER, AUTHOR, TITLE, MEDIUM, NOTE, CHARITY, INITIAL_AMOUNT, BUYER, AMOUNT, AMOUNT_IN_AUCTION])
+    ALL_PERSISTENT = sorted([CODE, STATE, OWNER, AUTHOR, TITLE, MEDIUM, NOTE, IMPORT_NUMBER, CHARITY, INITIAL_AMOUNT, BUYER, AMOUNT, AMOUNT_IN_AUCTION])
         
 class ImportedItemField:
+    NUMBER = 'NMBR'
+    OWNER = 'OWNR'
     AUTHOR = 'AUTH'
     TITLE = 'TITL'
+    MEDIUM = 'MEDM'
+    NOTE = 'NOTE'
     INITIAL_AMOUNT = 'IAMT'
     CHARITY = 'CHAR'
     IMPORT_RESULT = 'IRES'

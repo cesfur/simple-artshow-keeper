@@ -38,13 +38,13 @@ def exit():
 @blueprint.route('/view', methods = ['GET', 'POST'])
 def view():
     return respondHtml('viewsettings', flask.g.userGroup, flask.g.language, {
-            'currencyInfo': flask.g.model.getCurrencyInfo(),
+            'currencyInfo': flask.g.model.getCurrency().getInfo(),
             'saveSettingsTarget': flask.url_for('.saveApply'),
             'cancelledTarget': flask.url_for('.exit')})
 
 @blueprint.route('/saveapply', methods = ['POST'])
 def saveApply():
-    currencyInfoList = flask.g.model.getCurrencyInfo()
+    currencyInfoList = flask.g.model.getCurrency().getInfo()
     for currencyInfo in currencyInfoList:
         amountInPrimary = getParameter("Currency_AmountInPrimary_{0}".format(currencyInfo[CurrencyField.CODE]))
         if amountInPrimary is None:
@@ -52,7 +52,7 @@ def saveApply():
         else:
             currencyInfo[CurrencyField.AMOUNT_IN_PRIMARY] = amountInPrimary
 
-    result = flask.g.model.updateCurrencyInfo(currencyInfoList)
+    result = flask.g.model.getCurrency().updateInfo(currencyInfoList)
     if result == Result.SUCCESS:
         return respondHtml('message', flask.g.userGroup, flask.g.language, {
                 'message': result,

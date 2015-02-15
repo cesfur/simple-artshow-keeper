@@ -50,7 +50,7 @@ def toQuoteSafeStr(value):
 
 def toDecimal(value):
     try:
-        return Decimal(value or 'X')
+        return Decimal(value if value is not None else 'X')
     except InvalidOperation:
         return None
 

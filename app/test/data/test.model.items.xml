@@ -291,4 +291,29 @@
         <Code>55</Code>
         <Charity>10</Charity>
     </Item>
+    <Item>
+        <Owner>7</Owner>
+        <Title>Fox Forever</Title>
+        <State>SHOW</State>
+        <Author>Greenfox</Author>
+        <Code>50</Code>
+        <ImportNumber>5</ImportNumber>
+        <Note>Already imported</Note>
+    </Item>
+    <Item>
+        <Owner>7</Owner>
+        <Title>Wolf Pack</Title>
+        <State>SHOW</State>
+        <Author>Greenfox</Author>
+        <Code>51</Code>
+        <ImportNumber>6</ImportNumber>
+    </Item>
+    <Item>
+        <Owner>7</Owner>
+        <Title>White Snow</Title>
+        <State>SHOW</State>
+        <Author>Greenfox</Author>
+        <Code>52</Code>
+        <ImportNumber>7</ImportNumber>
+    </Item>
 </ArtShowItems>

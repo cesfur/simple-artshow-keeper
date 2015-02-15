@@ -31,6 +31,10 @@
             <input class="action" type="submit" formaction="{{url_for('reconciliation.selectBadgeToReconciliate')}}" value="__Reconcile Attendee" />
             <input class="action" type="submit" formaction="{{url_for('reconciliation.showSummary')}}" value="__Cash Drawer Info" />
         </fieldset>
+        <fieldset>
+            <legend>__Main.Settings</legend>
+            <input class="action" type="submit" formaction="{{url_for('settings.view')}}" value="__Main.ShowSettings" />
+        </fieldset>
     </form>
 </body>
 </html>

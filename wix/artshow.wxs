@@ -188,6 +188,7 @@
             <Component Id="Model" Guid="{DB7790C9-EBAA-4f27-B4EC-CF0951E9E40F}">
                 <File Id="Model___init__" Source="$(var.SolutionDir)app/model/__init__.py"/>
                 <File Source="$(var.SolutionDir)app/model/currency.py"/>
+                <File Source="$(var.SolutionDir)app/model/currency_field.py"/>
                 <File Source="$(var.SolutionDir)app/model/dataset.py"/>
                 <File Source="$(var.SolutionDir)app/model/field_value_error.py"/>
                 <File Source="$(var.SolutionDir)app/model/item.py"/>
@@ -262,32 +263,27 @@
         </DirectoryRef>
         <DirectoryRef Id="ItemsTemplatesDir">
             <Component Id="ItemsTemplates" Guid="{6C69BF2B-15FE-4e3a-A96B-9CE127550760}">
+                <!-- Multilingual -->
+                <File Source="$(var.SolutionDir)app/items/templates/approveimport.admin.xhtml"/>
+                <File Source="$(var.SolutionDir)app/items/templates/reportimport.admin.xhtml"/>
+                <File Source="$(var.SolutionDir)app/items/templates/selectimportfile.admin.xhtml"/>
                 <!-- CZ -->
-                <File Source="$(var.SolutionDir)app/items/templates/approveimport.admin.cz.html"/>
                 <File Source="$(var.SolutionDir)app/items/templates/bidsheets.admin.cz.xml"/>
                 <File Source="$(var.SolutionDir)app/items/templates/edititem.admin.cz.html"/>
                 <File Source="$(var.SolutionDir)app/items/templates/finditemtoclose.admin.cz.html"/>
                 <File Source="$(var.SolutionDir)app/items/templates/listitems.admin.cz.html"/>
-                <File Source="$(var.SolutionDir)app/items/templates/reportimport.admin.cz.html"/>
-                <File Source="$(var.SolutionDir)app/items/templates/selectimportfile.admin.cz.html"/>
                 <File Source="$(var.SolutionDir)app/items/templates/updateitemtoclose.admin.cz.html"/>
                 <!-- EN -->
-                <File Source="$(var.SolutionDir)app/items/templates/approveimport.admin.en.html"/>
                 <File Source="$(var.SolutionDir)app/items/templates/bidsheets.admin.en.xml"/>
                 <File Source="$(var.SolutionDir)app/items/templates/edititem.admin.en.html"/>
                 <File Source="$(var.SolutionDir)app/items/templates/finditemtoclose.admin.en.html"/>
                 <File Source="$(var.SolutionDir)app/items/templates/listitems.admin.en.html"/>
-                <File Source="$(var.SolutionDir)app/items/templates/reportimport.admin.en.html"/>
-                <File Source="$(var.SolutionDir)app/items/templates/selectimportfile.admin.en.html"/>
                 <File Source="$(var.SolutionDir)app/items/templates/updateitemtoclose.admin.en.html"/>
                 <!-- DE -->
-                <File Source="$(var.SolutionDir)app/items/templates/approveimport.admin.de.html"/>
                 <File Source="$(var.SolutionDir)app/items/templates/bidsheets.admin.de.xml"/>
                 <File Source="$(var.SolutionDir)app/items/templates/edititem.admin.de.html"/>
                 <File Source="$(var.SolutionDir)app/items/templates/finditemtoclose.admin.de.html"/>
                 <File Source="$(var.SolutionDir)app/items/templates/listitems.admin.de.html"/>
-                <File Source="$(var.SolutionDir)app/items/templates/reportimport.admin.de.html"/>
-                <File Source="$(var.SolutionDir)app/items/templates/selectimportfile.admin.de.html"/>
                 <File Source="$(var.SolutionDir)app/items/templates/updateitemtoclose.admin.de.html"/>
             </Component>
         </DirectoryRef>
@@ -339,12 +335,8 @@
         </DirectoryRef>
         <DirectoryRef Id="AuctionTemplatesDir">
             <Component Id="SettingsTemplates" Guid="{95D5114C-D5FA-4517-B665-D3A6B2A15EAB}">
-                <!-- CZ -->
-                <File Source="$(var.SolutionDir)app/settings/templates/viewsettings.admin.cz.html"/>
-                <!-- EN -->
-                <File Source="$(var.SolutionDir)app/settings/templates/viewsettings.admin.en.html"/>
-                <!-- DE -->
-                <File Source="$(var.SolutionDir)app/settings/templates/viewsettings.admin.de.html"/>
+                <!-- Multilingual -->
+                <File Source="$(var.SolutionDir)app/settings/templates/viewsettings.admin.xhtml"/>
             </Component>
         </DirectoryRef>
         

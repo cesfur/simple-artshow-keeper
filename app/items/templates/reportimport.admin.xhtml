@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='Artshow.css')}}" />
+    <meta charset="UTF-8" />
+    <title>__Import.ReportHeader</title>
+</head>
+<body>
+    {% import 'messagetext.' + language + '.html' as messagetext %}
+    <h1>__Import.ReportTitle</h1>
+
+    <form class="main notPrintable" enctype="multipart/form-data">
+        <fieldset>
+            <legend>__Import.ReviewSkippedItems</legend>
+            {% if skippedItems|length > 0 -%}
+            <div class="listSection">
+                <table>
+                    <tr>
+                        <th>__Import.Result</th>
+                        <th>__ItemNumber</th>
+                        <th>__Owner</th>
+                        <th>__Author</th>
+                        <th>__Title</th>
+                        <th>__Medium</th>
+                        <th>__InitialAmount</th>
+                        <th>__Charita</th>
+                        <th>__Note</th>
+                    </tr>
+                    {% for item in skippedItems -%}
+                    <tr>
+                        <td>{{messagetext.presentShort(item.IRES)}}</td>
+                        <td>{{item.NMBR if item.NMBR != None}}</td>
+                        <td>{{item.OWNR if item.OWNR != None}}</td>
+                        <td>{{item.AUTH if item.AUTH != None}}</td>
+                        <td>{{item.TITL if item.TITL != None}}</td>
+                        <td>{{item.MEDM if item.MEDM != None}}</td>
+                        {%- if item.IAMT != None -%}
+                        <td class="numerical">{{item.IAMT}} Kč</td>
+                        {%- else -%}
+                        <td class="irrelevant"></td>
+                        {%- endif -%}
+                        {%- if item.CHAR != None -%}
+                        <td class="numerical">{{item.CHAR}} %</td>
+                        {%- else -%}
+                        <td class="irrelevant"></td>
+                        {%- endif -%}
+                        <td>{{item.NOTE if item.NOTE != None}}</td>
+                    </tr>
+                    {%- endfor %}
+                </table>
+                <p class="note"><span>__Import.TotalSkippedRecords</span> {{skippedItems|length}}</p>
+            </div>
+            {%- else -%}
+            <p>__Import.NoItemsSkipped</p>
+            {%- endif %}
+        </fieldset>
+        <fieldset>
+            <input class="action" type="submit" formaction="{{targetContinue}}" formnovalidate="formnovalidate"
+                   value="__Import.ContinueToNewItem" />
+        </fieldset>
+    </form>
+</body>
+</html>

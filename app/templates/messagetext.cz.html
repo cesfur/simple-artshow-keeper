@@ -73,6 +73,8 @@
     <p class="message error">Není zadáno nic k vytištění. Opakujte operaci.</p>
 {%- elif message == 'ACCESS_DENIED' -%}
     <p class="message error">Přístup zamítnut. Operace vyžaduje přihlášení.</p>
+{%- elif message == 'NO_IMPORT' -%}
+    <p class="message error">Nebyla zadána data pro import nebo zadaná data již byla importována.</p>
 {%- else -%}
     <p class="message error">Neznámá zpráva: '{{message}}'.</p>
 {%- endif -%}
@@ -89,6 +91,11 @@
 {%- elif message == 'INVALID_CHARITY' -%}Neplatná charita
 {%- elif message == 'INCOMPLETE_SALE_INFO' -%}Neúplné prodejní údaje
 {%- elif message == 'DUPLICATE_ITEM' -%}Duplikát
+{%- elif message == 'NOTHING_TO_UPDATE' -%}Již importováno
+{%- elif message == 'INVALID_ITEM_NUMER' -%}Neplatné číslo předmětu
+{%- elif message == 'INVALID_ITEM_OWNER' -%}Neplatný vlastník
+{%- elif message == 'INVALID_MEDIUM' -%}Neplatné médium
+{%- elif message == 'INVALID_NOTE' -%}Chybná poznámka
 {%- else -%}Jiné ({{message}})
 {%- endif -%}
 {%- endmacro %}

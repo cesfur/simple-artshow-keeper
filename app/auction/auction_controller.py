@@ -53,7 +53,7 @@ def showStatus():
 def getStatus():
     item = formatItem(flask.g.model.getItemInAuction(), flask.g.language)
     charityAmount = formatCurrencies(
-            flask.g.model.convertToAllCurrencies(flask.g.model.getPotentialCharityAmount()),
+            flask.g.model.getCurrency().convertToAllCurrencies(flask.g.model.getPotentialCharityAmount()),
             flask.g.language)
     
     return respondXml('getstatus', flask.g.userGroup, flask.g.language, {

@@ -20,7 +20,7 @@ import json
 from os import path
 
 from . item import ItemState, ItemField, ImportedItemField
-from . currency import CurrencyField
+from . currency_field import CurrencyField
 from . table import Table
 from common.convert import *
 from common.result import Result
@@ -139,12 +139,15 @@ class Dataset:
 
         return str(reservedCode)
 
-    def addItem(self, code, owner, title, author, medium, state, initialAmount, charity, note):
+    def addItem(self, code, owner, title, author, medium, state, initialAmount, charity, note, importNumber):
         if len(str(code)) == 0:
             self.__logger.error('addItem: Code is invalid')
             return False
         elif toInt(owner) is None:
             self.__logger.error('addItem: Onwer "{0}" is invalid'.format(owner))
+            return False
+        elif importNumber is not None and toInt(importNumber) is None:
+            self.__logger.error('addItem: Import number "{0}" is invalid'.format(importNumber))
             return False
         else:
             return self.__items.insert(
@@ -155,91 +158,64 @@ class Dataset:
                         ItemField.AUTHOR: str(author),
                         ItemField.MEDIUM: toNonEmptyStr(medium),
                         ItemField.STATE: str(state),
-                        ItemField.INITIAL_AMOUNT: toDecimal(initialAmount),
-                        ItemField.CHARITY: toInt(charity),
-                        ItemField.NOTE: toNonEmptyStr(note) },
+                        ItemField.INITIAL_AMOUNT: toNonEmptyStr(toDecimal(initialAmount)),
+                        ItemField.CHARITY: toNonEmptyStr(toInt(charity)),
+                        ItemField.NOTE: toNonEmptyStr(note),
+                        ItemField.IMPORT_NUMBER: str(importNumber) },
                     ItemField.CODE)                    
 
-    def readImportLine(self, itemLine):
-        """Import single item.
+    def normalizeItemImport(self, itemImport):
+        """Normalizes item import.
         Returns:
-            (result, imported item).
+            (result, item).
         """
         item = {
+                ImportedItemField.NUMBER: None,
+                ImportedItemField.OWNER: None,
                 ImportedItemField.AUTHOR: None,
                 ImportedItemField.TITLE: None,
+                ImportedItemField.MEDIUM: None,
+                ImportedItemField.NOTE: None,
                 ImportedItemField.INITIAL_AMOUNT: None,
                 ImportedItemField.CHARITY: None }
-        itemComponents = itemLine.split('\t')
 
-        if len(itemComponents) == 0:
-            self.__logger.error('importItem: No author in the input.')
-            return Result.INVALID_AUTHOR, item
-        item[ImportedItemField.AUTHOR] = itemComponents[0].strip()
-        itemComponents = itemComponents[1:]
+        component = itemImport.get(ImportedItemField.NUMBER, None)
+        number = toInt(component)
+        if number is None and component is not None and len(component) > 0:
+            self.__logger.error('purifyRawItemImport:  Number "{0}" is not an integer.'.format(component))
+            return Result.INVALID_ITEM_NUMBER, item
+        item[ImportedItemField.NUMBER] = number
 
-        if len(itemComponents) == 0:
-            self.__logger.error('importItem: No title in the input.')
-            return Result.INVALID_TITLE, item
-        item[ImportedItemField.TITLE] = itemComponents[0].strip()
-        itemComponents = itemComponents[1:]
+        component = itemImport.get(ImportedItemField.OWNER, None)
+        owner = toInt(component)
+        if owner is None and component is not None and len(component) > 0:
+            self.__logger.error('purifyRawItemImport:  Owner "{0}" is not an integer.'.format(component))
+            return Result.INVALID_ITEM_OWNER, item
+        item[ImportedItemField.OWNER] = owner
 
-        if len(itemComponents) == 0:
-            self.__logger.error('importItem: No initial amount in the input.')
-            return Result.ERROR, item
-        component = itemComponents[0].strip()
+        item[ImportedItemField.AUTHOR] = toNonEmptyStr(
+                itemImport.get(ImportedItemField.AUTHOR, None))            
+
+        item[ImportedItemField.TITLE] = toNonEmptyStr(
+                itemImport.get(ImportedItemField.TITLE, None))            
+
+        item[ImportedItemField.MEDIUM] = toNonEmptyStr(
+                itemImport.get(ImportedItemField.MEDIUM, None))            
+
+        item[ImportedItemField.NOTE] = toNonEmptyStr(
+                itemImport.get(ImportedItemField.NOTE, None))            
+
+        component = itemImport.get(ImportedItemField.INITIAL_AMOUNT, None)
         amount = toDecimal(component)
-        if amount is None and len(component) > 0:
-            self.__logger.error('importItem: Amount "{0}" is not a decimal number.'.format(itemComponents[0]))
-            return Result.INVALID_AMOUNT, item
-        item[ImportedItemField.INITIAL_AMOUNT] = str(amount) if amount is not None else None
-        itemComponents = itemComponents[1:]
-
-        if len(itemComponents) == 0:
-            self.__logger.error('importItem: No charity in the input.')
-            return Result.ERROR, item
-        component = itemComponents[0].strip()
-        charity = toInt(itemComponents[0].strip())
-        if charity is None and len(component) > 0:
-            self.__logger.error('importItem: Charity "{0}" is an integer.'.format(itemComponents[0]))
-            return Result.INVALID_CHARITY, item
-        item[ImportedItemField.CHARITY] = charity
-        itemComponents = itemComponents[1:]
-
-        return Result.SUCCESS, item
-
-    def readImportedRawItem(self, rawItem):
-        """Import raw item.
-        Returns:
-            (result, imported item).
-        """
-        item = {
-                ImportedItemField.AUTHOR: None,
-                ImportedItemField.TITLE: None,
-                ImportedItemField.INITIAL_AMOUNT: None,
-                ImportedItemField.CHARITY: None }
-
-        if rawItem.get(ImportedItemField.AUTHOR, None) is None:
-            self.__logger.error('readImportedRawItem: No author in the input.')
-            return Result.INVALID_AUTHOR, item
-        item[ImportedItemField.AUTHOR] = str(rawItem[ImportedItemField.AUTHOR]).strip()
-
-        if rawItem.get(ImportedItemField.TITLE, None) is None:
-            self.__logger.error('readImportedRawItem: No title in the input.')
-            return Result.INVALID_TITLE, item
-        item[ImportedItemField.TITLE] = str(rawItem[ImportedItemField.TITLE]).strip()
-
-        rawAmount = rawItem.get(ImportedItemField.INITIAL_AMOUNT, '').strip()
-        amount = toDecimal(rawAmount)
-        if amount is None and len(rawAmount) > 0:
-            self.__logger.error('readImportedRawItem: Amount "{0}" is not a decimal number.'.format(rawAmount))
+        if amount is None and component is not None and len(component) > 0:
+            self.__logger.error('purifyRawItemImport:  Amount "{0}" is not a decimal number.'.format(component))
             return Result.INVALID_AMOUNT, item
         item[ImportedItemField.INITIAL_AMOUNT] = str(amount) if amount is not None else None
 
-        rawCharity = rawItem.get(ImportedItemField.CHARITY, '').strip()
-        charity = toInt(rawCharity)
-        if charity is None and len(rawCharity) > 0:
-            self.__logger.error('readImportedRawItem: Charity "{0}" is an integer.'.format(rawCharity))
+        component = itemImport.get(ImportedItemField.CHARITY, None)
+        charity = toInt(component)
+        if charity is None and component is not None and len(component) > 0:
+            self.__logger.error('purifyRawItemImport:  Charity "{0}" is not an integer.'.format(component))
             return Result.INVALID_CHARITY, item
         item[ImportedItemField.CHARITY] = charity
 
@@ -253,6 +229,7 @@ class Dataset:
         item[ItemField.INITIAL_AMOUNT] = toDecimal(item[ItemField.INITIAL_AMOUNT])
         item[ItemField.AMOUNT] = toDecimal(item[ItemField.AMOUNT])
         item[ItemField.AMOUNT_IN_AUCTION] = toDecimal(item[ItemField.AMOUNT_IN_AUCTION])
+        item[ItemField.IMPORT_NUMBER] = toInt(item[ItemField.IMPORT_NUMBER])
         return item
 
     def getItems(self, expression):

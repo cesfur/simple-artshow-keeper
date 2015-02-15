@@ -1,9 +1,9 @@
-﻿<!doctype html>
-<html>
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='Artshow.css')}}" />
     <meta charset="UTF-8" />
-    <title>Artshow: Natavení</title>
+    <title>__Settings.Header</title>
 </head>
 <body>
     <h1>Natavení</h1>
@@ -19,40 +19,36 @@
         <!-- Currency -->
         {% if currencyInfo -%}
         <fieldset>
-            <legend>Převodní koeficienty pro měny</legend>
-            <p>Níže uvedená číslo vyjadřují cenu jednotky jiné měny v primární měně.
-            Primární měna vždy <em>musí být nastavena na 1</em>.
-            <br/>Příklad:
-            Pokud je Kč primární měnou a číslo uvedené u sekundární měny (€) je 2,5,
-            pak 1€ je ekvivalentem 2,5 Kč.</p>
+            <legend>__Settings.CurrencyConversionLabel</legend>
+            <p>__Settings.CurrencyConversionDescription</p>
 
             <div class="subblock">
                 <label for="currency_{{currencyInfo[0].Code}}">1. {{currencyInfo[0].Description}}</label>
                 <input id="currency_{{currencyInfo[0].Code}}" name="Currency_AmountInPrimary_{{currencyInfo[0].Code}}" type="number" value="{{currencyInfo[0].AmountInPrimary}}"
-                       autocomplete="off" required
+                       autocomplete="off" required="required"
                        min="1" max="1" step="any"
-                       title="Koeficicient u primární měna musí být 1." />
+                       title="__Settings.PrimaryCurrencyConversionHelp" />
             </div>
             <div class="subblock">
                 <label for="currency_{{currencyInfo[1].Code}}">2. {{currencyInfo[1].Description}}</label>
                 <input id="currency_{{currencyInfo[1].Code}}" name="Currency_AmountInPrimary_{{currencyInfo[1].Code}}" type="number" value="{{currencyInfo[1].AmountInPrimary}}"
-                       autocomplete="off" required
+                       autocomplete="off" required="required"
                        min="0" max="1000000" step="any" />
             </div>
             <div class="subblock">
                 <label for="currency_{{currencyInfo[2].Code}}">3. {{currencyInfo[2].Description}}</label>
                 <input id="currency_{{currencyInfo[2].Code}}" name="Currency_AmountInPrimary_{{currencyInfo[2].Code}}" type="number" value="{{currencyInfo[2].AmountInPrimary}}"
-                       autocomplete="off" required
+                       autocomplete="off" required="required"
                        min="0" max="1000000" step="any" />
             </div>
         </fieldset>
         {%- endif %}
         <!-- Action -->
         <fieldset>
-            <input class="action" type="submit" formaction="{{cancelledTarget}}" formnovalidate
-                   value="Cancel" />
+            <input class="action" type="submit" formaction="{{cancelledTarget}}" formnovalidate="formnovalidate"
+                   value="__BackToMain" />
             <input class="action" type="submit" formaction="{{saveSettingsTarget}}"
-                   value="Save Settings" />
+                   value="__Settings.SaveSettings" />
         </fieldset>
     </form>
 </body>

@@ -30,6 +30,7 @@ from common.response import respondHtml, respondXml
 from common.translate import registerDictionary
 from common.phrase_dictionary import PhraseDictionary
 from model.dataset import Dataset
+from model.currency import Currency
 from model.model import Model
 
 from items import items_controller
@@ -53,11 +54,12 @@ app.register_blueprint(settings_controller.blueprint, url_prefix=settings_contro
 app.secret_key = config.SESSION_KEY
 
 # Initialize application
-dataset = Dataset(logging.getLogger('model'), config.DATA_FOLDER)
+dataset = Dataset(logging.getLogger('dataset'), config.DATA_FOLDER)
 dataset.restore()
+currency = Currency(logging.getLogger('currency'), dataset, currencyCodes=config.CURRENCY)
 model = Model(
         logging.getLogger('model'), dataset,
-        currencyList=config.CURRENCY)
+        currency)
 dictionaryPath = os.path.join(os.path.dirname(__file__), 'locale')
 for language in config.LANGUAGES:
     registerDictionary(
