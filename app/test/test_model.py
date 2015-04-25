@@ -40,6 +40,7 @@ class TestModel(unittest.TestCase):
         self.logger = logging.getLogger()
 
         self.itemFile = Datafile('test.model.items.xml', self.id())
+        self.itemFileAuctionOnly = Datafile('test.model.items.auction_only.xml', self.id())
         self.sessionFile = Datafile('test.model.session.xml', self.id())
         self.currencyFile = Datafile('test.model.currency.xml', self.id())
         self.importFileCsv = Datafile('test.model.import.csv', self.id())
@@ -512,6 +513,45 @@ class TestModel(unittest.TestCase):
         # Close item which is not closable
         self.assertEqual(Result.ITEM_NOT_CLOSABLE, self.model.closeItemIntoAuction('A13', Decimal(1000), 9999))
 
+    def test_getAllItemsInAuction(self):
+        auctionItems = self.model.getAllItemsInAuction()
+        self.assertListEqual(
+                ['A9', 'A10'],
+                [item[ItemField.CODE] for item in auctionItems]);
+
+    def test_getAllItemsInAuction_Ordering(self):
+        datasetAuction = Dataset(
+                self.logger, './',
+                self.sessionFile.getFilename(),
+                self.itemFileAuctionOnly.getFilename(),
+                self.currencyFile.getFilename())
+        datasetAuction.restore()
+        modelAuction = Model(
+                self.logger,
+                datasetAuction,
+                self.currency)
+
+        auctionItems = modelAuction.getAllItemsInAuction()
+        auctionItems.sort(key=lambda item: item[ItemField.AUCTION_SORT_CODE])
+
+        for item in auctionItems:
+            print('{0} - {1}'.format(item[ItemField.AUTHOR], item[ItemField.AMOUNT]))
+
+        # Check that there is no block authors larger than two
+        largestBlockSize = 0
+        largestBlockAuthor = None
+        blockAuthor = None
+        blockSize = 0
+        for item in auctionItems:
+            if blockAuthor is not None and item[ItemField.AUTHOR] == blockAuthor:
+                blockSize = blockSize + 1
+            else:
+                if blockSize > largestBlockSize:
+                    largestBlockSize = blockSize
+                    largestBlockAuthor = blockAuthor
+                blockAuthor = item[ItemField.AUTHOR]
+                blockSize = 1
+        self.assertGreaterEqual(2, largestBlockSize, 'Author: ' + str(largestBlockAuthor))
 
 if __name__ == '__main__':
     unittest.main()

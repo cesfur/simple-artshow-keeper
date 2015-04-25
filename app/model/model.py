@@ -23,6 +23,7 @@ import json
 import csv
 from datetime import datetime
 from decimal import Decimal
+import math
 
 from . import session
 from . dataset import Dataset
@@ -690,7 +691,7 @@ class Model:
             return Result.ERROR;
                 
     def __updateSortCode(self, items):
-        """Convert code of an item to an integer for each item."""
+        """Calculate integer (SORT_CODE) which can be used to sort by code of an item."""
         if items is not None and len(items) > 0:
             for item in items:
                 sortCode = 0
@@ -701,6 +702,73 @@ class Model:
                     else:
                         sortCode = int(code)
                 item[ItemField.SORT_CODE] = sortCode
+        return items
+
+    def __calculateAuctionItemIndex(self, items, idealIndex, suppressedAuthor):
+        """Calculate index of item suitable for auction around supplied index.
+        Args:
+            items: Items ordered by AMOUNT ascending.
+        Returns:
+            Index to the items or None.
+        """
+        if len(items) < 1:
+            return None
+
+        axisLenLeft = idealIndex + 1
+        axisLenRight = len(items) - idealIndex + 1
+
+        bestScoreIndex = None
+        bestScore = 0
+        for index in range(len(items)):
+            item = items[index]
+            if index > idealIndex:
+                x = (index - idealIndex) / axisLenRight
+            else:
+                x = (idealIndex - index) / axisLenLeft
+        
+            score = 0.5 * math.cos(x)
+            if suppressedAuthor is not None and item[ItemField.AUTHOR] == suppressedAuthor:
+                score = score * score
+
+            if score > bestScore:
+                bestScore = score
+                bestScoreIndex = index
+
+        return bestScoreIndex    
+
+    def __updateAuctionSortCode(self, items):
+        """Calculate integer (AUCTION_SORT_CODE) which can be used to sort by code of an item."""
+        if items is not None and len(items) > 0:
+            index = 0
+            for item in items:
+                item[ItemField.INDEX] = index
+                item[ItemField.AUCTION_SORT_CODE] = 0
+                index = index + 1
+
+            itemsToProcess = sorted(items, key=lambda item: item.get(ItemField.AMOUNT, 0))
+
+            # Sequence of indicies at which an item is to be picked.
+            indexCoefs = (0, 0.3, 0.6)
+            indexCoefsIndex = 0
+            lastAuthor = None
+            auctionSortCode = 1
+            while len(itemsToProcess) > 0:
+                idealIndex = int(indexCoefs[indexCoefsIndex] * len(itemsToProcess))
+                indexCoefsIndex = (indexCoefsIndex + 1) % len(indexCoefs)
+
+                auctionItemIndex = self.__calculateAuctionItemIndex(itemsToProcess, idealIndex, lastAuthor)
+                if auctionItemIndex is None:
+                    auctionItemIndex = 0
+
+                item = itemsToProcess[auctionItemIndex]
+                items[item[ItemField.INDEX]][ItemField.AUCTION_SORT_CODE] = auctionSortCode
+                auctionSortCode = auctionSortCode + 1
+                lastAuthor = item[ItemField.AUTHOR]
+                del itemsToProcess[auctionItemIndex]
+
+            for item in items:
+                del item[ItemField.INDEX]
+
         return items
 
     def __updatePermissions(self, items):
@@ -744,9 +812,10 @@ class Model:
                         ItemState.ON_SALE)))
 
     def getAllItemsInAuction(self):
-        return self.__updateSortCode(
-                self.__dataset.getItems('State == "{0}"'.format(
-                        ItemState.IN_AUCTION)))
+        return self.__updateAuctionSortCode(
+                self.__updateSortCode(
+                            self.__dataset.getItems('State == "{0}"'.format(
+                                    ItemState.IN_AUCTION))))
 
     def getAllPontentiallySoldItems(self):
         rawItems = self.__updateSortCode(

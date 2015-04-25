@@ -44,8 +44,10 @@ class ItemField:
 
     AMOUNT_IN_AUCTION = 'AmountInAuction'
 
+    INDEX = 'Index'
     FOR_SALE = 'ForSale'
     SORT_CODE = 'SortCode'
+    AUCTION_SORT_CODE = 'AuctionSortCode'
     NET_AMOUNT = 'NetAmount'
     NET_CHARITY_AMOUNT = 'NetCharityAmount'
     PRINT_ALLOWED = 'PrintAllowed'

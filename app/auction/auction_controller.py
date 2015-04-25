@@ -38,7 +38,7 @@ def exit():
 @blueprint.route('/list', methods = ['GET', 'POST'])
 def listItems():
     items = flask.g.model.getAllItemsInAuction()
-    items.sort(key = lambda item: item[ItemField.SORT_CODE])
+    items.sort(key=lambda item: item[ItemField.AUCTION_SORT_CODE])
     
     return respondHtml('listauctionitems', flask.g.userGroup, flask.g.language, {
         'items': items,
