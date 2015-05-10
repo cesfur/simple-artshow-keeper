@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='Artshow.css')}}" />
+    <link rel="stylesheet" type="text/css" href="{{url_for('.static', filename='custom/Bidsheets.css')}}" />
+    <script>
+        function printAndSubmit() {
+            window.print();
+            document.getElementById("printControl").submit();
+        }
+    </script>
+    <title>__Bidsheets.Header</title>
+</head>
+<body>
+    {% import 'messagetext.' + language + '.html' as messagetext %}
+    <h1 class="notPrintable">__Bidsheets.Title</h1>
+
+    <form id="printControl" class="main notPrintable" action="{{printedTarget}}">
+        <input class="action" type="submit"
+               value="__Bidsheets.CancelPrint"
+               formaction="{{cancelledTarget}}"/>
+        <input class="action" type="button" onclick="printAndSubmit()"
+               value="__Bidsheets.Print"/>
+    </form>
+
+    <div>
+    {% for item in items -%}
+    <div class="bidsheet{{'' if (item.InitialAmount and item.Charity) else ' noSale'}}">
+        <div class="code"><p>{{item.Code}}</p></div>
+        <div class="title"><p>{{item.Title}}</p></div>
+        <div class="author"><p>{{item.Author}}</p></div>
+        <div class="medium"><p>{{item.Medium if item.Medium != None else ''}}</p></div>
+        <div class="note"><p>{{item.Note if item.Note != None else ''}}</p></div>
+        {%- if item.InitialAmount and item.Charity %}
+        <div class="price"><p>{{item.Formatted.InitialAmountInCurrency[0]}}</p></div>
+        <div class="charity"><p>{{item.Charity}} %</p></div>
+        {%- endif %}
+    </div>
+    <div class="cut"></div>
+    {% endfor %}
+    </div>
+</body>
+</html>

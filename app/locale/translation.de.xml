@@ -1,58 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
 <dictionary>
+    <!-- auction -->
+    <phrase id="Auction.StatusHeader">Artshow: Auktion</phrase>
     <!-- generic -->
-    <phrase id="AdditionalInfo">Additional Info</phrase>
-    <phrase id="Owner:">Owner:</phrase>
-    <phrase id="ItemNumber">Item No.</phrase>
-    <phrase id="Owner">Owner</phrase>
-    <phrase id="Author">Author</phrase>
-    <phrase id="Title">Title</phrase>
-    <phrase id="Médium">Medium</phrase>
-    <phrase id="InitialAmount">Initial price</phrase>
+    <phrase id="AdditionalInfo">Zusätzliche Angaben</phrase>
+    <phrase id="Owner:">Besitzer:</phrase>
+    <phrase id="ItemNumber">Artikelnummer</phrase>
+    <phrase id="Owner">Besitzer</phrase>
+    <phrase id="Author">Autor</phrase>
+    <phrase id="Title">Titel</phrase>
+    <phrase id="Medium">Kunstmedium</phrase>
+    <phrase id="InitialAmount">Anfangspreis</phrase>
     <phrase id="Charity">Charity</phrase>
-    <phrase id="Note">Note</phrase>
-    <phrase id="TotalRecords:">Total records:</phrase>
-    <phrase id="OwnerHelp">Badge number has to be greater or equal to 1.</phrase>
-    <phrase id="BackToMain">Back to Main</phrase>
-    <!-- items -->
-    <phrase id="List Auction Items">List Items for Auction</phrase>
+    <phrase id="Note">Anmerkung</phrase>
+    <phrase id="TotalRecords:">Gesamtmenge:</phrase>
+    <phrase id="OwnerHelp">Badgenummer is grosser als 1.</phrase>
+    <phrase id="BackToMain">Zurück</phrase>
+    <!-- bidsheets -->
+    <phrase id="Bidsheets.Header">Artshow: Druck der Gebotblatten</phrase>
+    <phrase id="Bidsheets.Title">Druck der Gebotblatten</phrase>
+    <phrase id="Bidsheets.CancelPrint">Abbrechen</phrase>
+    <phrase id="Bidsheets.Print">Drucken</phrase>
+    <!-- main -->
+    <phrase id="Setup">Annahme</phrase>
+    <phrase id="New Item">Neue Artikel annahmen</phrase>
+    <phrase id="Item List">Liste der Artikel</phrase>
+    <phrase id="Close Item">Artikel abschließen</phrase>
+    <phrase id="Auction">Auktion</phrase>
+    <phrase id="List Auction Items">Auktionactikel ziegen</phrase>
+    <phrase id="Show Auction Screen">Status der Auction zeigen</phrase>
+    <phrase id="Start Auction">Auktion eröffnen</phrase>
+    <phrase id="Handout">Ausgabe</phrase>
+    <phrase id="Reconcile Attendee">Teilnehmer erspinnen</phrase>
+    <phrase id="Cash Drawer Info">Gehalt des Geldschrankes</phrase>
+    <phrase id="Main.Settings">Eistellung des Systemes</phrase>
+    <phrase id="Main.ShowSettings">Eistellung zeigen</phrase>
+    <!-- login -->
+    <phrase id="ArtShow Login">Artshow: Einmeldung</phrase>
+    <phrase id="Artshow Code:">Code für die Artshow: </phrase>
+    <phrase id="Artshow Code Hint">Code das was abgegebte zum dem Besitzer (6 Zahlzeichen)</phrase>
+    <phrase id="Login">Mit dem Code einmelden</phrase>
+    <phrase id="Login Admin">Als dem Verwalter einmelden</phrase>
     <!-- import -->
-    <phrase id="Import.ApproveHeader">ArtShow: Import Approval</phrase>
-    <phrase id="Import.ApproveTitle">Approve import</phrase>
-    <phrase id="Import.FileImport:">Imported File:</phrase>
-    <phrase id="Import.TextImport">Text Import</phrase>
-    <phrase id="Import.ReviewImportedItems">List of decoded entries</phrase>
-    <phrase id="Import.ReviewSkippedItems">List of skipped entries</phrase>
-    <phrase id="Import.Result">Import result</phrase>
-    <phrase id="Import.IsEmpty">No entries found.</phrase>
-    <phrase id="Import.BackToNewItem">Back to New Item</phrase>
-    <phrase id="Import.ChooseDifferentInput">Select Different Input</phrase>
-    <phrase id="Import.Finish">Finish</phrase>
-    <phrase id="Import.ReportHeader">ArtShow: Skipped Entries</phrase>
-    <phrase id="Import.ReportTitle">Overview of skipped entries</phrase>
-    <phrase id="Import.TotalSkippedRecords">Skipped entries:</phrase>
-    <phrase id="Import.NoItemsSkipped">No entries were skipped.</phrase>
-    <phrase id="Import.ContinueToNewItem">Continue to New Item</phrase>
-    <phrase id="Import.SelectHeader">ArtShow: Import Source Selection</phrase>
-    <phrase id="Import.SelectTitle">Select Import Source</phrase>
+    <phrase id="Import.ApproveHeader">ArtShow: Import aufsichten</phrase>
+    <phrase id="Import.ApproveTitle">Import aufsichten</phrase>
+    <phrase id="Import.FileImport:">Import der Akte:</phrase>
+    <phrase id="Import.TextImport">Import des Textes</phrase>
+    <phrase id="Import.ReviewImportedItems">Übersicht der importierten Artikel</phrase>
+    <phrase id="Import.ReviewSkippedItems">Übersicht der ausgelassen Artikel</phrase>
+    <phrase id="Import.Result">Ausgabe</phrase>
+    <phrase id="Import.IsEmpty">Der import enthalte keine Artikel.</phrase>
+    <phrase id="Import.BackToNewItem">Zurück zum dem neuen Artikel</phrase>
+    <phrase id="Import.ChooseDifferentInput">Andere Eintritt wählen</phrase>
+    <phrase id="Import.Finish">Vollenden</phrase>
+    <phrase id="Import.ReportHeader">ArtShow: Der ausgelassen Artikel</phrase>
+    <phrase id="Import.ReportTitle">Der ausgelassen Artikel</phrase>
+    <phrase id="Import.TotalSkippedRecords">Anzahl der ausgelassen Artikel:</phrase>
+    <phrase id="Import.NoItemsSkipped">Keine Artikel ware ausgelast.</phrase>
+    <phrase id="Import.ContinueToNewItem">Weiterführen zum neuen Artikel</phrase>
+    <phrase id="Import.SelectHeader">ArtShow: Importeintritt wählen</phrase>
+    <phrase id="Import.SelectTitle">Importeintritt wählen</phrase>
     <phrase id="Import.SelectFileDescription">
-        CSV file encoded in UTF-8.
-        First row is a header which is ignored.
-        Order of colums is: item no., owner badge no., author, title, medium, note, price, charity (in %).
+        Die Datei mussen in dem CSV Format sein. Die Codierung is UTF-8.
+        Erste Ziele is der Blockvorspann and es ist ausgelassen.
+        Die Folge dir Kolonne is: Artikelnummer, Badgenummber des Besitzers, Autor, Title, Kunstmedium, Anmerkung, Pries, Charity (in %).
     </phrase>
-    <phrase id="Import.UseFile">Import File</phrase>
-    <phrase id="Import.UseText">Import Text</phrase>
+    <phrase id="Import.UseFile">Datai benutzen</phrase>
+    <phrase id="Import.UseText">Text benutzen</phrase>
     <!-- settings -->
-    <phrase id="Settings.Header">Artshow: View Settings</phrase>
-    <phrase id="Settings.CurrencyConversionLabel">Currency Conversion Rates</phrase>
+    <phrase id="Settings.Header">Artshow: Einstellung</phrase>
+    <phrase id="Settings.Title">Einstellung</phrase>
+    <phrase id="Settings.CurrencyConversionLabel">Wechselumrechnungstabelle</phrase>
     <phrase id="Settings.CurrencyConversionDescription">
-        Number below represents price of one unit of a currency
-        in the primary currency. Primary currency has to be set to 1.0 always.
-        Example:
-        If € is the primary currency and the number at the secondary currency ($) is set to 1.1,
-        then, 1€ is equal to $1.1.
+        Die Nummer ziegt der Pries des Wechsels im primär Wechsel.
+        Stellen Sie der primär Wechsel zum 1.
+        Exempel:
+        Wenn der primär Wechsel is € and die Nummer bei anderem Wechsel ($) ist 0,8,
+        dann $1 is eines Äquivalent des 0,8€.
     </phrase>
-    <phrase id="Settings.PrimaryCurrencyConversionHelp">Primary currency has to be 1.</phrase>
-    <phrase id="Settings.SaveSettings">Save Settings</phrase>
+    <phrase id="Settings.PrimaryCurrencyConversionHelp">Die Nummer des primär Wechsel muss 1 sien.</phrase>
+    <phrase id="Settings.SaveSettings">Wenden ablegen</phrase>
     <phrase id=""></phrase>
 </dictionary>

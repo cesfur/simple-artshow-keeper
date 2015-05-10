@@ -82,6 +82,76 @@ def respondHtml(name, group, language, parameters=None):
 
     flask.abort(404)
 
+def respondSpecificXml(name, group, language, parameters):
+    try:
+        if name is None or len(str(name)) == 0:
+            return None
+
+        # Combine a string 'name.group.language.xml'.
+        # Skip components which are None.
+        filenameComponents = []
+        filenameComponents.append(str(name))
+        if group is not None:
+            filenameComponents.append(str(group))
+        if language is not None:
+            filenameComponents.append(str(language))
+        filenameComponents.append('xml')
+
+        return makeXmlResponse(flask.render_template(
+                '.'.join(filenameComponents),
+                language=language,
+                **(parameters or {})))
+    except jinja2.exceptions.TemplateNotFound:
+        return None
+
 def respondXml(name, group, language, parameters=None):
-    filePath = '{0}.{1}.{2}.xml'.format(name, group, language)
-    return makeXmlResponse(flask.render_template(filePath, language=language, **(parameters or {})))
+    """Respond with xml. Template file precendence is following:
+    1. name.group.language.xml (e.g. getstatus.admin.en.xml)
+    2. name.group.xml
+    3. name.language.xml
+    4. name.xml
+
+    Returns:
+        response or failure.
+    """
+    response = respondSpecificXml(name, group, language, parameters)
+    if response is not None:
+        return response
+
+    response = respondSpecificXml(name, group, None, parameters)
+    if response is not None:
+        return response
+
+    response = respondSpecificXml(name, None, language, parameters)
+    if response is not None:
+        return response
+
+    response = respondSpecificXml(name, None, None, parameters)
+    if response is not None:
+        return response
+
+    flask.abort(404)
+
+def respondCustomDataFile(customDataDir, dataDir, filename, language):
+    """ Respond with custom data file. Assuming that filename is <name><.ext>,
+    pick the file based on the following order:
+    1. customDataDir/name.ext
+    2. dataDir/name.language.ext
+    3. dataDir/name.ext
+
+    Returns:
+        response or none.
+    """
+    # try custom folder
+    if customDataDir is not None and os.path.exists(os.path.join(customDataDir, filename)):
+        return flask.send_from_directory(customDataDir, filename)
+
+    # try language specific version
+    if language is not None:
+        name, ext = os.path.splitext(filename)
+        langFilename = '{0}.{1}{2}'.format(name, language, ext)
+        if os.path.exists(os.path.join(dataDir, langFilename)):
+            return flask.send_from_directory(dataDir, langFilename)
+
+    # try generic version
+    return flask.send_from_directory(dataDir, filename)

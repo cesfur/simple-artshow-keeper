@@ -87,6 +87,11 @@
             </Directory>
             <Directory Id="CommonAppDataFolder">
                 <Directory Id="DataDir" Name="Artshow">
+                    <Directory Id="CustomDataDir" Name="custom">
+                        <Component Id="CustomDataCore" Guid="{BC89CE22-7000-4ce6-B3F8-1F9473359DF9}">
+                            <CreateFolder/>
+                        </Component>
+                    </Directory>
                     <Component Id="DataCore" Guid="{F12DF5DC-20FF-48ca-AEBC-9ECC4221CD83}">
                         <CreateFolder/>
                     </Component>
@@ -126,6 +131,8 @@
                     Key="DEFAULT_LANGUAGE" Value="[DEFAULT_LANGUAGE]"/>
                 <IniFile Id="Ini_DataFolder" Action="addLine" Directory="AppDir" Section="DEFAULT" Name="config.ini"
                     Key="DATA_FOLDER" Value="[DataDir]"/>
+                <IniFile Id="Ini_CustomDataFolder" Action="addLine" Directory="AppDir" Section="DEFAULT" Name="config.ini"
+                    Key="CUSTOM_DATA_FOLDER" Value="[CustomDataDir]"/>
                 <IniFile Id="Ini_LogFile" Action="addLine" Directory="AppDir" Section="DEFAULT" Name="config.ini"
                     Key="LOG_FILE" Value="[DataDir]artshow.log"/>
                 <IniFile Id="Ini_Currency" Action="addLine" Directory="AppDir" Section="DEFAULT" Name="config.ini"
@@ -217,27 +224,24 @@
         </DirectoryRef>
         <DirectoryRef Id="AuctionTemplatesDir">
             <Component Id="AuctionTemplates" Guid="{6D646043-59A4-4b09-AD7E-B354B012D626}">
+                <!-- Multilingual -->
+                <File Source="$(var.SolutionDir)app/auction/templates/showstatus.xhtml"/>
+                <File Source="$(var.SolutionDir)app/auction/templates/getstatus.xml"/>
                 <!-- CZ -->
                 <File Source="$(var.SolutionDir)app/auction/templates/auctionitem.admin.cz.html"/>
                 <File Source="$(var.SolutionDir)app/auction/templates/finalizeitem.admin.cz.html"/>
                 <File Source="$(var.SolutionDir)app/auction/templates/finditemtoauction.admin.cz.html"/>
-                <File Source="$(var.SolutionDir)app/auction/templates/getstatus.admin.cz.xml"/>
                 <File Source="$(var.SolutionDir)app/auction/templates/listauctionitems.admin.cz.html"/>
-                <File Source="$(var.SolutionDir)app/auction/templates/showstatus.admin.cz.html"/>
                 <!-- EN -->
                 <File Source="$(var.SolutionDir)app/auction/templates/auctionitem.admin.en.html"/>
                 <File Source="$(var.SolutionDir)app/auction/templates/finalizeitem.admin.en.html"/>
                 <File Source="$(var.SolutionDir)app/auction/templates/finditemtoauction.admin.en.html"/>
-                <File Source="$(var.SolutionDir)app/auction/templates/getstatus.admin.en.xml"/>
                 <File Source="$(var.SolutionDir)app/auction/templates/listauctionitems.admin.en.html"/>
-                <File Source="$(var.SolutionDir)app/auction/templates/showstatus.admin.en.html"/>
                 <!-- DE -->
                 <File Source="$(var.SolutionDir)app/auction/templates/auctionitem.admin.de.html"/>
                 <File Source="$(var.SolutionDir)app/auction/templates/finalizeitem.admin.de.html"/>
                 <File Source="$(var.SolutionDir)app/auction/templates/finditemtoauction.admin.de.html"/>
-                <File Source="$(var.SolutionDir)app/auction/templates/getstatus.admin.de.xml"/>
                 <File Source="$(var.SolutionDir)app/auction/templates/listauctionitems.admin.de.html"/>
-                <File Source="$(var.SolutionDir)app/auction/templates/showstatus.admin.de.html"/>
             </Component>
         </DirectoryRef>
 
@@ -249,8 +253,8 @@
         </DirectoryRef>
         <DirectoryRef Id="ItemsStaticDir">
             <Component Id="ItemsStatic" Guid="{DC1C55D9-C5AF-4012-8A31-E29322BEAF8D}">
+                <!-- Multilingual -->
                 <File Source="$(var.SolutionDir)app/items/static/Bidsheets.css"/>
-                <File Source="$(var.SolutionDir)app/items/static/Bidsheets.xsl"/>
                 <!-- CZ -->
                 <File Source="$(var.SolutionDir)app/items/static/BidsheetFrame.svg"/>
                 <File Source="$(var.SolutionDir)app/items/static/BidsheetNoSaleFrame.svg"/>
@@ -267,20 +271,18 @@
                 <File Source="$(var.SolutionDir)app/items/templates/approveimport.admin.xhtml"/>
                 <File Source="$(var.SolutionDir)app/items/templates/reportimport.admin.xhtml"/>
                 <File Source="$(var.SolutionDir)app/items/templates/selectimportfile.admin.xhtml"/>
+                <File Source="$(var.SolutionDir)app/items/templates/bidsheets.xhtml"/>
                 <!-- CZ -->
-                <File Source="$(var.SolutionDir)app/items/templates/bidsheets.admin.cz.xml"/>
                 <File Source="$(var.SolutionDir)app/items/templates/edititem.admin.cz.html"/>
                 <File Source="$(var.SolutionDir)app/items/templates/finditemtoclose.admin.cz.html"/>
                 <File Source="$(var.SolutionDir)app/items/templates/listitems.admin.cz.html"/>
                 <File Source="$(var.SolutionDir)app/items/templates/updateitemtoclose.admin.cz.html"/>
                 <!-- EN -->
-                <File Source="$(var.SolutionDir)app/items/templates/bidsheets.admin.en.xml"/>
                 <File Source="$(var.SolutionDir)app/items/templates/edititem.admin.en.html"/>
                 <File Source="$(var.SolutionDir)app/items/templates/finditemtoclose.admin.en.html"/>
                 <File Source="$(var.SolutionDir)app/items/templates/listitems.admin.en.html"/>
                 <File Source="$(var.SolutionDir)app/items/templates/updateitemtoclose.admin.en.html"/>
                 <!-- DE -->
-                <File Source="$(var.SolutionDir)app/items/templates/bidsheets.admin.de.xml"/>
                 <File Source="$(var.SolutionDir)app/items/templates/edititem.admin.de.html"/>
                 <File Source="$(var.SolutionDir)app/items/templates/finditemtoclose.admin.de.html"/>
                 <File Source="$(var.SolutionDir)app/items/templates/listitems.admin.de.html"/>
@@ -374,6 +376,7 @@
 
             <ComponentRef Id="DataCore" />
             <ComponentRef Id="BasicData" />
+            <ComponentRef Id="CustomDataCore" />
 
             <ComponentRef Id="StartMenuShortcut" />
         </Feature>

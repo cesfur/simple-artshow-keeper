@@ -12,11 +12,17 @@ processed item at the auction. This screen is defined through SVG and it is cust
 * Reconciliate of item owners (hand-out unsold items, retrieve payments, hand-out payments).
 Each reconciliation will print a summary. Printed summary is defined through HTML and
 it is customizable.
-
+* Customize Auction Screen and Bidsheets by supplying corresponding CSS and graphics
+to a folder '%ALLUSERSPROFILE%/Artshow/custom'. Use filenames:
+  - StatusFrame.css for the auction screen.
+  - Bidsheets.css for a bidsheet.
+  Use SVG for best results both on screen and in print. For more details about the structure
+  of the XHTML, open corresponding page in the browser and see the source code. 
+  
 Application is build with a non-technical users on mind:
 * Application compiles to a user friendly Windows MSI installer.
 
-Application is ready for international enviroment:
+Application is ready for international environment:
 * Application is available in English, Czech, and German (partial only).
 * Application can show amounts in other two currencies.
 Currently supported currencies are CZK, EUR, GPB, PLN, USD.

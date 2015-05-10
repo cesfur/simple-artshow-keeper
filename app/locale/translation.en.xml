@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <dictionary>
+    <!-- auction -->
+    <phrase id="Auction.StatusHeader">Artshow: Auction</phrase>
     <!-- generic -->
     <phrase id="AdditionalInfo">Additional Info</phrase>
     <phrase id="Owner:">Owner:</phrase>
@@ -14,7 +16,12 @@
     <phrase id="TotalRecords:">Total records:</phrase>
     <phrase id="OwnerHelp">Badge number has to be greater or equal to 1.</phrase>
     <phrase id="BackToMain">Back to Main</phrase>
-    <!-- items -->
+    <!-- bidsheets -->
+    <phrase id="Bidsheets.Header">Artshow: Print Bidsheets</phrase>
+    <phrase id="Bidsheets.Title">Print Bidsheets</phrase>
+    <phrase id="Bidsheets.CancelPrint">Cancel</phrase>
+    <phrase id="Bidsheets.Print">Print</phrase>
+    <!-- main -->
     <phrase id="List Auction Items">List Items for Auction</phrase>
     <!-- import -->
     <phrase id="Import.ApproveHeader">ArtShow: Import Approval</phrase>

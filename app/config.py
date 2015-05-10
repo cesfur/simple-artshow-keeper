@@ -26,6 +26,7 @@ LOG_LEVEL = logging.DEBUG
 DEFAULT_LANGUAGE = None
 SESSION_KEY = None
 DATA_FOLDER = None
+CUSTOM_DATA_FOLDER = None
 LOG_FILE = None
 CURRENCY = None
 LANGUAGES = None
@@ -42,6 +43,7 @@ def load(iniFile):
     global DEFAULT_LANGUAGE
     global SESSION_KEY
     global DATA_FOLDER
+    global CUSTOM_DATA_FOLDER
     global LOG_FILE
     global CURRENCY
     global LANGUAGES
@@ -51,6 +53,7 @@ def load(iniFile):
 
     DEFAULT_LANGUAGE = config['DEFAULT'].get('DEFAULT_LANGUAGE', 'en')
     DATA_FOLDER = __normalize_path(config['DEFAULT'].get('DATA_FOLDER', '.'))
+    CUSTOM_DATA_FOLDER = __normalize_path(config['DEFAULT'].get('CUSTOM_DATA_FOLDER', '.'))
     LOG_FILE = __normalize_path(config['DEFAULT'].get('LOG_FILE', 'artshow.log'))
     CURRENCY = __normalize_list(config['DEFAULT'].get('CURRENCY', 'usd').split(','))
     LANGUAGES = __normalize_list(config['DEFAULT'].get('LANGUAGES', 'en').split(','))

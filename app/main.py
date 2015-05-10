@@ -44,6 +44,10 @@ logging.basicConfig(
         format='%(asctime)s | %(levelname)s | %(message)s',
         level=config.LOG_LEVEL)
 
+# Configure paths
+items_controller.ROOT_DIR_CUSTOM_DATA = config.CUSTOM_DATA_FOLDER
+auction_controller.ROOT_DIR_CUSTOM_DATA = config.CUSTOM_DATA_FOLDER
+
 # Configure flask
 app = flask.Flask('Artshow')
 app.root_path = ROOT_PATH

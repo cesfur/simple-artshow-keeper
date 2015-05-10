@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='Artshow.css')}}" />
+    <link rel="stylesheet" type="text/css" href="{{url_for('.static', filename='custom/StatusFrame.css')}}" />
+    <script type="text/javascript" src="{{url_for('.static', filename='StatusFrame.js')}}"></script>
+    <script type="text/javascript">
+        var g_getStatusUrl = "{{url_for('.getStatus')}}";
+    </script>
+    <title>__AuctionStatus.StatusHeader</title>
+</head>
+<body onload="onLoad()">
+    <div id="frame">
+        <div id="item">
+            <div id="item_title"></div>
+            <div id="item_author"></div>
+            <div id="item_amount_1"></div>
+            <div id="item_amount_2"></div>
+            <div id="item_amount_3"></div>
+        </div>
+        <div id="summary">
+            <div id="charity_1"></div>
+            <div id="charity_2"></div>
+            <div id="charity_3"></div>
+        </div>
+    </div>
+</body>
+</html>

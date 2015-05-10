@@ -38,14 +38,14 @@
      borderopacity="1.0"
      inkscape:pageopacity="1"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.98994949"
-     inkscape:cx="331.07252"
-     inkscape:cy="407.33489"
+     inkscape:zoom="0.49497475"
+     inkscape:cx="102.1199"
+     inkscape:cy="56.37479"
      inkscape:document-units="px"
-     inkscape:current-layer="layer1"
+     inkscape:current-layer="layer2"
      showgrid="false"
      inkscape:window-width="1280"
-     inkscape:window-height="1002"
+     inkscape:window-height="962"
      inkscape:window-x="1272"
      inkscape:window-y="18"
      inkscape:window-maximized="1"
@@ -68,7 +68,7 @@
     </rdf:RDF>
   </metadata>
   <g
-     inkscape:label="Layer 1"
+     inkscape:label="Background"
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(0,-452.36218)">
@@ -104,46 +104,6 @@
        y="548.07648"
        ry="13.406822"
        rx="13.406823" />
-    <text
-       clip-path="url(#clipPath3300)"
-       sodipodi:linespacing="150%"
-       id="item_title"
-       y="652.63403"
-       x="43.829636"
-       style="font-size:66.12046051px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:150%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial"
-       xml:space="preserve"
-       transform="translate(0,-14)"><tspan
-         style="font-size:48px;font-weight:normal;line-height:150%"
-         y="652.63403"
-         x="43.829636"
-         id="tspan3779"
-         sodipodi:role="line">?</tspan></text>
-    <text
-       xml:space="preserve"
-       style="font-size:46px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial"
-       x="43.829636"
-       y="680.34833"
-       id="item_author"
-       sodipodi:linespacing="125%"
-       inkscape:label="#text2992"><tspan
-         sodipodi:role="line"
-         id="tspan2994"
-         x="43.829636"
-         y="680.34833"
-         style="font-size:32px;font-style:italic;font-weight:normal;stroke:none">?</tspan></text>
-    <text
-       xml:space="preserve"
-       style="font-size:106.03470612px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:end;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:end;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial"
-       x="741.54889"
-       y="766.63409"
-       id="item_amount_1"
-       sodipodi:linespacing="125%"
-       inkscape:label="#item_amount_1"><tspan
-         sodipodi:role="line"
-         id="tspan2998"
-         x="741.54889"
-         y="766.63409"
-         style="font-weight:bold;text-align:end;text-anchor:end">?</tspan></text>
     <path
        sodipodi:nodetypes="ssccsss"
        inkscape:connector-curvature="0"
@@ -202,32 +162,6 @@
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="ssccsss" />
     <text
-       xml:space="preserve"
-       style="font-size:66.12046051px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial"
-       x="400"
-       y="959.77692"
-       id="charity_1"
-       sodipodi:linespacing="125%"
-       inkscape:label="#charity_1"><tspan
-         sodipodi:role="line"
-         id="tspan3021"
-         x="400"
-         y="959.77692"
-         style="font-weight:normal;text-align:center;text-anchor:middle">?</tspan></text>
-    <text
-       inkscape:label="#charity_2"
-       sodipodi:linespacing="125%"
-       id="charity_2"
-       y="1009.4913"
-       x="399.97809"
-       style="font-size:48.15904999px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial"
-       xml:space="preserve"><tspan
-         style="font-weight:normal;text-align:center;text-anchor:middle"
-         y="1009.4913"
-         x="399.97809"
-         id="tspan3200"
-         sodipodi:role="line">?</tspan></text>
-    <text
        sodipodi:linespacing="125%"
        id="text3206"
        y="889.06195"
@@ -249,7 +183,84 @@
        y="855.21936"
        ry="13.406823"
        rx="13.406823" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="Content"
+     style="display:none">
     <text
+       clip-path="url(#clipPath3300)"
+       sodipodi:linespacing="150%"
+       id="item_title"
+       y="652.63403"
+       x="43.829636"
+       style="font-size:66.12046051px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:150%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial"
+       xml:space="preserve"
+       transform="translate(0,-466.36218)"><tspan
+         style="font-size:48px;font-weight:normal;line-height:150%"
+         y="652.63403"
+         x="43.829636"
+         id="tspan3779"
+         sodipodi:role="line">Title</tspan></text>
+    <text
+       transform="translate(0,-452.36218)"
+       xml:space="preserve"
+       style="font-size:46px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial"
+       x="43.829636"
+       y="680.34833"
+       id="item_author"
+       sodipodi:linespacing="125%"
+       inkscape:label="#text2992"><tspan
+         sodipodi:role="line"
+         id="tspan2994"
+         x="43.829636"
+         y="680.34833"
+         style="font-size:32px;font-style:italic;font-weight:normal;stroke:none">Author</tspan></text>
+    <text
+       transform="translate(0,-452.36218)"
+       xml:space="preserve"
+       style="font-size:106.03470612px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:end;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:end;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial"
+       x="741.54889"
+       y="766.63409"
+       id="item_amount_1"
+       sodipodi:linespacing="125%"
+       inkscape:label="#item_amount_1"><tspan
+         sodipodi:role="line"
+         id="tspan2998"
+         x="741.54889"
+         y="766.63409"
+         style="font-weight:bold;text-align:end;text-anchor:end">Amount1</tspan></text>
+    <text
+       transform="translate(0,-452.36218)"
+       xml:space="preserve"
+       style="font-size:66.12046051px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial"
+       x="400"
+       y="959.77692"
+       id="charity_1"
+       sodipodi:linespacing="125%"
+       inkscape:label="#charity_1"><tspan
+         sodipodi:role="line"
+         id="tspan3021"
+         x="400"
+         y="959.77692"
+         style="font-weight:normal;text-align:center;text-anchor:middle">Charity1</tspan></text>
+    <text
+       transform="translate(0,-452.36218)"
+       inkscape:label="#charity_2"
+       sodipodi:linespacing="125%"
+       id="charity_2"
+       y="1009.4913"
+       x="399.97809"
+       style="font-size:48.15904999px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial"
+       xml:space="preserve"><tspan
+         style="font-weight:normal;text-align:center;text-anchor:middle"
+         y="1009.4913"
+         x="399.97809"
+         id="tspan3200"
+         sodipodi:role="line">Charity2</tspan></text>
+    <text
+       transform="translate(0,-452.36218)"
        xml:space="preserve"
        style="font-size:59.57484818px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:end;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:end;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial"
        x="737.31403"
@@ -261,8 +272,9 @@
          id="tspan2998-7"
          x="737.31403"
          y="811.34882"
-         style="font-size:44.61618805px;font-weight:normal;text-align:end;text-anchor:end;-inkscape-font-specification:Arial">?</tspan></text>
+         style="font-size:44.61618805px;font-weight:normal;text-align:end;text-anchor:end;-inkscape-font-specification:Arial">Amount3</tspan></text>
     <text
+       transform="translate(0,-452.36218)"
        inkscape:label="#item_amount_2"
        sodipodi:linespacing="125%"
        id="item_amount_2"
@@ -274,6 +286,6 @@
          y="811.34882"
          x="397.31403"
          id="tspan3051"
-         sodipodi:role="line">?</tspan></text>
+         sodipodi:role="line">Amount2</tspan></text>
   </g>
 </svg>

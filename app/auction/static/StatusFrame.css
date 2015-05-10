@@ -1,9 +1,96 @@
 body {
     background-color: black;
+    padding: 0;
+    margin: 0;
 }
 
-div.main {
-    width: 800px;
+#frame {
+    width: calc(100vh * 8 / 6);
+    height: 100vh;
     margin-left: auto;
     margin-right: auto;
+    
+    background-image: url("StatusFrame.svg");
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    background-size: 100% auto;
+
+    overflow: hidden;
+    position: relative;
+}
+
+    #frame * {
+        position: absolute;
+    }
+
+#item *, #summary * {
+    color: white;
+    line-height: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: clip;
+}
+
+#item #item_title {
+    left: calc(40 * 100vh / 600);
+    top: calc(144 * 100vh / 600);
+    width: calc(720 * 100vh / 600);
+    font-size: calc(48 * 100vh / 600);
+    text-align: left;
+    text-overflow: ellipsis;
+}
+
+#item #item_author {
+    left: calc(40 * 100vh / 600);
+    top: calc(198 * 100vh / 600);
+    width: calc(720 * 100vh / 600);
+    font-size: calc(32 * 100vh / 600);
+    font-style: italic;
+    text-align: left;
+    text-overflow: ellipsis;
+}
+
+#item #item_amount_1 {
+    left: calc(40 * 100vh / 600);
+    top: calc(224 * 100vh / 600);
+    width: calc(720 * 100vh / 600);
+    font-size: calc(106 * 100vh / 600);
+    font-weight: bold;
+    text-align: right;
+}
+
+#item #item_amount_2 {
+    left: calc(40 * 100vh / 600);
+    top: calc(320 * 100vh / 600);
+    width: calc(350 * 100vh / 600);
+    font-size: calc(44 * 100vh / 600);
+    text-align: right;
+}
+
+#item #item_amount_3 {
+    left: calc(410 * 100vh / 600);
+    top: calc(320 * 100vh / 600);
+    width: calc(350 * 100vh / 600);
+    font-size: calc(44 * 100vh / 600);
+    text-align: right;
+}
+
+#summary #charity_1 {
+    left: calc(40 * 100vh / 600);
+    top: calc(450 * 100vh / 600);
+    width: calc(720 * 100vh / 600);
+    font-size: calc(66 * 100vh / 600);
+    text-align: center;
+}
+
+#summary #charity_2 {
+    left: calc(40 * 100vh / 600);
+    top: calc(515 * 100vh / 600);
+    width: calc(720 * 100vh / 600);
+    font-size: calc(48 * 100vh / 600);
+    text-align: center;
+}
+
+#summary #charity_3 {
+    display: none;
 }

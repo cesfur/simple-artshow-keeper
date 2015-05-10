@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <dictionary>
+    <!-- auction -->
+    <phrase id="Auction.StatusHeader">Artshow: Stav dražby</phrase>
     <!-- generic -->
     <phrase id="AdditionalInfo">Doplňující informace</phrase>
     <phrase id="Owner:">Vlastník:</phrase>
@@ -14,6 +16,11 @@
     <phrase id="TotalRecords:">Celkem položek:</phrase>
     <phrase id="OwnerHelp">Číslo visačky větší, než 1.</phrase>
     <phrase id="BackToMain">Zpět na hlavní</phrase>
+    <!-- bidsheets -->
+    <phrase id="Bidsheets.Header">Artshow: Tisk visaček</phrase>
+    <phrase id="Bidsheets.Title">Tisk visaček</phrase>
+    <phrase id="Bidsheets.CancelPrint">Zrušit tisk</phrase>
+    <phrase id="Bidsheets.Print">Tiskni</phrase>
     <!-- main -->
     <phrase id="Setup">Příjem</phrase>
     <phrase id="New Item">Nový předmět</phrase>
@@ -62,15 +69,16 @@
     <phrase id="Import.UseText">Použij text</phrase>
     <!-- settings -->
     <phrase id="Settings.Header">Artshow: Nastavení</phrase>
+    <phrase id="Settings.Title">Nastavení</phrase>
     <phrase id="Settings.CurrencyConversionLabel">Převodní koeficienty pro měny</phrase>
     <phrase id="Settings.CurrencyConversionDescription">
-        Níže uvedená číslo vyjadřují cenu jednotky jiné měny v primární měně.
+        Níže uvedená čísla vyjadřují cenu jednotky jiné měny v primární měně.
         Primární měna vždy musí být nastavena na 1.
         Příklad:
         Pokud je Kč primární měnou a číslo uvedené u sekundární měny (€) je 2,5,
         pak 1€ je ekvivalentem 2,5 Kč.
     </phrase>
-    <phrase id="Settings.PrimaryCurrencyConversionHelp">Koeficicient u primární měna musí být 1.</phrase>
+    <phrase id="Settings.PrimaryCurrencyConversionHelp">Koeficicient u primární měny musí být 1.</phrase>
     <phrase id="Settings.SaveSettings">Ulož změny</phrase>
     <phrase id=""></phrase>
 </dictionary>

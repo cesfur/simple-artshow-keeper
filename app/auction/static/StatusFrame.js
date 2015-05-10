@@ -26,32 +26,27 @@
     }
 }
 
-function getFrameDocument()
+function getFrameElement(elementId)
 {
-    var frameDoc = null;
-    var embedingElement = document.getElementById("id_frame");
-
-    if (embedingElement == null)
-    {
-        console.error("getFrameDocument: Element 'id_frame' not found.");
-    }    
-    else if (embedingElement.contentDocument) 
-    {
-        frameDoc = embedingElement.contentDocument;
-    } 
-    else 
-    {
-        try
-        {
-            frameDoc = embedingElement.getSVGDocument();
-        }
-        catch(e)
-        {
-            console.error("getFrameDocument: Element 'id_frame' does not contain an SVG document.");
-        }
-    }
-    
-    return frameDoc;
+    var frame = document.getElementById("frame");
+	if (frame == null)
+	{
+        console.error("getFrameElement: Frame not found.");
+		return null;
+	}
+	else
+	{
+		var element = frame.getElementById(elementId)
+		if (element == null)
+		{
+			console.error("getFrameElement: Element '" + elementId + "' not found.");
+			return null;
+		}
+		else
+		{
+			return element;
+		}
+	}
 }
 
 function getValueOrNull(xmlDoc, root, xpath)
@@ -103,11 +98,12 @@ function getFormattedCurrencyOrNull(xmlDoc, root, xpath, currency)
     }
 }
 
-function setElementText(ownerDoc, elementId, textValue)
+function setFrameElementText(elementId, textValue)
 {
-    if (ownerDoc == null)
+    var element = document.getElementById(elementId);
+    if (element == null)
     {
-        console.error("setElementText: Cannot update an element '" + elementId + "' because owner is null.");
+        console.error("setElementText: Cannot update an element '" + elementId + "' because element is not defined.");
     }
     else
     {
@@ -116,25 +112,8 @@ function setElementText(ownerDoc, elementId, textValue)
             textValue = "";
         }
 
-        var element = ownerDoc.getElementById(elementId);
-        if (element != null)
-        {
-            if (element.hasChildNodes())
-            {
-                element = element.childNodes[0];
-            }
-            element.textContent = textValue;
-        }
-        else
-        {
-            console.error("setElementText: Element '" + elementId + "' not found.");
-        }
+        element.textContent = textValue;
     }
-}
-
-function setFrameElementText(elementId, textValue)
-{
-    setElementText(getFrameDocument(), elementId, textValue);
 }
 
 function processResponse(xmlDoc)
@@ -146,16 +125,16 @@ function processResponse(xmlDoc)
             var tagAuction = getTagOrNull(xmlDoc, "Auction");
 
              //item
-            setFrameElementText("item_title", getValueOrNull(xmlDoc, tagAuction, "Item/Title"));
-            setFrameElementText("item_author", getValueOrNull(xmlDoc, tagAuction, "Item/Author"));
-            setFrameElementText("item_amount_1", getValueOrNull(xmlDoc, tagAuction, "Item/Amount/FormattedValue[1]"));
-            setFrameElementText("item_amount_2", getValueOrNull(xmlDoc, tagAuction, "Item/Amount/FormattedValue[2]"));
-            setFrameElementText("item_amount_3", getValueOrNull(xmlDoc, tagAuction, "Item/Amount/FormattedValue[3]"));
+            setFrameElementText("item_title", getValueOrNull(xmlDoc, tagAuction, "//Item/Title"));
+            setFrameElementText("item_author", getValueOrNull(xmlDoc, tagAuction, "//Item/Author"));
+            setFrameElementText("item_amount_1", getValueOrNull(xmlDoc, tagAuction, "//Item/Amount/FormattedValue[1]"));
+            setFrameElementText("item_amount_2", getValueOrNull(xmlDoc, tagAuction, "//Item/Amount/FormattedValue[2]"));
+            setFrameElementText("item_amount_3", getValueOrNull(xmlDoc, tagAuction, "//Item/Amount/FormattedValue[3]"));
 
             //charity
-            setFrameElementText("charity_1", getValueOrNull(xmlDoc, tagAuction, "Charity/FormattedValue[1]"));
-            setFrameElementText("charity_2", getValueOrNull(xmlDoc, tagAuction, "Charity/FormattedValue[2]"));
-            setFrameElementText("charity_3", getValueOrNull(xmlDoc, tagAuction, "Charity/FormattedValue[3]"));
+            setFrameElementText("charity_1", getValueOrNull(xmlDoc, tagAuction, "//Charity/FormattedValue[1]"));
+            setFrameElementText("charity_2", getValueOrNull(xmlDoc, tagAuction, "//Charity/FormattedValue[2]"));
+            setFrameElementText("charity_3", getValueOrNull(xmlDoc, tagAuction, "//Charity/FormattedValue[3]"));
         }
     }
     catch(e)

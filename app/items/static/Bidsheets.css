@@ -1,21 +1,171 @@
+/* Customizable section */
+div.bidsheet {
+    width: 21cm;
+    height: 14.8cm;
+    padding: 0cm;
+    margin: 0cm;
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    background-clip: content-box;
+    background-position: 50% 0%;
+    background-size: 100% auto;
+    background-image: url("BidsheetFrame.svg");
+    background-color: white;
+    overflow: hidden;
+    position: relative;
+}
+
+    div.bidsheet > div {
+        position: absolute;
+        overflow: hidden;
+    }
+
+        div.bidsheet > div:before {
+            position: relative;
+            display: inline-block;
+            content: '';
+            height: 100%;
+            vertical-align: middle;
+        }
+
+    div.bidsheet div p {
+        position: relative;
+        display: inline-block;
+        overflow: hidden;
+        vertical-align: middle;
+        line-height: 120%;
+        margin: 0px;
+        padding: 0px;
+        font-family: "Book Antiqua", serif;
+        font-weight: bold;
+        font-size: 20pt;
+        color: black;
+    }
+
+    div.bidsheet .code {
+        left: 8mm;
+        top: 9.5mm;
+        width: 29.5mm;
+        text-align: center;
+    }
+
+        div.bidsheet .code p {
+            white-space: nowrap;
+            font-family: "Courier New", monospace;
+            font-size: 40pt;
+            color: white;
+        }
+
+    div.bidsheet .title {
+        left: 46mm;
+        top: 13mm;
+        width: 155mm;
+        height: 18mm;
+    }
+
+        div.bidsheet .title p {
+            line-height: 120%;
+        }
+
+    div.bidsheet .author {
+        left: 46mm;
+        top: 40mm;
+        width: 155mm;
+        height: 10mm;
+    }
+        div.bidsheet .author p {
+            font-size: 22pt;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+    div.bidsheet .medium {
+        left: 46mm;
+        top: 58.5mm;
+        width: 98mm;
+        height: 18mm;
+    }
+        div.bidsheet .medium p {
+            font-size: 20pt;
+        }
+
+    div.bidsheet .price {
+        left: 149mm;
+        top: 58mm;
+        width: 52mm;
+        height: 13mm;
+        text-align: right;
+    }
+        div.bidsheet .price p {
+            line-height: 100%;
+            font-size: 32pt;
+            white-space: nowrap;
+        }
+
+    div.bidsheet .charity {
+        left: 149mm;
+        top: 78.5mm;
+        width: 52mm;
+        height: 18mm;
+        text-align: right;
+    }
+
+        div.bidsheet .charity p {
+            line-height: 100%;
+            font-size: 50pt;
+            white-space: nowrap;
+        }
+
+    div.bidsheet .note {
+        left: 153mm;
+        top: 105mm;
+        width: 48mm;
+        height: 36mm;
+    }
+
+        div.bidsheet .note p {
+            font-size: 14pt;
+            font-weight: normal;
+            vertical-align: top;
+        }
+
+div.noSale {
+    background-image: url("BidsheetNoSaleFrame.svg");
+}
+
+    div.noSale .price, div.noSale .charity {
+        display: none;
+    }
+
+    div.noSale .note {
+        top: 59.5mm;
+    }
+
+
+/* System section. Do not update. */
 @media print {
     @page {
-        size: auto;
         margin: 0mm;
     }
 
-    div.bidsheet {
-        padding: 0;
-        margin: 0;
-        display: block;
+    body {
+        padding: 0mm;
+        margin: 0mm;
+    }
+
+    div.cut:nth-child(4n+2) {
+        border-bottom: 0.4mm dotted lightgray;
+    }
+
+    div.cut:nth-child(4n+4) {
+        height: 0.4mm;
+        page-break-before: always;
     }
 }
 
 @media screen {
-    div.bidsheet {
-        padding: 0;
-        margin: 0;
-        margin-top: 6pt;
-        display: block;
+    div.cut {
+        border-bottom: 0.4mm dotted gray;
+        height: 6pt;
     }
 }

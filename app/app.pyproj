@@ -55,13 +55,10 @@
     <Content Include="auction\templates\finalizeitem.admin.en.html" />
     <Content Include="auction\templates\finditemtoauction.admin.de.html" />
     <Content Include="auction\templates\finditemtoauction.admin.en.html" />
-    <Content Include="auction\templates\getstatus.admin.cz.xml" />
-    <Content Include="auction\templates\getstatus.admin.de.xml" />
-    <Content Include="auction\templates\getstatus.admin.en.xml" />
+    <Content Include="auction\templates\getstatus.xml" />
     <Content Include="auction\templates\listauctionitems.admin.de.html" />
     <Content Include="auction\templates\listauctionitems.admin.en.html" />
-    <Content Include="auction\templates\showstatus.admin.de.html" />
-    <Content Include="auction\templates\showstatus.admin.en.html" />
+    <Content Include="auction\templates\showstatus.xhtml" />
     <Content Include="config.ini" />
     <Compile Include="items\items_controller.py" />
     <Compile Include="items\__init__.py" />
@@ -73,11 +70,9 @@
     <Compile Include="reconciliation\__init__.py" />
     <Content Include="items\static\BidsheetFrame.de.svg" />
     <Content Include="items\static\BidsheetNoSaleFrame.de.svg" />
-    <Content Include="items\static\Bidsheets.xsl" />
     <Content Include="items\static\EditItem.js" />
+    <Content Include="items\templates\bidsheets.xhtml" />
     <Content Include="items\templates\approveimport.admin.xhtml" />
-    <Content Include="items\templates\bidsheets.admin.de.xml" />
-    <Content Include="items\templates\bidsheets.admin.en.xml" />
     <Content Include="items\templates\edititem.admin.de.html" />
     <Content Include="items\templates\edititem.admin.en.html" />
     <Content Include="items\templates\finditemtoclose.admin.de.html" />
@@ -85,7 +80,6 @@
     <Content Include="items\templates\listitems.admin.de.html" />
     <Content Include="items\templates\listitems.admin.en.html" />
     <Content Include="items\templates\reportimport.admin.xhtml" />
-    <Content Include="items\templates\bidsheets.admin.cz.xml" />
     <Content Include="items\templates\selectimportfile.admin.xhtml" />
     <Content Include="items\templates\selectimportfile.admin.cz.html" />
     <Content Include="items\templates\selectimportfile.admin.de.html" />
@@ -126,7 +120,6 @@
     <Content Include="auction\templates\finalizeitem.admin.cz.html" />
     <Content Include="auction\templates\finditemtoauction.admin.cz.html" />
     <Content Include="auction\templates\listauctionitems.admin.cz.html" />
-    <Content Include="auction\templates\showstatus.admin.cz.html" />
     <Content Include="items\static\Bidsheets.css" />
     <Content Include="items\static\BidsheetFrame.svg" />
     <Content Include="items\static\BidsheetNoSaleFrame.svg" />
@@ -147,6 +140,7 @@
     <Content Include="test\data\test.model.currency.xml" />
     <Content Include="test\data\test.model.import.txt" />
     <Content Include="test\data\test.model.import.csv" />
+    <Content Include="test\data\test.model.items.auction_only.xml" />
     <Content Include="test\data\test.model.items.ods" />
     <Content Include="test\data\test.model.items.xml" />
     <Content Include="test\data\test.model.session.xml" />

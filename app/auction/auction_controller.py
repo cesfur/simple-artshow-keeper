@@ -16,15 +16,18 @@
 #
 import logging
 import flask
+import os
 
 from common.convert import *
 from common.parameter import *
-from common.response import respondHtml, respondXml
+from common.response import respondHtml, respondXml, respondCustomDataFile
 from common.result import Result
 from model.item import ItemField
 from controller.format import *
 
 URL_PREFIX = '/auction'
+ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
+ROOT_DIR_CUSTOM_DATA = None
 blueprint = flask.Blueprint('auction', __name__, template_folder = 'templates', static_folder = 'static')
 
 @blueprint.route('/', methods = ['GET', 'POST'])
@@ -35,6 +38,14 @@ def index():
 def exit():
     return flask.redirect(flask.url_for('index'))
     
+@blueprint.route('/static/custom/<path:filename>', methods = ['GET'])
+def getCustomFile(filename):
+    return respondCustomDataFile(
+            ROOT_DIR_CUSTOM_DATA,
+            os.path.join(ROOT_DIR, blueprint.static_folder),
+            filename,
+            flask.g.language)
+
 @blueprint.route('/list', methods = ['GET', 'POST'])
 def listItems():
     items = flask.g.model.getAllItemsInAuction()

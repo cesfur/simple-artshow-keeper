@@ -17,15 +17,18 @@
 import logging
 import flask
 import werkzeug
+import os
 
 from common.convert import *
 from common.parameter import *
-from common.response import respondHtml, respondXml
+from common.response import respondHtml, respondXml, respondCustomDataFile
 from common.result import Result
 from model.item import ItemField, ItemState
 from controller.format import formatItem
 
 URL_PREFIX = '/items'
+ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
+ROOT_DIR_CUSTOM_DATA = None
 blueprint = flask.Blueprint('items', __name__, template_folder='templates', static_folder='static')
 
 @blueprint.route('/')
@@ -37,6 +40,14 @@ def exit():
     flask.g.model.dropImport(flask.g.sessionID)
     return flask.redirect(flask.url_for('index'))
     
+@blueprint.route('/static/custom/<path:filename>', methods = ['GET'])
+def getCustomFile(filename):
+    return respondCustomDataFile(
+            ROOT_DIR_CUSTOM_DATA,
+            os.path.join(ROOT_DIR, blueprint.static_folder),
+            filename,
+            flask.g.language)
+
 def __respondNewItemHtml(itemData, message=None):
     if itemData is None:
         itemData = { ItemField.FOR_SALE: True }
@@ -108,7 +119,7 @@ def printAddedItems():
     else:
         logging.debug('printAdded: Printing %(numItems)d item(s).' % { 'numItems': len(addedItems) })
         addedItems[:] = [formatItem(item, flask.g.language) for item in addedItems]
-        return respondXml('bidsheets', flask.g.userGroup, flask.g.language, {
+        return respondHtml('bidsheets', flask.g.userGroup, flask.g.language, {
                 'items': addedItems,
                 'cancelledTarget': flask.url_for('.printAddedCancelled'),
                 'printedTarget': flask.url_for('.printAddedPrinted')})
@@ -150,7 +161,7 @@ def printSelectedItems():
     if len(itemCodes) > 0:
         selectedItems = flask.g.model.getItems(itemCodes)
         selectedItems[:] = [formatItem(item, flask.g.language) for item in selectedItems]
-        return respondXml('bidsheets', flask.g.userGroup, flask.g.language, {
+        return respondHtml('bidsheets', flask.g.userGroup, flask.g.language, {
                 'items': selectedItems,
                 'cancelledTarget': flask.url_for('.listItems'),
                 'printedTarget': flask.url_for('.listItems') })
