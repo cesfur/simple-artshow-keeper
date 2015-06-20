@@ -1,9 +1,9 @@
 /* Customizable section */
 div.bidsheet {
-    width: 21cm;
-    height: 14.8cm;
-    padding: 0cm;
-    margin: 0cm;
+    width: 210mm;
+    height: 148mm;
+    padding: 0;
+    margin: 0;
     background-repeat: no-repeat;
     background-attachment: scroll;
     background-clip: content-box;
@@ -145,27 +145,37 @@ div.noSale {
 /* System section. Do not update. */
 @media print {
     @page {
-        margin: 0mm;
+        size: A4;
+        margin: 0;
+        padding: 0;
     }
 
     body {
-        padding: 0mm;
-        margin: 0mm;
+        margin: 0;
+        padding: 0;
     }
 
-    div.cut:nth-child(4n+2) {
-        border-bottom: 0.4mm dotted lightgray;
+    div.cut:nth-of-type(4n+2) {
+        border-bottom: 0.4mm dotted grey;
     }
 
-    div.cut:nth-child(4n+4) {
-        height: 0.4mm;
+    div.cut:nth-of-type(4n+4) {
+        border-bottom: 0.4mm dotted white;
         page-break-before: always;
+    }
+
+    div.cut:last-child {
+        page-break-before: auto;
+        display: none;
     }
 }
 
 @media screen {
     div.cut {
         border-bottom: 0.4mm dotted gray;
-        height: 6pt;
+    }
+
+    div.cut:last-child {
+        display: none;
     }
 }
