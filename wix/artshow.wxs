@@ -179,8 +179,10 @@
                 <File Id="Common___init__" Source="$(var.SolutionDir)app/common/__init__.py"/>
                 <File Source="$(var.SolutionDir)app/common/convert.py"/>
                 <File Source="$(var.SolutionDir)app/common/parameter.py"/>
+                <File Source="$(var.SolutionDir)app/common/phrase_dictionary.py"/>
                 <File Source="$(var.SolutionDir)app/common/response.py"/>
                 <File Source="$(var.SolutionDir)app/common/result.py"/>
+                <File Source="$(var.SolutionDir)app/common/translate.py"/>
             </Component>
         </DirectoryRef>
 
