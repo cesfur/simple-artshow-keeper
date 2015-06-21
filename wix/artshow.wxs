@@ -137,6 +137,8 @@
                     Key="LOG_FILE" Value="[DataDir]artshow.log"/>
                 <IniFile Id="Ini_Currency" Action="addLine" Directory="AppDir" Section="DEFAULT" Name="config.ini"
                     Key="CURRENCY" Value="[DEFAULT_CURRENCY_1],[DEFAULT_CURRENCY_2],[DEFAULT_CURRENCY_3]"/>
+                <IniFile Id="Ini_Languages" Action="addLine" Directory="AppDir" Section="DEFAULT" Name="config.ini"
+                    Key="LANGUAGES" Value="cz,en,de"/>
                 <IniFile Id="Ini_SecretKey" Action="addLine" Directory="AppDir" Section="DEFAULT" Name="config.ini"
                     Key="SECRET_KEY" Value="[SECRET_KEY]"/>
             </Component>
