@@ -47,8 +47,10 @@
     <phrase id="Import.FileImport:">Import der Akte:</phrase>
     <phrase id="Import.TextImport">Import des Textes</phrase>
     <phrase id="Import.ReviewImportedItems">Übersicht der importierten Artikel</phrase>
+    <phrase id="Import.ReviewRenumberedItems">Übersicht der Artikel die umgenummeriert waren</phrase>
     <phrase id="Import.ReviewSkippedItems">Übersicht der ausgelassen Artikel</phrase>
     <phrase id="Import.Result">Ausgabe</phrase>
+    <phrase id="Import.ImportNumber">Importierte Nummer</phrase>
     <phrase id="Import.IsEmpty">Der import enthalte keine Artikel.</phrase>
     <phrase id="Import.BackToNewItem">Zurück zum dem neuen Artikel</phrase>
     <phrase id="Import.ChooseDifferentInput">Andere Eintritt wählen</phrase>
@@ -56,6 +58,7 @@
     <phrase id="Import.ReportHeader">ArtShow: Der ausgelassen Artikel</phrase>
     <phrase id="Import.ReportTitle">Der ausgelassen Artikel</phrase>
     <phrase id="Import.TotalSkippedRecords">Anzahl der ausgelassen Artikel:</phrase>
+    <phrase id="Import.NoItemsRenumbered">Keine Artikel ware umgenummeriert.</phrase>
     <phrase id="Import.NoItemsSkipped">Keine Artikel ware ausgelast.</phrase>
     <phrase id="Import.ContinueToNewItem">Weiterführen zum neuen Artikel</phrase>
     <phrase id="Import.SelectHeader">ArtShow: Importeintritt wählen</phrase>

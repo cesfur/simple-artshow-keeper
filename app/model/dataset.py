@@ -108,7 +108,7 @@ class Dataset:
             item.get(ItemField.AUTHOR, None) is None and \
             item.get(ItemField.TITLE, None) is None
 
-    def getNextItemCode(self):
+    def getNextItemCode(self, suggestedCode=None):
         """Get next item code."""
         # Retrive reserved code
         reservedItemExpression = self.RESERVED_ITEM_EXPRESSION
@@ -132,8 +132,11 @@ class Dataset:
             reservedCode = reservedCode + 1
             self.__logger.info('getNextItemCode: Reserved code has been estimated to {0}.'.format(reservedCode))
 
-        # Reserve the next item  code       
+        # Reserve the next item code
+        if suggestedCode is not None and toInt(suggestedCode) >= reservedCode:
+            reservedCode = toInt(suggestedCode)
         nextReservedCode = reservedCode + 1
+
         while not self.__items.insert({ItemField.CODE: str(nextReservedCode)}, ItemField.CODE):
             nextReservedCode = nextReservedCode + random.randint(1, 10)
 

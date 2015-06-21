@@ -29,8 +29,10 @@
     <phrase id="Import.FileImport:">Imported File:</phrase>
     <phrase id="Import.TextImport">Text Import</phrase>
     <phrase id="Import.ReviewImportedItems">List of decoded entries</phrase>
+    <phrase id="Import.ReviewRenumberedItems">List of entries that we renumbered</phrase>
     <phrase id="Import.ReviewSkippedItems">List of skipped entries</phrase>
     <phrase id="Import.Result">Import result</phrase>
+    <phrase id="Import.ImportNumber">Import ID</phrase>
     <phrase id="Import.IsEmpty">No entries found.</phrase>
     <phrase id="Import.BackToNewItem">Back to New Item</phrase>
     <phrase id="Import.ChooseDifferentInput">Select Different Input</phrase>
@@ -38,6 +40,7 @@
     <phrase id="Import.ReportHeader">ArtShow: Skipped Entries</phrase>
     <phrase id="Import.ReportTitle">Overview of skipped entries</phrase>
     <phrase id="Import.TotalSkippedRecords">Skipped entries:</phrase>
+    <phrase id="Import.NoItemsRenumbered">No entries were renumbered.</phrase>
     <phrase id="Import.NoItemsSkipped">No entries were skipped.</phrase>
     <phrase id="Import.ContinueToNewItem">Continue to New Item</phrase>
     <phrase id="Import.SelectHeader">ArtShow: Import Source Selection</phrase>

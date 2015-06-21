@@ -83,6 +83,7 @@
 {%- macro presentShort(message) -%}
 {%- if message == 'SUCCESS' -%}OK
 {%- elif message == 'ERROR' -%}Chyba
+{%- elif message == 'SUCCESS_BUT_IMPORT_RENUMBERED' -%}Přečíslováno
 {%- elif message == 'INVALID_INPUT' -%}Neplatný vstup
 {%- elif message == 'INVALID_AUTHOR' -%}Neplatný autor
 {%- elif message == 'INVALID_TITLE' -%}Neplatný název
@@ -91,7 +92,7 @@
 {%- elif message == 'INVALID_CHARITY' -%}Neplatná charita
 {%- elif message == 'INCOMPLETE_SALE_INFO' -%}Neúplné prodejní údaje
 {%- elif message == 'DUPLICATE_ITEM' -%}Duplikát
-{%- elif message == 'NOTHING_TO_UPDATE' -%}Již importováno
+{%- elif message == 'NOTHING_TO_UPDATE' -%}Není co změnit
 {%- elif message == 'INVALID_ITEM_NUMER' -%}Neplatné číslo předmětu
 {%- elif message == 'INVALID_ITEM_OWNER' -%}Neplatný vlastník
 {%- elif message == 'INVALID_MEDIUM' -%}Neplatné médium

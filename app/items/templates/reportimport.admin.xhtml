@@ -17,7 +17,7 @@
                 <table>
                     <tr>
                         <th>__Import.Result</th>
-                        <th>__ItemNumber</th>
+                        <th>__Import.ImportNumber</th>
                         <th>__Owner</th>
                         <th>__Author</th>
                         <th>__Title</th>
@@ -52,6 +52,50 @@
             </div>
             {%- else -%}
             <p>__Import.NoItemsSkipped</p>
+            {%- endif %}
+        </fieldset>
+        <fieldset>
+            <legend>__Import.ReviewRenumberedItems</legend>
+            {% if renumberedItems|length > 0 -%}
+            <div class="listSection">
+                <table>
+                    <tr>
+                        <th>__Import.Result</th>
+                        <th>__Import.ImportNumber</th>
+                        <th>__Owner</th>
+                        <th>__Author</th>
+                        <th>__Title</th>
+                        <th>__Medium</th>
+                        <th>__InitialAmount</th>
+                        <th>__Charita</th>
+                        <th>__Note</th>
+                    </tr>
+                    {% for item in renumberedItems -%}
+                    <tr>
+                        <td>{{messagetext.presentShort(item.IRES)}}</td>
+                        <td>{{item.NMBR if item.NMBR != None}}</td>
+                        <td>{{item.OWNR if item.OWNR != None}}</td>
+                        <td>{{item.AUTH if item.AUTH != None}}</td>
+                        <td>{{item.TITL if item.TITL != None}}</td>
+                        <td>{{item.MEDM if item.MEDM != None}}</td>
+                        {%- if item.IAMT != None -%}
+                        <td class="numerical">{{item.IAMT}} Kč</td>
+                        {%- else -%}
+                        <td class="irrelevant"></td>
+                        {%- endif -%}
+                        {%- if item.CHAR != None -%}
+                        <td class="numerical">{{item.CHAR}} %</td>
+                        {%- else -%}
+                        <td class="irrelevant"></td>
+                        {%- endif -%}
+                        <td>{{item.NOTE if item.NOTE != None}}</td>
+                    </tr>
+                    {%- endfor %}
+                </table>
+                <p class="note"><span>__Import.TotalRenumberedRecords</span> {{renumberedItems|length}}</p>
+            </div>
+            {%- else -%}
+            <p>__Import.NoItemsRenumbered</p>
             {%- endif %}
         </fieldset>
         <fieldset>

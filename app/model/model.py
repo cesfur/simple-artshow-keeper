@@ -156,7 +156,7 @@ class Model:
             return Result.DUPLICATE_ITEM
 
         # 4. Build a code and insert.
-        code = self.__dataset.getNextItemCode()
+        code = self.__dataset.getNextItemCode(importNumber)
         if not self.__dataset.addItem(
                     code=code, owner=owner, title=title, author=author, medium=medium,
                     state=state, initialAmount=amount, charity=charity, note=note,
@@ -168,7 +168,10 @@ class Model:
         addedItemCodes = self.__appendAddedCode(sessionID, code)
         self.__logger.info('addNewItem: Added item "{0}" (added codes: {1})'.format(code, addedItemCodes))
 
-        return Result.SUCCESS
+        if importNumber is not None and toInt(code) != importNumber:
+            return Result.SUCCESS_BUT_IMPORT_RENUMBERED
+        else:
+            return Result.SUCCESS
 
     def __evaluateState(self, amount, charity):
         if amount is not None and charity is not None:
@@ -186,7 +189,7 @@ class Model:
         item = None
         if owner is not None and importNumber is not None:
             importedItems = self.__dataset.getItems('Owner == "{0}" and ImportNumber == "{1}"'.format(
-                owner, importNumber))
+                    owner, importNumber))
             if len(importedItems) > 0:
                 item = importedItems[0]
         return item
@@ -341,6 +344,7 @@ class Model:
         return importedItems, importedItemsChecksum
 
     def __mapCSVRowToImport(self, row):
+        """Create a dictionary containing components of the input row."""
         rowValueOrder = [
                 ImportedItemField.NUMBER,
                 ImportedItemField.OWNER,
@@ -444,26 +448,26 @@ class Model:
             checksum -- Import checsum.
             defaultOwner -- Owner in case owner is not defined.
         Returns:
-            (result, skipped items).
+            (result, skipped items, renumbered items).
         """
         # 1. Check validity of the input
         importedChecksum = self.__dataset.getSessionValue(sessionID, session.Field.IMPORTED_CHECKSUM, None)
         importedItemsRaw = self.__dataset.getSessionValue(sessionID, session.Field.IMPORTED_ITEMS)
         if importedChecksum is None or importedItemsRaw is None:
             self.__logger.debug('applyImport: There is no import to apply.')
-            return Result.NO_IMPORT, []
+            return Result.NO_IMPORT, [], []
 
         checksumRaw = checksum
         checksum = toInt(checksum)
         if checksum is None or importedChecksum != checksum:
             self.__logger.debug('applyImport: Checksum "{0}" does not match stored checksum "{1}".'.format(checksumRaw, importedChecksum))
-            return Result.INVALID_CHECKSUM, []
+            return Result.INVALID_CHECKSUM, [], []
 
         defaultOwnerRaw = defaultOwner
         defaultOwner = toInt(defaultOwner)
         if defaultOwner is not None and defaultOwner is None:
             self.__logger.error('applyImport: Default owner "{0}" is not an integer.'.format(defaultOwnerRaw))
-            return Result.INPUT_ERROR, []
+            return Result.INPUT_ERROR, [], []
 
         importedItems = []
         try:
@@ -471,10 +475,11 @@ class Model:
         except ValueError as err:
             self.__logger.error('applyImport: Imported items [{0}] are corrupted. Decoding failed with an error {1}.'.format(
                     importedItemsRaw, str(err)))
-            return Result.INPUT_ERROR, []
+            return Result.INPUT_ERROR, [], []
 
         # 2. Add items
         skippedItems = []
+        renumberedItems = []
         for item in importedItems:
             if item[ImportedItemField.IMPORT_RESULT] == Result.SUCCESS:
                 owner = item[ImportedItemField.OWNER] if item[ImportedItemField.OWNER] is not None else defaultOwner
@@ -501,18 +506,22 @@ class Model:
                         charity=item[ImportedItemField.CHARITY],
                         note=item[ImportedItemField.NOTE])
 
-                if addResult != Result.SUCCESS:
+                if addResult not in [Result.SUCCESS, Result.SUCCESS_BUT_IMPORT_RENUMBERED, Result.NOTHING_TO_UPDATE]:
                     self.__logger.error('applyImport: Importing item {0} failed with an error {1}.'.format(
                             json.dumps(item, cls=JSONDecimalEncoder), addResult))
-                    item[ImportedItemField.IMPORT_RESULT] = addResult
+                item[ImportedItemField.IMPORT_RESULT] = addResult
 
-            if item[ImportedItemField.IMPORT_RESULT] != Result.SUCCESS:
+            if item[ImportedItemField.IMPORT_RESULT] in [Result.SUCCESS, Result.NOTHING_TO_UPDATE]:
+                self.__logger.debug('applyImport: Item {0} has been processed.'.format(
+                        json.dumps(item, cls=JSONDecimalEncoder)))
+            elif item[ImportedItemField.IMPORT_RESULT] == Result.SUCCESS_BUT_IMPORT_RENUMBERED:
+                self.__logger.debug('applyImport: Item {0} has been processed with renumbering.'.format(
+                        json.dumps(item, cls=JSONDecimalEncoder)))
+                renumberedItems.append(item)
+            else:
                 self.__logger.warning('applyImport: Item {0} has been skipped.'.format(
                         json.dumps(item, cls=JSONDecimalEncoder)))
                 skippedItems.append(item)
-            else:
-                self.__logger.debug('applyImport: Item {0} has been processed.'.format(
-                        json.dumps(item, cls=JSONDecimalEncoder)))
 
         self.__logger.info('applyImport: Added {0} item(s). Skipped {1} item(s).'.format(
                 len(self.getAdded(sessionID)), len(skippedItems)))
@@ -520,7 +529,7 @@ class Model:
         # 3. Drop import
         self.dropImport(sessionID)
 
-        return Result.SUCCESS, skippedItems
+        return Result.SUCCESS, skippedItems, renumberedItems
 
     def __diffAndUpdateItem(self, itemDiff, fieldName, item, valueNew, valueRaw, required):
         """Diffs a given field of the current item and a new value and updates item.

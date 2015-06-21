@@ -173,6 +173,19 @@ class TestDataset(unittest.TestCase):
         code = self.dataset.getNextItemCode()
         self.assertEqual(code, '59')
 
+        # Jump
+        code = self.dataset.getNextItemCode(100)
+        self.assertEqual(code, '100')
+        code = self.dataset.getNextItemCode()
+        self.assertEqual(code, '101')
+
+        # Jumping backward is not allowed
+        code = self.dataset.getNextItemCode(50)
+        self.assertEqual(code, '102')
+        code = self.dataset.getNextItemCode(102)
+        self.assertEqual(code, '103')
+
+
     def test_normalizeItemImport(self):
         # Item not for sale.
         result, item = self.dataset.normalizeItemImport({

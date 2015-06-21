@@ -128,12 +128,13 @@ class TestModel(unittest.TestCase):
                 addedItem);
 
         # add item from an import
-        importNumber = 3
+        importNumber = 100
         self.assertEqual(
                 self.model.addNewItem(sessionID, 99, 'Shy', 'Lemur', None, None, None, '', importNumber),
                 Result.SUCCESS)
         addedItem = self.dataset.getItems('Owner=="99" and Title=="Shy" and Author=="Lemur"')[0]
         self.assertDictContainsSubset({
+                        ItemField.CODE: str(importNumber),
                         ItemField.IMPORT_NUMBER: importNumber},
                 addedItem);
 
@@ -147,9 +148,20 @@ class TestModel(unittest.TestCase):
                 self.model.addNewItem(sessionID, 99, 'Smiling', 'Lemur', None, None, None, 'Some note', importNumber),
                 Result.DUPLICATE_IMPORT_NUMBER)
 
+        # add item from an import with a and import number that matches an existing code
+        importNumber = 3
+        self.assertEqual(len(self.dataset.getItems('Code=="{0}"'.format(importNumber))), 0)
+        self.assertEqual(
+                self.model.addNewItem(sessionID, 99, 'Funny', 'Cat', None, None, None, '', importNumber),
+                Result.SUCCESS_BUT_IMPORT_RENUMBERED)
+        addedItem = self.dataset.getItems('Owner=="99" and Title=="Funny" and Author=="Cat"')[0]
+        self.assertDictContainsSubset({
+                        ItemField.IMPORT_NUMBER: importNumber},
+                addedItem);
+
         # added list
         addedItemCodes = self.model.getAdded(sessionID)
-        self.assertEqual(len(addedItemCodes), 5);
+        self.assertEqual(len(addedItemCodes), 6);
 
 
     def test_getAddedItems(self):
@@ -364,27 +376,31 @@ class TestModel(unittest.TestCase):
         binaryStream.close()
 
         # 2. Verify
-        self.assertEqual(len(importedItems), 12)
+        self.assertEqual(len(importedItems), 13)
         self.assertEqual(importedItems[0][ImportedItemField.IMPORT_RESULT], Result.SUCCESS)
         self.assertEqual(importedItems[1][ImportedItemField.IMPORT_RESULT], Result.SUCCESS)
-        self.assertEqual(importedItems[2][ImportedItemField.IMPORT_RESULT], Result.INVALID_CHARITY)
-        self.assertEqual(importedItems[3][ImportedItemField.IMPORT_RESULT], Result.INCOMPLETE_SALE_INFO)
-        self.assertEqual(importedItems[4][ImportedItemField.IMPORT_RESULT], Result.INVALID_AMOUNT)
-        self.assertEqual(importedItems[5][ImportedItemField.IMPORT_RESULT], Result.INVALID_AUTHOR)
-        self.assertEqual(importedItems[6][ImportedItemField.IMPORT_RESULT], Result.INVALID_TITLE)
-        self.assertEqual(importedItems[7][ImportedItemField.IMPORT_RESULT], Result.DUPLICATE_ITEM)
-        self.assertEqual(importedItems[8][ImportedItemField.IMPORT_RESULT], Result.SUCCESS)
+        self.assertEqual(importedItems[2][ImportedItemField.IMPORT_RESULT], Result.SUCCESS)
+        self.assertEqual(importedItems[3][ImportedItemField.IMPORT_RESULT], Result.INVALID_CHARITY)
+        self.assertEqual(importedItems[4][ImportedItemField.IMPORT_RESULT], Result.INCOMPLETE_SALE_INFO)
+        self.assertEqual(importedItems[5][ImportedItemField.IMPORT_RESULT], Result.INVALID_AMOUNT)
+        self.assertEqual(importedItems[6][ImportedItemField.IMPORT_RESULT], Result.INVALID_AUTHOR)
+        self.assertEqual(importedItems[7][ImportedItemField.IMPORT_RESULT], Result.INVALID_TITLE)
+        self.assertEqual(importedItems[8][ImportedItemField.IMPORT_RESULT], Result.DUPLICATE_ITEM)
         self.assertEqual(importedItems[9][ImportedItemField.IMPORT_RESULT], Result.SUCCESS)
         self.assertEqual(importedItems[10][ImportedItemField.IMPORT_RESULT], Result.SUCCESS)
         self.assertEqual(importedItems[11][ImportedItemField.IMPORT_RESULT], Result.SUCCESS)
+        self.assertEqual(importedItems[12][ImportedItemField.IMPORT_RESULT], Result.SUCCESS)
 
         # 3. Apply
         owner = 2
-        result, skippedItems = self.model.applyImport(sessionID, importedChecksum, owner)
+        result, skippedItems, renumberedItems = self.model.applyImport(sessionID, importedChecksum, owner)
         self.assertEqual(result, Result.SUCCESS)
-        self.assertEqual(len(self.model.getAdded(sessionID)), 5)
+        self.assertEqual(len(self.model.getAdded(sessionID)), 6)
         self.assertEqual(len(self.dataset.getItems(
                 'Owner=="{0}" and Title=="Smooth \\\"Frog\\\"" and Author=="Greentiger" and State=="{1}" and InitialAmount=="120" and Charity=="47"'.format(
+                        owner, ItemState.ON_SALE))), 1)
+        self.assertEqual(len(self.dataset.getItems(
+                'Owner=="{0}" and Title=="Draft Horse" and Author=="Greentiger" and State=="{1}" and InitialAmount=="500" and Charity=="0"'.format(
                         owner, ItemState.ON_SALE))), 1)
         self.assertEqual(len(self.dataset.getItems(
                 'Owner=="{0}" and Title=="Žluťoučký kůň" and Author=="Greentiger" and State=="{1}"'.format(
@@ -396,14 +412,14 @@ class TestModel(unittest.TestCase):
                 'Owner=="7" and Title=="More Wolves" and Author=="Greenfox" and State=="{0}" and InitialAmount=="280" and Charity=="50"'.format(
                         ItemState.ON_SALE))), 1)
         # 4. Re-apply
-        result, skippedItems = self.model.applyImport(sessionID, importedChecksum, owner)
+        result, skippedItems, renumberedItems = self.model.applyImport(sessionID, importedChecksum, owner)
         self.assertEqual(result, Result.NO_IMPORT)
 
         # 5. Re-apply with invalid checksum
         binaryStream = io.open(self.importFileCsv.getFilename(), mode='rb')
         importedItems, importedChecksum = self.model.importCSVFile(sessionID, binaryStream)
         binaryStream.close()
-        result, skippedItems = self.model.applyImport(sessionID, importedChecksum + 50, owner)
+        result, skippedItems, renumberedItems = self.model.applyImport(sessionID, importedChecksum + 50, owner)
         self.assertEqual(result, Result.INVALID_CHECKSUM)
 
     def test_importItemsFromText(self):
@@ -429,7 +445,7 @@ class TestModel(unittest.TestCase):
 
         # 3. Apply
         owner = 2
-        result, skippedItems = self.model.applyImport(sessionID, importedChecksum, owner)
+        result, skippedItems, renumberedItems = self.model.applyImport(sessionID, importedChecksum, owner)
         self.assertEqual(result, Result.SUCCESS)
         self.assertEqual(len(self.model.getAdded(sessionID)), 2)
         self.assertEqual(len(self.dataset.getItems(

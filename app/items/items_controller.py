@@ -387,12 +387,13 @@ def applyImport():
     owner = getParameter('Owner')
 
     # 2. Apply import.
-    result, skippedItems = flask.g.model.applyImport(flask.g.sessionID, checksum, owner)
+    result, skippedItems, renumberedItems = flask.g.model.applyImport(flask.g.sessionID, checksum, owner)
 
     # 3. Present result.
-    if result != Result.SUCCESS or len(skippedItems) == 0:
+    if result != Result.SUCCESS or (len(skippedItems) == 0 and len(renumberedItems) == 0):
         return __respondNewItemHtml(None, message=result)
     else:
         return respondHtml('reportimport', flask.g.userGroup, flask.g.language, {
                 'skippedItems': skippedItems,
+                'renumberedItems': renumberedItems,
                 'targetContinue': flask.url_for('.leaveImport')})
