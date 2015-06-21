@@ -161,6 +161,7 @@ def printSelectedItems():
     if len(itemCodes) > 0:
         selectedItems = flask.g.model.getItems(itemCodes)
         selectedItems[:] = [formatItem(item, flask.g.language) for item in selectedItems]
+        logging.debug('printSelectedItems: Requested to print [{0}]'.format(json.dumps(selectedItems, cls=JSONDecimalEncoder))) #DEBUG
         return respondHtml('bidsheets', flask.g.userGroup, flask.g.language, {
                 'items': selectedItems,
                 'cancelledTarget': flask.url_for('.listItems'),
