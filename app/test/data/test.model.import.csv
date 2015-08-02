@@ -1,5 +1,6 @@
 Č. díla,Č. visačky vlastníka,Autor,Název,Médium,Poznámka,Cena (v Kč),Charita (v %)
 ,,Greentiger,"Smooth ""Frog""",,,120,47
+,,Greentiger,"Fairy ""Frog""",,,120,47
 ,,Greentiger,"Draft Horse",,,500,0
 ,,Greentiger,Žluťoučký kůň,,,,
 ,,Greentiger,Modroučký kůň,,Charity error,50,500
@@ -7,8 +8,7 @@
 ,,Greentiger,Zlatavý kůň,,Amount error,-10,10
 ,,,Blue Moon,,Missing author,,
 ,,Greentiger,,,Missing title,400,0
-,,Greentiger,"Smooth ""Frog""",,Duplicate item in import,300,10
+,,Greentiger,"Fairy ""Frog""",,Duplicate item in import,300,10
 ,,Greenfox,Fox Forever,,Pre-existing item,,
-5,7,Greenfox,Fox Forever,,Already imported,,
-6,7,Greenfox,More Wolves,,Updated item imported earlier,280,50
+6,7,Greenfox,More Wolves,,Update of existing item,280,50
 7,2,Orangebear,Blue sun,,Same import number by different owner,,

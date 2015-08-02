@@ -41,7 +41,7 @@ E) Charity (percentage): 50
 
 A) Artwork Number: 8
 B) Author: Greentiger
-C) Title: Smooth Frog   
+C) Title: Fairy Frog   
 D) Price (CZK): 300
 E) Charity (percentage): 10
 
@@ -50,6 +50,14 @@ E) Charity (percentage): 10
 A) Artwork Number: 8
 B) Author: Redwolf
 C) Title: Eastern Dragon		
+
+
+
+A) Artwork Number: 10
+B) Author: Greentiger
+C) Title: Fairy Frog
+D) Price (CZK): 120
+E) Charity (percentage): 47
 
 Nonesense at the end.
 

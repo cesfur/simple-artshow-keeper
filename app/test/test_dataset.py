@@ -185,6 +185,13 @@ class TestDataset(unittest.TestCase):
         code = self.dataset.getNextItemCode(102)
         self.assertEqual(code, '103')
 
+        # Requesting suggested code should fail if it is not possible to fulfill the request
+        # without updating the counter.
+        code = self.dataset.getNextItemCode(102, True)
+        self.assertIsNone(code)
+        code = self.dataset.getNextItemCode(102)
+        self.assertEqual(code, '104')
+
 
     def test_normalizeItemImport(self):
         # Item not for sale.

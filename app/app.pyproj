@@ -138,6 +138,7 @@
     <Content Include="test\data\items_to_csv.xsl" />
     <Content Include="test\data\test.common.phrase_dictionary.xml" />
     <Content Include="test\data\test.model.currency.xml" />
+    <Content Include="test\data\test.model.import_number.csv" />
     <Content Include="test\data\test.model.import.txt" />
     <Content Include="test\data\test.model.import.csv" />
     <Content Include="test\data\test.model.items.auction_only.xml" />

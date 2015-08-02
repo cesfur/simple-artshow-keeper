@@ -39,6 +39,8 @@ class TestModel(unittest.TestCase):
     def setUp(self):
         self.logger = logging.getLogger()
 
+        self.testFiles = []
+
         self.itemFile = Datafile('test.model.items.xml', self.id())
         self.itemFileAuctionOnly = Datafile('test.model.items.auction_only.xml', self.id())
         self.sessionFile = Datafile('test.model.session.xml', self.id())
@@ -68,10 +70,17 @@ class TestModel(unittest.TestCase):
         self.currencyFile.clear()
         self.importFileCsv.clear()
         self.importFileTxt.clear()
+        for file in self.testFiles:
+            file.clear()
 
         del self.model
         del self.currency
         del self.dataset
+
+    def restoreTestFile(self, filename):
+        testFile = Datafile(filename, self.id())
+        self.testFiles.append(testFile)
+        return testFile
         
     def test_getItem(self):
         item = self.model.getItem('A2')
@@ -378,49 +387,132 @@ class TestModel(unittest.TestCase):
         # 2. Verify
         self.assertEqual(len(importedItems), 13)
         self.assertEqual(importedItems[0][ImportedItemField.IMPORT_RESULT], Result.SUCCESS)
-        self.assertEqual(importedItems[1][ImportedItemField.IMPORT_RESULT], Result.SUCCESS)
+        self.assertEqual(importedItems[1][ImportedItemField.IMPORT_RESULT], Result.DUPLICATE_ITEM)
         self.assertEqual(importedItems[2][ImportedItemField.IMPORT_RESULT], Result.SUCCESS)
-        self.assertEqual(importedItems[3][ImportedItemField.IMPORT_RESULT], Result.INVALID_CHARITY)
-        self.assertEqual(importedItems[4][ImportedItemField.IMPORT_RESULT], Result.INCOMPLETE_SALE_INFO)
-        self.assertEqual(importedItems[5][ImportedItemField.IMPORT_RESULT], Result.INVALID_AMOUNT)
-        self.assertEqual(importedItems[6][ImportedItemField.IMPORT_RESULT], Result.INVALID_AUTHOR)
-        self.assertEqual(importedItems[7][ImportedItemField.IMPORT_RESULT], Result.INVALID_TITLE)
-        self.assertEqual(importedItems[8][ImportedItemField.IMPORT_RESULT], Result.DUPLICATE_ITEM)
-        self.assertEqual(importedItems[9][ImportedItemField.IMPORT_RESULT], Result.SUCCESS)
+        self.assertEqual(importedItems[3][ImportedItemField.IMPORT_RESULT], Result.SUCCESS)
+        self.assertEqual(importedItems[4][ImportedItemField.IMPORT_RESULT], Result.INVALID_CHARITY)
+        self.assertEqual(importedItems[5][ImportedItemField.IMPORT_RESULT], Result.INCOMPLETE_SALE_INFO)
+        self.assertEqual(importedItems[6][ImportedItemField.IMPORT_RESULT], Result.INVALID_AMOUNT)
+        self.assertEqual(importedItems[7][ImportedItemField.IMPORT_RESULT], Result.INVALID_AUTHOR)
+        self.assertEqual(importedItems[8][ImportedItemField.IMPORT_RESULT], Result.INVALID_TITLE)
+        self.assertEqual(importedItems[9][ImportedItemField.IMPORT_RESULT], Result.DUPLICATE_ITEM)
         self.assertEqual(importedItems[10][ImportedItemField.IMPORT_RESULT], Result.SUCCESS)
         self.assertEqual(importedItems[11][ImportedItemField.IMPORT_RESULT], Result.SUCCESS)
         self.assertEqual(importedItems[12][ImportedItemField.IMPORT_RESULT], Result.SUCCESS)
 
         # 3. Apply
-        owner = 2
-        result, skippedItems, renumberedItems = self.model.applyImport(sessionID, importedChecksum, owner)
+        defaultOwner = 2
+        result, skippedItems, renumberedItems = self.model.applyImport(sessionID, importedChecksum, defaultOwner)
         self.assertEqual(result, Result.SUCCESS)
         self.assertEqual(len(self.model.getAdded(sessionID)), 6)
         self.assertEqual(len(self.dataset.getItems(
                 'Owner=="{0}" and Title=="Smooth \\\"Frog\\\"" and Author=="Greentiger" and State=="{1}" and InitialAmount=="120" and Charity=="47"'.format(
-                        owner, ItemState.ON_SALE))), 1)
+                        defaultOwner, ItemState.ON_SALE))), 1)
         self.assertEqual(len(self.dataset.getItems(
                 'Owner=="{0}" and Title=="Draft Horse" and Author=="Greentiger" and State=="{1}" and InitialAmount=="500" and Charity=="0"'.format(
-                        owner, ItemState.ON_SALE))), 1)
+                        defaultOwner, ItemState.ON_SALE))), 1)
         self.assertEqual(len(self.dataset.getItems(
                 'Owner=="{0}" and Title=="Žluťoučký kůň" and Author=="Greentiger" and State=="{1}"'.format(
-                        owner, ItemState.ON_SHOW))), 1)
+                        defaultOwner, ItemState.ON_SHOW))), 1)
         self.assertEqual(len(self.dataset.getItems(
                 'Owner=="{0}" and Title=="Eastern Dragon" and Author=="Redwolf" and State=="{1}"'.format(
-                        owner, ItemState.SOLD))), 1)
+                        defaultOwner, ItemState.SOLD))), 1)
         self.assertEqual(len(self.dataset.getItems(
                 'Owner=="7" and Title=="More Wolves" and Author=="Greenfox" and State=="{0}" and InitialAmount=="280" and Charity=="50"'.format(
                         ItemState.ON_SALE))), 1)
+
         # 4. Re-apply
-        result, skippedItems, renumberedItems = self.model.applyImport(sessionID, importedChecksum, owner)
+        result, skippedItems, renumberedItems = self.model.applyImport(sessionID, importedChecksum, defaultOwner)
         self.assertEqual(result, Result.NO_IMPORT)
 
         # 5. Re-apply with invalid checksum
         binaryStream = io.open(self.importFileCsv.getFilename(), mode='rb')
         importedItems, importedChecksum = self.model.importCSVFile(sessionID, binaryStream)
         binaryStream.close()
-        result, skippedItems, renumberedItems = self.model.applyImport(sessionID, importedChecksum + 50, owner)
+        result, skippedItems, renumberedItems = self.model.applyImport(sessionID, importedChecksum + 50, defaultOwner)
         self.assertEqual(result, Result.INVALID_CHECKSUM)
+
+    def test_importItemsFromCsv_ImportNumberReuse(self):
+        # Verify next code. This is crucial for the last test.
+        NEXT_AVAILABLE_CODE = 57
+
+        # 1. Import
+        importFile = self.restoreTestFile('test.model.import_number.csv');
+        sessionID = 11111
+        binaryStream = io.open(importFile.getFilename(), mode='rb')
+        importedItems, importedChecksum = self.model.importCSVFile(sessionID, binaryStream)
+        binaryStream.close()
+
+        # 2. Verify
+        self.assertEqual(len(importedItems), 11)
+        self.assertEqual(importedItems[0][ImportedItemField.IMPORT_RESULT], Result.SUCCESS)
+        self.assertEqual(importedItems[1][ImportedItemField.IMPORT_RESULT], Result.DUPLICATE_ITEM)
+        self.assertEqual(importedItems[2][ImportedItemField.IMPORT_RESULT], Result.DUPLICATE_ITEM)
+        self.assertEqual(importedItems[3][ImportedItemField.IMPORT_RESULT], Result.DUPLICATE_ITEM)
+        self.assertEqual(importedItems[4][ImportedItemField.IMPORT_RESULT], Result.SUCCESS)
+        self.assertEqual(importedItems[5][ImportedItemField.IMPORT_RESULT], Result.SUCCESS)
+        self.assertEqual(importedItems[6][ImportedItemField.IMPORT_RESULT], Result.SUCCESS)
+        self.assertEqual(importedItems[7][ImportedItemField.IMPORT_RESULT], Result.SUCCESS)
+        self.assertEqual(importedItems[8][ImportedItemField.IMPORT_RESULT], Result.SUCCESS)
+        self.assertEqual(importedItems[9][ImportedItemField.IMPORT_RESULT], Result.SUCCESS)
+        self.assertEqual(importedItems[10][ImportedItemField.IMPORT_RESULT], Result.SUCCESS)
+
+        # 3. Apply
+        defaultOwner = 2
+        result, skippedItems, renumberedItems = self.model.applyImport(sessionID, importedChecksum, defaultOwner)
+        self.assertEqual(Result.SUCCESS, result)
+        self.assertEqual(7, len(self.model.getAdded(sessionID)))
+
+        # 3a. Check that if Import Number is missing, it will be left empty.
+        self.assertDictContainsSubset(
+                { ItemField.IMPORT_NUMBER: None },
+                self.dataset.getItems('Owner=="7" and Author=="Redpanda" and Title=="Moon cycles"')[0])
+
+        # 3b. Check that a duplicate Import Number in the import was not imported.
+        self.assertEqual(
+                0,
+                len(self.dataset.getItems('Owner=="7" and Author=="Redpanda" and Title=="Fullmoon"')))
+        self.assertEqual(
+                0,
+                len(self.dataset.getItems('Owner=="7" and Author=="Redpanda" and Title=="No moon"')))
+
+        # 3c. Check that an existing item with a matching Import Number has not been updated
+        # in case there were changes.
+        self.assertEqual(
+                1,
+                len(self.dataset.getItems('Owner=="7" and Author=="Redpanda" and Title=="Half moon"')))
+        updatedItem = self.dataset.getItems('Owner=="7" and Author=="Redpanda" and Title=="Half moon"')[0]
+        self.assertIn(updatedItem[ItemField.CODE], self.model.getAdded(sessionID))
+
+        # 3d. Check that an existing item with a matching Import Number has not been updated.
+        nonupdatedItem = self.dataset.getItems('Owner=="7" and Author=="Greenfox" and Title=="White Snow"')[0]
+        self.assertNotIn(nonupdatedItem[ItemField.CODE], self.model.getAdded(sessionID))
+
+        # 3e. Check that item which import number might have been used earlier is renumbered.
+        renumberedItem = self.dataset.getItems('Owner=="7" and Author=="Redpanda" and Title=="Day phases"')[0]
+        self.assertNotEqual('45', renumberedItem[ItemField.CODE]);
+        self.assertEqual(45, renumberedItem[ItemField.IMPORT_NUMBER]);
+
+        # 3f. Check that Import Number is used case Code if the Code might not have been used previously.
+        self.assertDictContainsSubset(
+                { ItemField.CODE: '80', ItemField.IMPORT_NUMBER: 80 },
+                self.dataset.getItems('Owner=="7" and Author=="Redpanda" and Title=="Morning"')[0])
+
+        self.assertDictContainsSubset(
+                { ItemField.CODE: '90', ItemField.IMPORT_NUMBER: 90 },
+                self.dataset.getItems('Owner=="7" and Author=="Redpanda" and Title=="Afternoon"')[0])
+
+        # 3g. Check that order of occurance in the import has no impact on ability to use Import Number as Code
+        self.assertDictContainsSubset(
+                { ItemField.CODE: '85', ItemField.IMPORT_NUMBER: 85 },
+                self.dataset.getItems('Owner=="7" and Author=="Redpanda" and Title=="Noon"')[0])
+
+        # 3f. Check that if Import Number might be used as Code at the start of the import, it will be used as Code.
+        # No unnumbered or re-numbered item will prevent that.
+        self.assertDictContainsSubset(
+                { ItemField.CODE: str(NEXT_AVAILABLE_CODE), ItemField.IMPORT_NUMBER: NEXT_AVAILABLE_CODE },
+                self.dataset.getItems('Owner=="7" and Author=="Redpanda" and Title=="Day"')[0])
+
 
     def test_importItemsFromText(self):
         textStream = io.open(self.importFileTxt.getFilename(), mode='rt', encoding='utf-8')
@@ -432,7 +524,7 @@ class TestModel(unittest.TestCase):
         importedItems, importedChecksum = self.model.importText(sessionID, text)
 
         # 2. Verify
-        self.assertEqual(len(importedItems), 9)
+        self.assertEqual(len(importedItems), 10)
         self.assertEqual(importedItems[0][ImportedItemField.IMPORT_RESULT], Result.SUCCESS)
         self.assertEqual(importedItems[1][ImportedItemField.IMPORT_RESULT], Result.SUCCESS)
         self.assertEqual(importedItems[2][ImportedItemField.IMPORT_RESULT], Result.INVALID_CHARITY)
@@ -441,7 +533,8 @@ class TestModel(unittest.TestCase):
         self.assertEqual(importedItems[5][ImportedItemField.IMPORT_RESULT], Result.INVALID_AUTHOR)
         self.assertEqual(importedItems[6][ImportedItemField.IMPORT_RESULT], Result.INVALID_TITLE)
         self.assertEqual(importedItems[7][ImportedItemField.IMPORT_RESULT], Result.DUPLICATE_ITEM)
-        self.assertEqual(importedItems[8][ImportedItemField.IMPORT_RESULT], Result.SUCCESS)
+        self.assertEqual(importedItems[8][ImportedItemField.IMPORT_RESULT], Result.DUPLICATE_ITEM)
+        self.assertEqual(importedItems[9][ImportedItemField.IMPORT_RESULT], Result.DUPLICATE_ITEM)
 
         # 3. Apply
         owner = 2

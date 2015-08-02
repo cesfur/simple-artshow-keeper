@@ -108,18 +108,22 @@ class Dataset:
             item.get(ItemField.AUTHOR, None) is None and \
             item.get(ItemField.TITLE, None) is None
 
-    def getNextItemCode(self, suggestedCode=None):
-        """Get next item code."""
+    def getNextItemCode(self, suggestedCode=None, requestSuggestedCode=False):
+        """Get next item code.
+        Args:
+            suggestedCode -- Code that should be used if possible.
+            requestSuggestedCode -- True to fail the call prior updating dataset if Suggested Code cannot be used.
+        Returns:
+            Code (string) or None on failure.
+        """
         # Retrive reserved code
         reservedItemExpression = self.RESERVED_ITEM_EXPRESSION
         reservedItems = self.__items.select([ItemField.CODE], reservedItemExpression)
         reservedCode = None
         if len(reservedItems) == 1:
             reservedCode = toInt(reservedItems[0][ItemField.CODE])
-            self.__items.delete(reservedItemExpression)
         elif len(reservedItems) > 1:
-            self.__logger.warning('getNextItemCode: Found {0} reserved items, removing all.'.format(len(reservedItems)))
-            self.__items.delete(reservedItemExpression)
+            self.__logger.warning('getNextItemCode: Found {0} reserved items. Item code will be re-calculated.'.format(len(reservedItems)))
 
         # If no reserved code is found, estimate it
         if reservedCode == None:
@@ -133,10 +137,15 @@ class Dataset:
             self.__logger.info('getNextItemCode: Reserved code has been estimated to {0}.'.format(reservedCode))
 
         # Reserve the next item code
-        if suggestedCode is not None and toInt(suggestedCode) >= reservedCode:
-            reservedCode = toInt(suggestedCode)
+        if suggestedCode is not None:
+            if toInt(suggestedCode) >= reservedCode:
+                reservedCode = toInt(suggestedCode)
+            elif requestSuggestedCode:
+                return None
         nextReservedCode = reservedCode + 1
 
+        # Store result
+        self.__items.delete(reservedItemExpression)
         while not self.__items.insert({ItemField.CODE: str(nextReservedCode)}, ItemField.CODE):
             nextReservedCode = nextReservedCode + random.randint(1, 10)
 

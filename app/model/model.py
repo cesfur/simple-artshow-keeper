@@ -110,7 +110,7 @@ class Model:
         """Remove a (key, value) in a session."""
         self.__dataset.updateSessionPairs(sessionID, **{key: None})        
 
-    def addNewItem(self, sessionID, owner, title, author, medium, amount, charity, note, importNumber=None):
+    def addNewItem(self, sessionID, owner, title, author, medium, amount, charity, note, importNumber=None, requestImportNumberCodeMatch=False):
         """Add a new item.
         Returns:
             Result (class Result).
@@ -156,7 +156,11 @@ class Model:
             return Result.DUPLICATE_ITEM
 
         # 4. Build a code and insert.
-        code = self.__dataset.getNextItemCode(importNumber)
+        code = self.__dataset.getNextItemCode(importNumber, importNumber is not None and requestImportNumberCodeMatch)
+        if code is None:
+            self.__logger.error('addNewItem: Import number {0} cannot be used as code as requested. Item not added.'.format(
+                    importNumber))
+            return Result.ERROR
         if not self.__dataset.addItem(
                     code=code, owner=owner, title=title, author=author, medium=medium,
                     state=state, initialAmount=amount, charity=charity, note=note,
@@ -180,10 +184,11 @@ class Model:
             return ItemState.ON_SHOW
 
     def __appendAddedCode(self, sessionID, code):
-        addedItemCodes = self.__dataset.getSessionValue(sessionID, session.Field.ADDED_ITEM_CODES, '')
-        addedItemCodes = addedItemCodes + code + ','
-        self.__dataset.updateSessionPairs(sessionID, **{session.Field.ADDED_ITEM_CODES: addedItemCodes})
-        return addedItemCodes
+        addedItemCodes = self.getAdded(sessionID)
+        if code not in addedItemCodes:
+            addedItemCodes.append(code)
+            self.__dataset.updateSessionPairs(sessionID, **{session.Field.ADDED_ITEM_CODES: ','.join(addedItemCodes)})
+        return ','.join(addedItemCodes)
 
     def __getImportedItem(self, owner, importNumber):
         item = None
@@ -264,21 +269,32 @@ class Model:
                 itemB is not None and \
                 itemA[ImportedItemField.IMPORT_RESULT] == Result.SUCCESS and \
                 itemB[ImportedItemField.IMPORT_RESULT] == Result.SUCCESS and \
-                self.__matchStrings(itemA[ImportedItemField.AUTHOR], itemB[ImportedItemField.AUTHOR]) and \
-                self.__matchStrings(itemA[ImportedItemField.TITLE], itemB[ImportedItemField.TITLE])
+                (
+                    (
+                        self.__matchStrings(itemA[ImportedItemField.AUTHOR], itemB[ImportedItemField.AUTHOR]) and \
+                        self.__matchStrings(itemA[ImportedItemField.TITLE], itemB[ImportedItemField.TITLE]) \
+                    ) or ( \
+                        self.__matchStrings(itemA[ImportedItemField.NUMBER], itemB[ImportedItemField.NUMBER]) \
+                    ) \
+                )
 
     def __checkDuplicityWithinImport(self, importedItems):
         """Check whether there are duplicities within the import items."""
-        for i in range(1, len(importedItems)):
+        resultUpdate = {}
+        for i in range(0, len(importedItems) - 1):
             item = importedItems[i]
             if item[ImportedItemField.IMPORT_RESULT] == Result.SUCCESS:
-                for j in range(0, i - 1):
+                for j in range(i + 1, len(importedItems)):
                     otherItem = importedItems[j]
                     if self.__matchImportedItems(item, otherItem):
                         self.__logger.info('__checkImportedItemsDuplicity: Item {0} is duplicate of an item {1}.'.format(
                                 json.dumps(otherItem, cls=JSONDecimalEncoder), json.dumps(item, cls=JSONDecimalEncoder)))
-                        item[ImportedItemField.IMPORT_RESULT] = Result.DUPLICATE_ITEM
-                        break
+                        resultUpdate[i] = Result.DUPLICATE_ITEM
+                        resultUpdate[j] = Result.DUPLICATE_ITEM
+
+        for index, result in resultUpdate.items():
+            importedItems[index][ImportedItemField.IMPORT_RESULT] = result
+
 
     def __postProcessImport(self, sessionID, importedItems):
         # 1. Remove previous data (if any).
@@ -480,12 +496,45 @@ class Model:
         # 2. Add items
         skippedItems = []
         renumberedItems = []
-        for item in importedItems:
-            if item[ImportedItemField.IMPORT_RESULT] == Result.SUCCESS:
-                owner = item[ImportedItemField.OWNER] if item[ImportedItemField.OWNER] is not None else defaultOwner
+
+        # 2a. Filter items and complete defaults
+        for i in range(0, len(importedItems)):
+            item = importedItems[i]
+            if item[ImportedItemField.IMPORT_RESULT] != Result.SUCCESS:
+                skippedItems.append(item)
+                importedItems[i] = None
+            elif item[ImportedItemField.OWNER] is None:
+                item[ImportedItemField.OWNER] = defaultOwner
+
+        # 2b. Order items by import number in order to prevent renumbers if not required.
+        importedItems.sort(key=lambda item: item[ImportedItemField.NUMBER] if item is not None and item[ImportedItemField.NUMBER] is not None else -1)
+
+        # 2c. Add new items which might does not need renumbering
+        for i in range(0, len(importedItems)):
+            item = importedItems[i]
+            if item is not None and item[ImportedItemField.NUMBER] is not None:
                 addResult = self.addNewItem(
                         sessionID,
-                        owner=owner,
+                        owner=item[ImportedItemField.OWNER],
+                        title=item[ImportedItemField.TITLE],
+                        author=item[ImportedItemField.AUTHOR],
+                        medium=item[ImportedItemField.MEDIUM],
+                        amount=item[ImportedItemField.INITIAL_AMOUNT],
+                        charity=item[ImportedItemField.CHARITY],
+                        note=item[ImportedItemField.NOTE],
+                        importNumber=item[ImportedItemField.NUMBER],
+                        requestImportNumberCodeMatch=True)
+                if addResult == Result.SUCCESS:
+                    self.__logger.debug('applyImport: Item {0} has been processed.'.format(
+                            json.dumps(item, cls=JSONDecimalEncoder)))
+                    importedItems[i] = None
+
+        # 2d. Add the rest.
+        for item in importedItems:
+            if item is not None:
+                addResult = self.addNewItem(
+                        sessionID,
+                        owner=item[ImportedItemField.OWNER],
                         title=item[ImportedItemField.TITLE],
                         author=item[ImportedItemField.AUTHOR],
                         medium=item[ImportedItemField.MEDIUM],
@@ -497,7 +546,7 @@ class Model:
                 if addResult == Result.DUPLICATE_IMPORT_NUMBER:
                     addResult = self.__updateImportedItem(
                         sessionID,
-                        owner=owner,
+                        owner=item[ImportedItemField.OWNER],
                         importNumber=item[ImportedItemField.NUMBER],
                         title=item[ImportedItemField.TITLE],
                         author=item[ImportedItemField.AUTHOR],
@@ -506,22 +555,19 @@ class Model:
                         charity=item[ImportedItemField.CHARITY],
                         note=item[ImportedItemField.NOTE])
 
-                if addResult not in [Result.SUCCESS, Result.SUCCESS_BUT_IMPORT_RENUMBERED, Result.NOTHING_TO_UPDATE]:
-                    self.__logger.error('applyImport: Importing item {0} failed with an error {1}.'.format(
-                            json.dumps(item, cls=JSONDecimalEncoder), addResult))
                 item[ImportedItemField.IMPORT_RESULT] = addResult
 
-            if item[ImportedItemField.IMPORT_RESULT] in [Result.SUCCESS, Result.NOTHING_TO_UPDATE]:
-                self.__logger.debug('applyImport: Item {0} has been processed.'.format(
-                        json.dumps(item, cls=JSONDecimalEncoder)))
-            elif item[ImportedItemField.IMPORT_RESULT] == Result.SUCCESS_BUT_IMPORT_RENUMBERED:
-                self.__logger.debug('applyImport: Item {0} has been processed with renumbering.'.format(
-                        json.dumps(item, cls=JSONDecimalEncoder)))
-                renumberedItems.append(item)
-            else:
-                self.__logger.warning('applyImport: Item {0} has been skipped.'.format(
-                        json.dumps(item, cls=JSONDecimalEncoder)))
-                skippedItems.append(item)
+                if item[ImportedItemField.IMPORT_RESULT] in [Result.SUCCESS, Result.NOTHING_TO_UPDATE]:
+                    self.__logger.debug('applyImport: Item {0} has been processed.'.format(
+                            json.dumps(item, cls=JSONDecimalEncoder)))
+                elif item[ImportedItemField.IMPORT_RESULT] == Result.SUCCESS_BUT_IMPORT_RENUMBERED:
+                    self.__logger.debug('applyImport: Item {0} has been processed with renumbering.'.format(
+                            json.dumps(item, cls=JSONDecimalEncoder)))
+                    renumberedItems.append(item)
+                else:
+                    self.__logger.error('applyImport: Importing item {0} failed with an error {1}.'.format(
+                            json.dumps(item, cls=JSONDecimalEncoder), addResult))
+                    skippedItems.append(item)
 
         self.__logger.info('applyImport: Added {0} item(s). Skipped {1} item(s).'.format(
                 len(self.getAdded(sessionID)), len(skippedItems)))
