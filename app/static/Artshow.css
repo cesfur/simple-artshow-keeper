@@ -67,11 +67,10 @@ body {
             margin-bottom: 0px;
         }
 
-            div.infoBlock p span {
+            div.infoBlock p > span {
                 color: gray;
                 float: left;
                 width: 150px;
-                height: 100%;
             }
 
     form.main {
@@ -97,8 +96,8 @@ body {
                 margin-bottom: 5px;
             }
 
-            form.main div.block span,
-            form.main fieldset span {
+            form.main div.block > span,
+            form.main fieldset > span {
                 display: inline-block;
                 width: 150px;
             }
@@ -164,6 +163,20 @@ body {
         .listSection p.note {
             margin: 0px;
             padding: 0px;
+        }
+
+    .updateItemToClose .imageBlock {
+        position: relative;
+        text-align: center;
+    }
+        .updateItemToClose .imageBlock .imageLive {
+            position: relative;
+            display: inline-block;
+            border: 1px solid black;
+            background-color: black;
+            width: 96vmin;
+            height: 90vmin;
+            overflow: hidden;
         }
 }
 

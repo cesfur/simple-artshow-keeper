@@ -7,13 +7,16 @@
     <phrase id="Owner:">Vlastník:</phrase>
     <phrase id="ItemNumber">Číslo díla</phrase>
     <phrase id="Owner">Vlastník</phrase>
+    <phrase id="Amount">Cena (v Kč)</phrase>
     <phrase id="Author">Autor</phrase>
+    <phrase id="Buyer">Kupec</phrase>
     <phrase id="Title">Název</phrase>
     <phrase id="Medium">Médium</phrase>
     <phrase id="InitialAmount">Počáteční cena</phrase>
     <phrase id="Charity">Charita</phrase>
     <phrase id="Note">Poznámka</phrase>
     <phrase id="TotalRecords:">Celkem položek:</phrase>
+    <phrase id="BuyerHelp">Visačka kupce musí být kladné číslo.</phrase>
     <phrase id="OwnerHelp">Číslo visačky větší, než 1.</phrase>
     <phrase id="BackToMain">Zpět na hlavní</phrase>
     <!-- bidsheets -->
@@ -21,6 +24,21 @@
     <phrase id="Bidsheets.Title">Tisk visaček</phrase>
     <phrase id="Bidsheets.CancelPrint">Zrušit tisk</phrase>
     <phrase id="Bidsheets.Print">Tiskni</phrase>
+    <!-- edit item image -->
+    <phrase id="EditItemImage.Header">ArtShow: Obrázek předmětu</phrase>
+    <phrase id="EditItemImage.Title">Obrázek předmětu</phrase>
+    <phrase id="EditItemImage.Cancel">Zrušit</phrase>
+    <phrase id="EditItemImage.Delete">Smazat</phrase>
+    <phrase id="EditItemImage.NotSupported">Zařízení nepodporuje vstup z kamery.</phrase>
+    <phrase id="EditItemImage.NoCamera">Kamera nenalezena.</phrase>
+    <phrase id="EditItemImage.UnknownError">Nastala chyba při práci s kamerou. Obrázek nelze vytvořit. Chyba:</phrase>
+    <phrase id="EditItemImage.Save">Uložit</phrase>
+    <phrase id="EditItemImage.Skip">Vynechat</phrase>
+    <!-- find item to close -->
+    <phrase id="FindItemToClose.Header">ArtShow: Uzávěrka předmětu</phrase>
+    <phrase id="FindItemToClose.Title">Vyber předmět k uzavření</phrase>
+    <phrase id="FindItemToClose.CloseItem">Uzavři předmět</phrase>
+    <phrase id="FindItemToClose.ItemsLeft">Zbývá k uzavření</phrase>
     <!-- main -->
     <phrase id="Setup">Příjem</phrase>
     <phrase id="New Item">Nový předmět</phrase>
@@ -35,6 +53,9 @@
     <phrase id="Cash Drawer Info">Stav pokladny</phrase>
     <phrase id="Main.Settings">Nastavení systému</phrase>
     <phrase id="Main.ShowSettings">Zobraz nastavení</phrase>
+    <!-- message -->
+    <phrase id="Message.Header">ArtShow: Zpráva</phrase>
+    <phrase id="Message.Title">Zpráva</phrase>
     <!-- login -->
     <phrase id="ArtShow Login">Artshow: Příhlášení</phrase>
     <phrase id="Artshow Code:">Kód pro Artshow: </phrase>
@@ -84,5 +105,13 @@
     </phrase>
     <phrase id="Settings.PrimaryCurrencyConversionHelp">Koeficicient u primární měny musí být 1.</phrase>
     <phrase id="Settings.SaveSettings">Ulož změny</phrase>
+    <!-- update item to close -->
+    <phrase id="UpdateItemToClose.Header">ArtShow: Uzávěrka předmětu</phrase>
+    <phrase id="UpdateItemToClose.Title">Uzávěrka předmětu</phrase>
+    <phrase id="UpdateItemToClose.DifferentItem">Jiný předmět</phrase>
+    <phrase id="UpdateItemToClose.NotSold">Neprodáno</phrase>
+    <phrase id="UpdateItemToClose.Sold">Prodáno</phrase>
+    <phrase id="UpdateItemToClose.ToAuction">Do aukce</phrase>
+    <!-- -->
     <phrase id=""></phrase>
 </dictionary>

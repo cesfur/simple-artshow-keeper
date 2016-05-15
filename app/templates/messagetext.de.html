@@ -17,6 +17,12 @@
     <p class="message info">All items are closed already.</p>
 {%- elif message == 'INVALID_INPUT' -%}
     <p class="message error">Invalid input.</p>
+{%- elif message == 'NOTHING_TO_UPDATE' -%}
+    <p class="message error">Unable to update the item because the item was not found or there is not update.</p>
+{%- elif message == 'NO_IMAGE' -%}
+    <p class="message error">No image data supplied.</p>
+{%- elif message == 'UNSUPPORTED_IMAGE_FORMAT' -%}
+    <p class="message error">Unsupported image format.</p>
 {%- elif message == 'INVALID_ITEM_CODE' -%}
     <p class="message error">Invalid item code.</p>
 {%- elif message == 'DUPLICATE_ITEM' -%}

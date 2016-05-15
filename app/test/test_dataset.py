@@ -22,7 +22,7 @@ from decimal import Decimal
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
-from datafile import Datafile
+from . datafile import Datafile
 from common.result import Result
 from model.dataset import Dataset
 from model.item import ItemField, ImportedItemField

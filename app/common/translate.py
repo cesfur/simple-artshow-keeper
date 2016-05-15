@@ -52,9 +52,9 @@ def translateXhtmlElement(language, element):
 
 def translateXhtml(language, xml):
     try:
-        xmldoc = minidom.parseString(xml)
+        xmldoc = xml if isinstance(xml, minidom.Document) else minidom.parseString(xml)
         translateXhtmlElement(language, xmldoc.documentElement)
-        return xmldoc.toxml(encoding=xmldoc.encoding)
+        return xmldoc if isinstance(xml, minidom.Document) else xmldoc.toxml(encoding=xmldoc.encoding)
     except:
         logging.getLogger('translate').error(u'XML: {0}'.format(xml.encode('ascii', 'ignore')))
         raise

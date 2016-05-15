@@ -17,6 +17,12 @@
     <p class="message info">Všechny předměty již byly uzavřeny.</p>
 {%- elif message == 'INVALID_INPUT' -%}
     <p class="message error">Neplatný vstup.</p>
+{%- elif message == 'NOTHING_TO_UPDATE' -%}
+    <p class="message error">Požadovaný předmět nelze upravit, neboť jej nelze nalézt.</p>
+{%- elif message == 'NO_IMAGE' -%}
+    <p class="message error">Nebyla dodána obrazová data.</p>
+{%- elif message == 'UNSUPPORTED_IMAGE_FORMAT' -%}
+    <p class="message error">Formát obazových dat není podporován.</p>
 {%- elif message == 'INVALID_ITEM_CODE' -%}
     <p class="message error">Neplatný identifikátor předmětu.</p>
 {%- elif message == 'DUPLICATE_ITEM' -%}

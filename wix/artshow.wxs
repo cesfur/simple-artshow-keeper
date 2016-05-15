@@ -92,6 +92,11 @@
                             <CreateFolder/>
                         </Component>
                     </Directory>
+                    <Directory Id="ImageDataDir" Name="image">
+                        <Component Id="ImageDataCore" Guid="{509540BB-3326-4583-9CC2-D00CD73EE925}">
+                            <CreateFolder/>
+                        </Component>
+                    </Directory>
                     <Component Id="DataCore" Guid="{F12DF5DC-20FF-48ca-AEBC-9ECC4221CD83}">
                         <CreateFolder/>
                     </Component>
@@ -122,7 +127,6 @@
             <Component Id="Core" Guid="{6E3E9E09-F519-4eae-A742-2FD9914EE1DA}">
                 <File Id="Core___init__" Source="$(var.SolutionDir)app/__init__.py"/>
                 <File Source="$(var.SolutionDir)app/main.py" KeyPath="yes"/>
-                <File Source="$(var.SolutionDir)app/authentication.py"/>
                 <File Source="$(var.SolutionDir)app/config.py"/>                
             </Component>
             <Component Id="CoreIni" Guid="{1B1DF4E5-BEE3-4e01-AFE0-BF579454AE09}">            
@@ -161,17 +165,15 @@
                 <!-- Multilingual -->
                 <File Source="$(var.SolutionDir)app/templates/login.xhtml"/>
                 <File Source="$(var.SolutionDir)app/templates/main.admin.xhtml"/>
+                <File Source="$(var.SolutionDir)app/templates/message.xhtml"/>
                 <!-- CZ -->
                 <File Source="$(var.SolutionDir)app/templates/itemstate.cz.html"/>
-                <File Source="$(var.SolutionDir)app/templates/message.cz.html"/>
                 <File Source="$(var.SolutionDir)app/templates/messagetext.cz.html"/>
                 <!-- EN -->
                 <File Source="$(var.SolutionDir)app/templates/itemstate.en.html"/>
-                <File Source="$(var.SolutionDir)app/templates/message.en.html"/>
                 <File Source="$(var.SolutionDir)app/templates/messagetext.en.html"/>
                 <!-- DE -->
                 <File Source="$(var.SolutionDir)app/templates/itemstate.de.html"/>
-                <File Source="$(var.SolutionDir)app/templates/message.de.html"/>
                 <File Source="$(var.SolutionDir)app/templates/messagetext.de.html"/>
             </Component>
         </DirectoryRef>
@@ -179,6 +181,7 @@
         <DirectoryRef Id="CommonDir">
             <Component Id="Common" Guid="{0244D2F8-F691-4d89-9225-C2471461DCF5}">
                 <File Id="Common___init__" Source="$(var.SolutionDir)app/common/__init__.py"/>
+                <File Source="$(var.SolutionDir)app/common/authentication.py"/>
                 <File Source="$(var.SolutionDir)app/common/convert.py"/>
                 <File Source="$(var.SolutionDir)app/common/parameter.py"/>
                 <File Source="$(var.SolutionDir)app/common/phrase_dictionary.py"/>
@@ -273,24 +276,21 @@
             <Component Id="ItemsTemplates" Guid="{6C69BF2B-15FE-4e3a-A96B-9CE127550760}">
                 <!-- Multilingual -->
                 <File Source="$(var.SolutionDir)app/items/templates/approveimport.admin.xhtml"/>
+                <File Source="$(var.SolutionDir)app/items/templates/edititemimage.admin.xhtml"/>
+                <File Source="$(var.SolutionDir)app/items/templates/finditemtoclose.admin.xhtml"/>
                 <File Source="$(var.SolutionDir)app/items/templates/reportimport.admin.xhtml"/>
                 <File Source="$(var.SolutionDir)app/items/templates/selectimportfile.admin.xhtml"/>
                 <File Source="$(var.SolutionDir)app/items/templates/bidsheets.xhtml"/>
+                <File Source="$(var.SolutionDir)app/items/templates/updateitemtoclose.admin.xhtml"/>
                 <!-- CZ -->
                 <File Source="$(var.SolutionDir)app/items/templates/edititem.admin.cz.html"/>
-                <File Source="$(var.SolutionDir)app/items/templates/finditemtoclose.admin.cz.html"/>
                 <File Source="$(var.SolutionDir)app/items/templates/listitems.admin.cz.html"/>
-                <File Source="$(var.SolutionDir)app/items/templates/updateitemtoclose.admin.cz.html"/>
                 <!-- EN -->
                 <File Source="$(var.SolutionDir)app/items/templates/edititem.admin.en.html"/>
-                <File Source="$(var.SolutionDir)app/items/templates/finditemtoclose.admin.en.html"/>
                 <File Source="$(var.SolutionDir)app/items/templates/listitems.admin.en.html"/>
-                <File Source="$(var.SolutionDir)app/items/templates/updateitemtoclose.admin.en.html"/>
                 <!-- DE -->
                 <File Source="$(var.SolutionDir)app/items/templates/edititem.admin.de.html"/>
-                <File Source="$(var.SolutionDir)app/items/templates/finditemtoclose.admin.de.html"/>
                 <File Source="$(var.SolutionDir)app/items/templates/listitems.admin.de.html"/>
-                <File Source="$(var.SolutionDir)app/items/templates/updateitemtoclose.admin.de.html"/>
             </Component>
         </DirectoryRef>
 
@@ -381,6 +381,7 @@
             <ComponentRef Id="DataCore" />
             <ComponentRef Id="BasicData" />
             <ComponentRef Id="CustomDataCore" />
+            <ComponentRef Id="ImageDataCore" />
 
             <ComponentRef Id="StartMenuShortcut" />
         </Feature>

@@ -16,6 +16,7 @@
 #
 import logging
 import flask
+import netifaces
 import os
 
 ROOT_PATH = os.path.abspath(os.path.normpath(os.path.dirname(__file__)))
@@ -23,12 +24,11 @@ ROOT_PATH = os.path.abspath(os.path.normpath(os.path.dirname(__file__)))
 import config
 config.load(os.path.normpath(os.path.join(ROOT_PATH, 'config.ini')))
 
-from authentication import UserGroups, admin_auth_required, user_auth_required
-
 from common.result import Result
 from common.response import respondHtml, respondXml
 from common.translate import registerDictionary
 from common.phrase_dictionary import PhraseDictionary
+from common.authentication import UserGroups, admin_auth_required, user_auth_required
 from model.dataset import Dataset
 from model.currency import Currency
 from model.model import Model
@@ -76,11 +76,15 @@ del dictionaryPath
 @app.before_request
 def before_request():
     if not model.findSession(flask.session.get('SessionID', None)):
-        flask.session['SessionID'] = model.startNewSession()
-
+        userGroup = UserGroups.ADMIN if flask.request.remote_addr == '127.0.0.1' else UserGroups.OTHERS
+        userGroup = UserGroups.ADMIN #DEBUG
+        sessionID = model.startNewSession(
+            userGroup=userGroup,
+            userIP=flask.request.remote_addr)
+        flask.session['SessionID'] = sessionID
+    
     flask.g.sessionID = flask.session['SessionID']
-    flask.g.userGroup = UserGroups.ADMIN
-    flask.g.userID = 'userID'
+    flask.g.userGroup, flask.g.userIP = model.getSessionUserInfo(flask.session['SessionID'])
     flask.g.language = config.DEFAULT_LANGUAGE
     flask.g.model = model
 
@@ -90,8 +94,8 @@ def after_request(response):
         flask.g.model.persist()
     return response
     
+#@user_auth_required
 @app.route("/")
-@user_auth_required
 def index():
     return respondHtml('main', flask.g.userGroup, flask.g.language)
 
@@ -127,8 +131,24 @@ def catch_all(err):
 
 def run():
     print("Starting")
-    app.run(debug=True, use_reloader=False) # Local address only
-    #app.run(host='0.0.0.0', debug=True, use_reloader=False) # Any address
+    localostOnly = False
+    if localostOnly:
+        app.run(debug=True, use_reloader=False) # Local address only
+    else:
+        ipAddresses = []
+        for ifaceName in netifaces.interfaces():
+            iface = netifaces.ifaddresses(ifaceName)
+            if netifaces.AF_INET in iface:
+                for addressInfo in iface[netifaces.AF_INET]:
+                    address = addressInfo.get('addr', '127.0.0.1')
+                    if address != '127.0.0.1':
+                       ipAddresses.append(address)
+
+        ipAddresses.sort()
+        print('Allowed address:')
+        for ipAddress in ipAddresses:
+            print('   {0}'.format(ipAddress))
+        app.run(host='0.0.0.0', debug=True, use_reloader=False) # Any address
     print("Finished")
 
 if __name__ == "__main__":

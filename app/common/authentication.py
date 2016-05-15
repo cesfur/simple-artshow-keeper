@@ -20,6 +20,16 @@ import flask
 class UserGroups:
     ADMIN = 'admin'
     USERS = 'users'
+    OTHERS = 'others'
+
+def auth(func):
+    @functools.wraps(func)
+    def decorated_function(*args, **kwargs):
+        if flask.g.userGroup != UserGroups.ADMIN:
+            return flask.redirect(flask.url_for('login', next=flask.request.url))
+        else:
+            return func(*args, **kwargs)
+    return decorated_function
 
 def admin_auth_required(func):
     @functools.wraps(func)

@@ -22,7 +22,7 @@
     <PtvsTargetsFile>$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets</PtvsTargetsFile>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="authentication.py" />
+    <Compile Include="common\authentication.py" />
     <Compile Include="common\phrase_dictionary.py" />
     <Compile Include="common\translate.py" />
     <Compile Include="config.py" />
@@ -80,17 +80,13 @@
     <Content Include="items\templates\approveimport.admin.xhtml" />
     <Content Include="items\templates\edititem.admin.de.html" />
     <Content Include="items\templates\edititem.admin.en.html" />
-    <Content Include="items\templates\finditemtoclose.admin.de.html" />
-    <Content Include="items\templates\finditemtoclose.admin.en.html" />
+    <Content Include="items\templates\finditemtoclose.admin.xhtml" />
     <Content Include="items\templates\listitems.admin.de.html" />
     <Content Include="items\templates\listitems.admin.en.html" />
     <Content Include="items\templates\reportimport.admin.xhtml" />
     <Content Include="items\templates\selectimportfile.admin.xhtml" />
-    <Content Include="items\templates\selectimportfile.admin.cz.html" />
-    <Content Include="items\templates\selectimportfile.admin.de.html" />
-    <Content Include="items\templates\selectimportfile.admin.en.html" />
-    <Content Include="items\templates\updateitemtoclose.admin.de.html" />
-    <Content Include="items\templates\updateitemtoclose.admin.en.html" />
+    <Content Include="items\templates\updateitemtoclose.admin.xhtml" />
+    <Content Include="items\templates\edititemimage.admin.xhtml" />
     <Content Include="locale\translation.cz.xml" />
     <Content Include="locale\translation.de.xml" />
     <Content Include="locale\translation.en.xml" />
@@ -117,7 +113,6 @@
     <Content Include="templates\itemstate.en.html" />
     <Content Include="templates\login.xhtml" />
     <Content Include="templates\main.admin.xhtml" />
-    <Content Include="templates\message.cz.html" />
     <Content Include="auction\static\StatusFrame.css" />
     <Content Include="auction\static\StatusFrame.js" />
     <Content Include="auction\static\StatusFrame.svg" />
@@ -128,13 +123,10 @@
     <Content Include="items\static\Bidsheets.css" />
     <Content Include="items\static\BidsheetFrame.svg" />
     <Content Include="items\static\BidsheetNoSaleFrame.svg" />
-    <Content Include="items\templates\finditemtoclose.admin.cz.html" />
     <Content Include="items\templates\listitems.admin.cz.html" />
     <Content Include="items\templates\edititem.admin.cz.html" />
-    <Content Include="items\templates\updateitemtoclose.admin.cz.html" />
     <Content Include="reconciliation\templates\findbadgetoreconciliate.admin.cz.html" />
-    <Content Include="templates\message.de.html" />
-    <Content Include="templates\message.en.html" />
+    <Content Include="templates\message.xhtml" />
     <Content Include="templates\messagetext.cz.html" />
     <Content Include="templates\messagetext.de.html" />
     <Content Include="templates\messagetext.en.html" />

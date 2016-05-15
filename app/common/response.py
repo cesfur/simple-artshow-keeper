@@ -17,12 +17,28 @@
 import os
 import flask
 import jinja2
+import logging
+from xml.dom import minidom
 from . translate import translateXhtml
 
 def makeXmlResponse(xml):
     response = flask.make_response(xml)
     response.headers['Content-type'] = 'text/xml'
     return response
+
+def enhanceXhtml(xmldoc):
+    headElement = xmldoc.getElementsByTagName('head')
+    if len(headElement) > 0:
+        renderMetaElement = xmldoc.createElement('meta')
+        renderMetaElement.setAttribute('name', 'viewport')
+        renderMetaElement.setAttribute('content', 'width=device-width, initial-scale=1.0')
+        headElement[0].appendChild(renderMetaElement)
+
+        encodingMetaElement = xmldoc.createElement('meta')
+        encodingMetaElement.setAttribute('charset', 'UTF-8')
+        headElement[0].appendChild(encodingMetaElement)
+
+    return xmldoc
 
 def respondTranslatedXhtml(name, group, language, parameters=None):
     """Rendered XHTML is post-processed at the server.
@@ -37,19 +53,29 @@ def respondTranslatedXhtml(name, group, language, parameters=None):
     Returns:
         response or None.
     """
+    xml = None
     try:
         if group is not None and len(group) > 0:
             filePath = '{0}.{1}.xhtml'.format(name, group)
         else:
             filePath = '{0}.xhtml'.format(name)
 
-        return makeXmlResponse(translateXhtml(language, flask.render_template(
-                filePath,
-                language=language,
-                **(parameters or {}))))
+        xml = flask.render_template(filePath, language=language, **(parameters or {}))
+        xml = enhanceXhtml(translateXhtml(language, minidom.parseString(xml))).toxml()
+        if xml.startswith('<?xml'):
+            index = xml.find('?>')
+            if index > 0:
+                xml = xml[(index + 2):]
+        return makeXmlResponse('<!DOCTYPE html>\n' + xml)
                 
     except jinja2.exceptions.TemplateNotFound:
         return None
+    except:
+        logging.getLogger('response').error(
+                u'XML: {0}'.format(
+                        xml.encode('ascii', 'ignore') if xml is not None else '<none>'))
+        raise
+
 
 def respondLanguageSpecificHtml(name, group, language, parameters=None):
     try:

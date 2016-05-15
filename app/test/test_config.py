@@ -21,7 +21,7 @@ import os
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
-from datafile import Datafile
+from . datafile import Datafile
 import config
 
 class TestConfig(unittest.TestCase):

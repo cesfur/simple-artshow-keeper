@@ -22,7 +22,7 @@ import decimal
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
-from datafile import Datafile
+from . datafile import Datafile
 from common.convert import *
 from common.translate import *
 from common.phrase_dictionary import *

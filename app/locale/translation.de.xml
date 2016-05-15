@@ -7,13 +7,16 @@
     <phrase id="Owner:">Besitzer:</phrase>
     <phrase id="ItemNumber">Artikelnummer</phrase>
     <phrase id="Owner">Besitzer</phrase>
+    <phrase id="Amount">Price (in €)</phrase>
     <phrase id="Author">Autor</phrase>
+    <phrase id="Buyer">Buyer</phrase>
     <phrase id="Title">Titel</phrase>
     <phrase id="Medium">Kunstmedium</phrase>
     <phrase id="InitialAmount">Anfangspreis</phrase>
     <phrase id="Charity">Charity</phrase>
     <phrase id="Note">Anmerkung</phrase>
     <phrase id="TotalRecords:">Gesamtmenge:</phrase>
+    <phrase id="BuyerHelp">Badge of the buyer has to be greater or equal to 1.</phrase>
     <phrase id="OwnerHelp">Badgenummer is grosser als 1.</phrase>
     <phrase id="BackToMain">Zurück</phrase>
     <!-- bidsheets -->
@@ -21,6 +24,21 @@
     <phrase id="Bidsheets.Title">Druck der Gebotblatten</phrase>
     <phrase id="Bidsheets.CancelPrint">Abbrechen</phrase>
     <phrase id="Bidsheets.Print">Drucken</phrase>
+    <!-- edit item image -->
+    <phrase id="EditItemImage.Header">ArtShow: Item image</phrase>
+    <phrase id="EditItemImage.Title">Edit item image</phrase>
+    <phrase id="EditItemImage.Cancel">Cancel</phrase>
+    <phrase id="EditItemImage.Delete">Delete</phrase>
+    <phrase id="EditItemImage.NotSupported">Device does not support camera input.</phrase>
+    <phrase id="EditItemImage.NoCamera">No camera found.</phrase>
+    <phrase id="EditItemImage.UnknownError">Unexpected error occurred while working with camera. Cannot create image. Error:</phrase>
+    <phrase id="EditItemImage.Save">Save</phrase>
+    <phrase id="EditItemImage.Skip">Skip</phrase>
+    <!-- find item to close -->
+    <phrase id="FindItemToClose.Header">ArtShow: Close Item</phrase>
+    <phrase id="FindItemToClose.Title">Select Item to be Closed</phrase>
+    <phrase id="FindItemToClose.CloseItem">Close Item</phrase>
+    <phrase id="FindItemToClose.ItemsLeft:">Items left to close:</phrase>
     <!-- main -->
     <phrase id="Setup">Annahme</phrase>
     <phrase id="New Item">Neue Artikel annahmen</phrase>
@@ -35,6 +53,9 @@
     <phrase id="Cash Drawer Info">Gehalt des Geldschrankes</phrase>
     <phrase id="Main.Settings">Eistellung des Systemes</phrase>
     <phrase id="Main.ShowSettings">Eistellung zeigen</phrase>
+    <!-- message -->
+    <phrase id="Message.Header">ArtShow: Meldung</phrase>
+    <phrase id="Message.Title">Meldung</phrase>
     <!-- login -->
     <phrase id="ArtShow Login">Artshow: Einmeldung</phrase>
     <phrase id="Artshow Code:">Code für die Artshow: </phrase>
@@ -83,5 +104,13 @@
     </phrase>
     <phrase id="Settings.PrimaryCurrencyConversionHelp">Die Nummer des primär Wechsel muss 1 sien.</phrase>
     <phrase id="Settings.SaveSettings">Wenden ablegen</phrase>
+    <!-- update item to close -->
+    <phrase id="UpdateItemToClose.Header">ArtShow: Closing an Item</phrase>
+    <phrase id="UpdateItemToClose.Title">Closing an Item</phrase>
+    <phrase id="UpdateItemToClose.DifferentItem">Select Different Item</phrase>
+    <phrase id="UpdateItemToClose.NotSold">NOT Sold</phrase>
+    <phrase id="UpdateItemToClose.Sold">Sold</phrase>
+    <phrase id="UpdateItemToClose.ToAuction">To Auction</phrase>
+    <!-- -->
     <phrase id=""></phrase>
 </dictionary>

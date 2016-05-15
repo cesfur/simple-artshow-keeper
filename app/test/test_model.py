@@ -24,7 +24,7 @@ from decimal import Decimal
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
-from datafile import Datafile
+from . datafile import Datafile
 from common.result import Result
 from model.model import Model
 from model.dataset import Dataset

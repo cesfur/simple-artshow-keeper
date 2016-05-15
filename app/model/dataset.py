@@ -17,6 +17,7 @@
 import logging
 import random
 import json
+import os
 from os import path
 
 from . item import ItemState, ItemField, ImportedItemField
@@ -32,6 +33,7 @@ class Dataset:
     def __init__(self, logger, dataPath, sessionFilename = 'sessiondictionary.xml', itemsFilename = 'artshowitems.xml', currencyFilename = 'currency.xml'):
         self.__logger = logger
         self.__dataPath = dataPath
+        self.__imageDataPath = path.join(self.__dataPath, 'image')
         self.__sessions = Table(
                 self.__logger,
                 path.join(self.__dataPath, sessionFilename),
@@ -393,3 +395,21 @@ class Dataset:
                 return Result.SUCCESS
             else:
                 return Result.PARTIAL_SUCCESS
+
+    def __getItemJpgImageFilename(self, itemCode):
+        return self.__imageDataPath, 'item{0}.jpg'.format(itemCode)
+
+    def updateItemJpgImage(self, itemCode, imageData):
+        imagePath, imageFilename = self.__getItemJpgImageFilename(itemCode)
+
+        with open(path.join(imagePath, imageFilename), 'wb') as file:
+            file.write(imageData)
+            file.close()
+        return Result.SUCCESS
+
+    def getItemJpgImage(self, itemCode):
+        imagePath, imageFilename = self.__getItemJpgImageFilename(itemCode)
+        if path.isfile(path.join(imagePath, imageFilename)):
+            return imagePath, imageFilename
+        else:
+            return None, None

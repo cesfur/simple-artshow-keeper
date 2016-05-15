@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link rel="stylesheet" type="text/css" href="/static/Artshow.css"/>
+    <title>__EditItemImage.Header</title>
+    <script type="text/javascript" src="/static/Artshow.js?q=3"><!----></script>
+    <script type="text/javascript">
+    </script>
+</head>
+<body class="updateItemToClose" onload="editItemImage.main()">
+    <div style="display:none">
+        <span id="messageNotSuported">__EditItemImage.NotSupported</span>
+        <span id="messageNoCamera">__EditItemImage.NoCamera</span>
+        <span id="messageUnknownError">__EditItemImage.UnknownError</span>
+    </div>
+    <h1><span>__EditItemImage.Title</span> {{item.Code|default("?")}}</h1>
+    <div class="infoBlock">
+        <p><span><span>__Author</span>:</span> {{item.Author|default("?")}}</p>
+        <p><span><span>__Title</span>:</span> {{item.Title|default("?")}}</p>
+    </div>
+    <div class="imageBlock">
+        <div class="imageLive">
+            <video id="imageLive" src="" autoplay="" mutex=""><!----></video>
+        </div>
+        <div class="imageSnapshot">
+            <canvas id="imageSnapshot"><!----></canvas>
+        </div>
+    </div>
+    <form class="main" method="post">
+        <input class="hidden" type="text" name="ItemCode" value="{{item.Code|default("")}}" />
+        <input class="hidden" type="text" name="ImageData" value="" />
+        <fieldset>
+            <input name="ImageSave" class="action" type="submit" formaction="{{saveTarget}}" formnovalidate="formnovalidate"
+                   disabled="disabled"
+                   onclick="return editItemImage.saveImage()"
+                   value="__EditItemImage.Save" />
+            {%- if deleteTarget -%}            
+            <input name="ImageDelete" class="action" type="submit" formaction="{{deleteTarget}}"
+                   disabled="disabled"
+                   value="__EditItemImage.Delete" />
+            {%- endif -%}
+        </fieldset>
+        <fieldset>
+            <input class="action" type="submit" formaction="{{cancelledTarget}}" formnovalidate="formnovalidate"
+                   value="{{cancelledTargetTitle|default("__EditItemImage.Cancel")}}" />
+        </fieldset>
+    </form>
+</body>
+</html>

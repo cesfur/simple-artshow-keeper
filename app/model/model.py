@@ -24,6 +24,7 @@ import csv
 from datetime import datetime
 from decimal import Decimal
 import math
+import base64
 
 from . import session
 from . dataset import Dataset
@@ -31,6 +32,7 @@ from . item import ItemField, ItemState, ImportedItemField, calculateImportedIte
 from . currency import Currency, CurrencyField
 from . summary import SummaryField, DrawerSummaryField, ActorSummary
 from . field_value_error import FieldValueError
+from common.authentication import UserGroups
 from common.convert import *
 from common.result import Result
 
@@ -43,7 +45,7 @@ class Model:
     def persist(self):
         self.__dataset.persist()
         
-    def startNewSession(self):
+    def startNewSession(self, userGroup, userIP):
         """Start a new session.
         Returns:
             Session ID.
@@ -53,7 +55,10 @@ class Model:
             sessionID = int(random.random() * (session.MAX_SESION_ID - 1)) + 1
             if not self.findSession(sessionID):
                 self.__logger.info('startNewSession: Created a session {0}'.format(sessionID))
-                self.__dataset.updateSessionPairs(sessionID, **{session.Field.CREATED_TIMESTAMP: datetime.now()})
+                self.__dataset.updateSessionPairs(sessionID, **{
+                        session.Field.CREATED_TIMESTAMP: datetime.now(),
+                        session.Field.USER_GROUP: userGroup,
+                        session.Field.USER_IP: userIP})
 
                 #TODO: Delete expired sessions (24 hrs?)
 
@@ -72,6 +77,16 @@ class Model:
         """
         return sessionID is not None and self.__dataset.getSessionValue(
                 sessionID, session.Field.CREATED_TIMESTAMP, None) is not None
+
+    def getSessionUserInfo(self, sessionID):
+        """Find session user info.
+        Args:
+            sessionID: Session ID.
+        Returns:
+            Dictionary: (userGroup, userIP)
+        """
+        return self.__dataset.getSessionValue(sessionID, session.Field.USER_GROUP, UserGroups.OTHERS), \
+                self.__dataset.getSessionValue(sessionID, session.Field.USER_IP, UserGroups.OTHERS)
 
     def clearAdded(self, sessionID):
         """Clear the list of added item codes in a session."""
@@ -744,7 +759,39 @@ class Model:
         else:
             self.__logger.error('updateItem: Updating an item "{0}" has failed.'.format(itemCode))
             return Result.ERROR;
+
+    def updateItemImage(self, itemCode, imageBase64):
+        item = self.getItem(itemCode)
+        if item is None:
+            self.__logger.error('updateItemImage: Item "{0}" not found'.format(itemCode))
+            return Result.ITEM_NOT_FOUND
+        if imageBase64 is None:
+            self.__logger.error('updateItemImage: No image data for item "{0}".'.format(itemCode))
+            return Result.NO_IMAGE
+
+        SUPPORTED_FORMAT_HEADER = 'data:image/jpeg;base64,'
+        if not imageBase64.startswith(SUPPORTED_FORMAT_HEADER):
+            self.__logger.error('updateItemImage: Image format of item for item "{0}" is not supported'.format(itemCode))
+            return Result.SUPPORTED_FORMAT_HEADER
+
+        return self.__dataset.updateItemJpgImage(
+                itemCode,
+                base64.decodestring(imageBase64[len(SUPPORTED_FORMAT_HEADER):].encode('ascii')));
                 
+    def getItemImage(self, itemCode):
+        """Provide file containing item image (if present)
+        Args:
+            itemCode: Item Code.
+        Returns:
+            (path, filename) or (None, None) if item is not found or no image is available.
+        """
+        item = self.getItem(itemCode)
+        if item is None:
+            self.__logger.error('getItemImage: Item "{0}" not found'.format(itemCode))
+            return (None, None)
+        else:
+            return self.__dataset.getItemJpgImage(itemCode)
+
     def __updateSortCode(self, items):
         """Calculate integer (SORT_CODE) which can be used to sort by code of an item."""
         if items is not None and len(items) > 0:

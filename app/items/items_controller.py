@@ -33,7 +33,7 @@ blueprint = flask.Blueprint('items', __name__, template_folder='templates', stat
 
 @blueprint.route('/')
 def index():
-    return flask.redirect(flask.url_for('index'))
+    return ""
 
 @blueprint.route('/exit', methods = ['GET', 'POST'])
 def exit():
@@ -322,7 +322,47 @@ def closeItemIntoAuction():
                 'minAmount': flask.g.model.getItem(itemCode)[ItemField.INITIAL_AMOUNT] if result == Result.AMOUNT_TOO_LOW else None,
                 'okTarget': flask.url_for('.updateItemToClose')})
     else:
-        return flask.redirect(flask.url_for('.selectItemToClose'))
+        #return flask.redirect(flask.url_for('.selectItemToClose'))
+        return flask.redirect(flask.url_for('.editAuctionImage', ItemCode=itemCode))
+
+
+@blueprint.route('/image/<itemCode>', methods=['GET'])
+def getImage(itemCode):
+    imagePath, imageFilename = flask.g.model.getItemImage(itemCode)
+    if imageFilename is None:
+        flask.abort(404)
+    else:
+        return respondCustomDataFile(None, imagePath, imageFilename, None);
+
+@blueprint.route('/editauctionimage', methods=['GET'])
+def editAuctionImage():
+    itemCode = getParameter('ItemCode')
+    item = flask.g.model.getItem(itemCode)
+    if item is None:
+        return respondHtml('message', flask.g.userGroup, flask.g.language, {
+                'message': Result.NOTHING_TO_UPDATE,
+                'itemCode': itemCode,
+                'okTarget': flask.url_for('.selectItemToClose')})
+    else:
+        return respondHtml('edititemimage', flask.g.userGroup, flask.g.language, {
+                'item': item,
+                'saveTarget': flask.url_for('.updateAuctionImage', ItemCode=itemCode),
+                'cancelledTarget': flask.url_for('.selectItemToClose'),
+                'cancelledTargetTitle': '__EditItemImage.Skip'})
+
+@blueprint.route('/updateauctionimage', methods=['POST'])
+def updateAuctionImage():
+    itemCode = getParameter('ItemCode')
+    result = flask.g.model.updateItemImage(itemCode, getParameter('ImageData'))
+    if result != Result.SUCCESS:
+        return respondHtml('message', flask.g.userGroup, flask.g.language, {
+                'message': result,
+                'itemCode': itemCode,
+                'okTarget': flask.url_for('.editAuctionImage', ItemCode=itemCode)})
+    else:
+        return flask.redirect(flask.url_for('.editAuctionImage', ItemCode=itemCode))#DEBUG
+        #return flask.redirect(flask.url_for('.selectItemToClose'))#DEBUG
+
 
 @blueprint.route('/importdone', methods = ['GET', 'POST'])
 def leaveImport():

@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link rel="stylesheet" type="text/css" href="/static/Artshow.css" />
+    <meta charset="UTF-8" />
+    <title>__UpdateItemToClose.Header</title>
+    <script type="text/javascript">
+    </script>
+</head>
+<body>
+    <h1><span>__UpdateItemToClose.Title</span> {{item.Code|default('?')}}</h1>
+    <div class="infoBlock">
+        <p><span><span>__Author</span>:</span> {{item.Author|default('?')}}</p>
+        <p><span><span>__Title</span>:</span> {{item.Title|default('?')}}</p>
+    </div>
+    <form class="main" method="post">
+        <input class="hidden" type="text" name="ItemCode" value="{{item.Code|default('')}}" />
+        <fieldset>
+            <div class="subblock">
+                <label for="buyer"><span>__Buyer</span>:</label>
+                <input id="buyer" name="Buyer" type="number" required="required"
+                       min="1" value=""
+                       autocomplete="off" autofocus="autofocus"
+                       title="__BuyerHelp" />
+            </div>
+            <div class="subblock">
+                <label for="amount"><span>__Amount</span>:</label>
+                <input id="amount" name="Amount" type="number" required="required"
+                       autocomplete="off"
+                       min="{{item.InitialAmount|default(1)}}" value=""
+                       title="Nejmenší monžná cena je (v Kč): {{item.InitialAmount|default('1')}}" />
+            </div>
+        </fieldset>
+        <fieldset>
+            <input class="action" type="submit" formaction="{{notSoldTarget}}" formnovalidate="formnovalidate"
+                   value="__UpdateItemToClose.NotSold" />
+            <input class="action" type="submit" formaction="{{soldTarget}}"
+                   value="__UpdateItemToClose.Sold" />
+            <input class="action" type="submit" formaction="{{toAuctionTarget}}"
+                   value="__UpdateItemToClose.ToAuction" />
+        </fieldset>
+        <fieldset>
+            <input class="action" type="submit" formaction="{{cancelledTarget}}" formnovalidate="formnovalidate"
+                   value="__UpdateItemToClose.DifferentItem" />
+        </fieldset>
+    </form>
+</body>
+</html>

@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link rel="stylesheet" type="text/css" href="/static/Artshow.css" />
+    <meta charset="UTF-8" />
+    <title>__FindItemToClose.Header</title>
+    <script type="text/javascript">
+    </script>
+</head>
+<body>
+    <h1>__FindItemToClose.Title</h1>
+    <form class="main">
+        <fieldset>
+            <label for="itemCode"><span>__ItemNumber</span>:</label>
+            <input id="itemCode" name="ItemCode" list="availableItems"
+                   pattern="[1-9][0-9]*" autocomplete="off" autofocus="autofocus"
+                   required="required" />
+            <datalist id="availableItems">
+                {% for item in availableItems -%}
+                <option value="{{item.Code}}" label="{{item.Code}}: {{item.Author}} - {{item.Title}}" />
+                {%- endfor %}
+            </datalist>
+        </fieldset>
+        <fieldset>
+            <input class="hidden" type="submit" formaction="{{findTarget}}" formmethod="post"
+                   value="Default Button" />
+            <input class="action" type="submit" formaction="{{cancelledTarget}}" formnovalidate="formnovalidate"
+                   value="__BackToMain" />
+            <input class="action" type="submit" formaction="{{findTarget}}" formmethod="post"
+                   value="__FindItemToClose.CloseItem" />
+        </fieldset>
+    </form>
+    <p><span>__FindItemToClose.ItemsLeft</span>: {{availableItems|length}}</p>
+</body>
+</html>
