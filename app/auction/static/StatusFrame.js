@@ -116,6 +116,20 @@ function setFrameElementText(elementId, textValue)
     }
 }
 
+function setItemImage(itemImageURL) {
+    var itemImageVisible = false;
+    var itemImageContainer = document.getElementById("item_image_container");
+    var itemImage = document.getElementById("image_image");
+    if (itemImageContainer != null && itemImage != null) {
+        if (itemImageURL != null) {
+            itemImage.setAttribute('src', itemImageURL);
+            itemImageVisible = true;
+        }
+        itemImage.hidden = !itemImageVisible;
+        itemImageContainer.hidden = !itemImageVisible;
+    }
+}
+
 function processResponse(xmlDoc)
 {
     try
@@ -130,6 +144,7 @@ function processResponse(xmlDoc)
             setFrameElementText("item_amount_1", getValueOrNull(xmlDoc, tagAuction, "//Item/Amount/FormattedValue[1]"));
             setFrameElementText("item_amount_2", getValueOrNull(xmlDoc, tagAuction, "//Item/Amount/FormattedValue[2]"));
             setFrameElementText("item_amount_3", getValueOrNull(xmlDoc, tagAuction, "//Item/Amount/FormattedValue[3]"));
+            setItemImage(getValueOrNull(xmlDoc, tagAuction, "//Item/Image"));
 
             //charity
             setFrameElementText("charity_1", getValueOrNull(xmlDoc, tagAuction, "//Charity/FormattedValue[1]"));

@@ -63,6 +63,12 @@ def showStatus():
 @blueprint.route('/getstatus', methods = ['GET', 'POST'])
 def getStatus():
     item = formatItem(flask.g.model.getItemInAuction(), flask.g.language)
+    if item is not None:
+        itemCode = item[ItemField.CODE]
+        imagePath, imageFilename = flask.g.model.getItemImage(itemCode)
+        if imageFilename is not None:
+            item[ItemField.IMAGE_PATH] = flask.url_for('items.getImage', itemCode=itemCode)
+
     charityAmount = formatCurrencies(
             flask.g.model.getCurrency().convertToAllCurrencies(flask.g.model.getPotentialCharityAmount()),
             flask.g.language)

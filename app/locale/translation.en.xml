@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <dictionary>
     <!-- auction -->
-    <phrase id="Auction.StatusHeader">Artshow: Auction</phrase>
+    <phrase id="AuctionStatus.StatusHeader">Artshow: Auction</phrase>
     <!-- generic -->
     <phrase id="AdditionalInfo">Additional Info</phrase>
     <phrase id="Owner:">Owner:</phrase>
@@ -27,6 +27,7 @@
     <!-- edit item image -->
     <phrase id="EditItemImage.Header">ArtShow: Item image</phrase>
     <phrase id="EditItemImage.Title">Edit item image</phrase>
+    <phrase id="EditItemImage.CameraNotAllowed">Camera not allowed.</phrase>
     <phrase id="EditItemImage.Cancel">Cancel</phrase>
     <phrase id="EditItemImage.Delete">Delete</phrase>
     <phrase id="EditItemImage.NotSupported">Device does not support camera input.</phrase>

@@ -42,6 +42,8 @@ class ItemField:
     AMOUNT = 'Amount'
     IMPORT_NUMBER = 'ImportNumber'
 
+    IMAGE_PATH = 'ImagePath'
+
     AMOUNT_IN_AUCTION = 'AmountInAuction'
 
     INDEX = 'Index'

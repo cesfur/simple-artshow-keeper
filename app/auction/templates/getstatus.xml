@@ -10,6 +10,9 @@
             <FormattedValue>{{formattedValue}}</FormattedValue>
             {% endfor %}
         </Amount>
+        {% if item.ImagePath -%}
+        <Image>{{item.ImagePath}}</Image>
+        {%- endif %}
     </Item>
     {%- endif %}
     <Charity>

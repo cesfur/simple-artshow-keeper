@@ -68,6 +68,8 @@ var editItemImage = new function () {
     var handleMediaError = function(error) {
         if (error.name.indexOf("NotFoundError") >= 0) {
             artshow.showErrorMessage("messageNoCamera");
+        } else if (error.name.indexOf("PermissionDeniedError") >= 0) {
+            artshow.showErrorMessage("messageCameraNotAllowed");
         } else {
             artshow.showErrorMessage(artshow.getMessage("messageUnknownError") + " " + error.name);
         }

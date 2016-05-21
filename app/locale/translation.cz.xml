@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <dictionary>
     <!-- auction -->
-    <phrase id="Auction.StatusHeader">Artshow: Stav dražby</phrase>
+    <phrase id="AuctionStatus.StatusHeader">Artshow: Dražba předmětu</phrase>
     <!-- generic -->
     <phrase id="AdditionalInfo">Doplňující informace</phrase>
     <phrase id="Owner:">Vlastník:</phrase>
@@ -27,6 +27,7 @@
     <!-- edit item image -->
     <phrase id="EditItemImage.Header">ArtShow: Obrázek předmětu</phrase>
     <phrase id="EditItemImage.Title">Obrázek předmětu</phrase>
+    <phrase id="EditItemImage.CameraNotAllowed">Přístup ke kameře byl odepřen.</phrase>
     <phrase id="EditItemImage.Cancel">Zrušit</phrase>
     <phrase id="EditItemImage.Delete">Smazat</phrase>
     <phrase id="EditItemImage.NotSupported">Zařízení nepodporuje vstup z kamery.</phrase>
