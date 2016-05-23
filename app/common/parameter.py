@@ -19,8 +19,9 @@ import flask
 def getParameter(key):
     """Get parameter searching through following locations in the following order:
     1) POST arguments
-    2) GET arguments
-    3) COOKIE (Flask Session)
+    2) files
+    3) GET arguments
+    4) COOKIE (Flask Session)
     Args:
         key(string) - Key.
     Returns:
@@ -29,9 +30,11 @@ def getParameter(key):
     key = str(key)
     value = flask.request.form.get(key, None)
     if value is None:
-        value = flask.request.args.get(key, None)
+        value = flask.request.files.get(key, None)
         if value is None:
-            value = flask.session.get(key, None)        
+            value = flask.request.args.get(key, None)
+            if value is None:
+                value = flask.session.get(key, None)
     return value
 
 def persistParameter(key, value):

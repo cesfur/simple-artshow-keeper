@@ -1,20 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <link rel="stylesheet" type="text/css" href="/static/Artshow.css" />
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='Artshow.css')}}" />
     <meta charset="UTF-8" />
     <title>__UpdateItemToClose.Header</title>
-    <script type="text/javascript">
-    </script>
+    <script type="text/javascript" src="{{url_for('static', filename='Artshow.js')}}"><!----></script>
+    <script type="text/javascript" src="{{url_for('.static', filename='Items.js')}}"><!----></script>
 </head>
-<body>
+<body onload="updateItemToClose.main()">
+    <div style="display:none">
+        <span id="messageClosedWithoutImage">__UpdateItemToClose.ConfirmClosedWithoutImage</span>
+    </div>
     <h1><span>__UpdateItemToClose.Title</span> {{item.Code|default('?')}}</h1>
     <div class="infoBlock">
         <p><span><span>__Author</span>:</span> {{item.Author|default('?')}}</p>
         <p><span><span>__Title</span>:</span> {{item.Title|default('?')}}</p>
     </div>
-    <form class="main" method="post">
+    <form class="main" method="post" enctype="multipart/form-data" onsubmit="return updateItemToClose.validate()">
         <input class="hidden" type="text" name="ItemCode" value="{{item.Code|default('')}}" />
+        <input id="action" class="hidden" type="text" value="" />
+        <input id="imageFile" class="hidden" type="file" name="ImageFile" accept="image/*" capture="capture" />
         <fieldset>
             <div class="subblock">
                 <label for="buyer"><span>__Buyer</span>:</label>
@@ -32,16 +37,20 @@
             </div>
         </fieldset>
         <fieldset>
-            <input class="action" type="submit" formaction="{{notSoldTarget}}" formnovalidate="formnovalidate"
-                   value="__UpdateItemToClose.NotSold" />
-            <input class="action" type="submit" formaction="{{soldTarget}}"
-                   value="__UpdateItemToClose.Sold" />
-            <input class="action" type="submit" formaction="{{toAuctionTarget}}"
-                   value="__UpdateItemToClose.ToAuction" />
+            <input id="notsold" class="action" type="submit" formaction="{{notSoldTarget}}" formnovalidate="formnovalidate"
+                   value="__UpdateItemToClose.NotSold"
+                   onclick="return updateItemToClose.setFormAction(this)" />
+            <input id="sold" class="action" type="submit" formaction="{{soldTarget}}"
+                   value="__UpdateItemToClose.Sold"
+                   onclick="return updateItemToClose.setFormAction(this)" />
+            <input id="auction" class="action" type="submit" formaction="{{toAuctionTarget}}"
+                   value="__UpdateItemToClose.ToAuction"
+                   onclick="return updateItemToClose.setFormAction(this)" />
         </fieldset>
         <fieldset>
-            <input class="action" type="submit" formaction="{{cancelledTarget}}" formnovalidate="formnovalidate"
-                   value="__UpdateItemToClose.DifferentItem" />
+            <input class="action" type="submit" formaction="{{cancelledTarget}}" formnovalidate="formnovalidate" formmethod="get"
+                   value="__UpdateItemToClose.DifferentItem"
+                   onclick="return updateItemToClose.setFormAction(this)" />
         </fieldset>
     </form>
 </body>

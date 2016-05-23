@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='Artshow.css')}}" />
+    <meta charset="UTF-8" />
+    <title>__ListAuctionItems.Header</title>
+    <script type="text/javascript" src="{{url_for('static', filename='Artshow.js')}}"><!----></script>
+</head>
+<body>
+    <h1>__ListAuctionItems.Title</h1>
+
+    <form class="main notPrintable" action="{{targetPrinted}}">
+        <fieldset>
+            <input class="action" type="submit" formaction="{{targetCancelled}}" formnovalidate="formnovalidate"
+                   value="__BackToMain" />
+            <input class="action" type="submit" formaction="{{targetPrinted}}"
+                   value="__Print"
+                   onclick="artshow.printAndSubmit('main')" />
+        </fieldset>
+    </form>
+
+    {% if items|length > 0 %}
+    <p><span>__ListAuctionItems.TotalItems</span>: {{items|length}}</p>
+    <div class="listSection receiptSection">
+        <table class="withBorder">
+            <tr>
+                <th>__ItemNumber</th>
+                <th>__Author</th>
+                <th>__Title</th>
+                <th>__Amount</th>
+                <th>__Charity</th>
+                <th>__ItemImagePreview</th>
+            </tr>
+            {% for item in items %}
+            <tr>
+                <td>{{item.Code}}</td>
+                <td>{{item.Author}}</td>
+                <td>{{item.Title}}</td>
+                <td class="numerical">{{item.Amount}}</td>
+                <td class="numerical">{{item.Charity}} %</td>
+                <td>
+                    {%- if item.ImageURL -%}
+                        <div class="imagePreview" style="background-image: url({{item.ImageURL}})"></div>
+                    {%- else -%}
+                        <div class="imagePreview noImage"></div>
+                    {%- endif -%}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    {% else %}
+    <p>__ListAuctionItems.NoItems</p>
+    <p>{{items}}</p>
+    {% endif %}
+</body>
+</html>

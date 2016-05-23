@@ -312,8 +312,11 @@ def closeItemIntoAuction():
     itemCode = getParameter('ItemCode')
     amount = getParameter('Amount')
     buyer = getParameter('Buyer')
+    imageFile = getParameter('ImageFile')
+    if imageFile is not None and imageFile.filename == '':
+        imageFile = None;
 
-    result = flask.g.model.closeItemIntoAuction(itemCode, amount = amount, buyer = buyer)
+    result = flask.g.model.closeItemIntoAuction(itemCode, amount=amount, buyer=buyer, imageFile=imageFile)
     if result != Result.SUCCESS:
         return respondHtml('message', flask.g.userGroup, flask.g.language, {
                 'message': result,
@@ -322,8 +325,7 @@ def closeItemIntoAuction():
                 'minAmount': flask.g.model.getItem(itemCode)[ItemField.INITIAL_AMOUNT] if result == Result.AMOUNT_TOO_LOW else None,
                 'okTarget': flask.url_for('.updateItemToClose')})
     else:
-        #return flask.redirect(flask.url_for('.selectItemToClose'))
-        return flask.redirect(flask.url_for('.editAuctionImage', ItemCode=itemCode))
+        return flask.redirect(flask.url_for('.selectItemToClose'))
 
 
 @blueprint.route('/image/<itemCode>', methods=['GET'])

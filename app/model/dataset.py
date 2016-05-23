@@ -399,12 +399,15 @@ class Dataset:
     def __getItemJpgImageFilename(self, itemCode):
         return self.__imageDataPath, 'item{0}.jpg'.format(itemCode)
 
-    def updateItemJpgImage(self, itemCode, imageData):
+    def updateItemImage(self, itemCode, imageFile):
         imagePath, imageFilename = self.__getItemJpgImageFilename(itemCode)
+        imageFilePath = path.join(imagePath, imageFilename)
 
-        with open(path.join(imagePath, imageFilename), 'wb') as file:
-            file.write(imageData)
-            file.close()
+        if os.path.isfile(imageFilePath):
+            os.remove(imageFilePath)
+        if imageFile is not None:
+            imageFile.save(imageFilePath)
+
         return Result.SUCCESS
 
     def getItemJpgImage(self, itemCode):

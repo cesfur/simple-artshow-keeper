@@ -24,6 +24,7 @@ from . translate import translateXhtml
 def makeXmlResponse(xml):
     response = flask.make_response(xml)
     response.headers['Content-type'] = 'text/xml'
+    response.headers['Cache-Control'] = 'no-cache'
     return response
 
 def enhanceXhtml(xmldoc):

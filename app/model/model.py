@@ -25,6 +25,7 @@ from datetime import datetime
 from decimal import Decimal
 import math
 import base64
+from werkzeug.datastructures import FileStorage
 
 from . import session
 from . dataset import Dataset
@@ -1105,28 +1106,44 @@ class Model:
                             itemCode, buyer, amount))
                 return Result.SUCCESS
         
-    def closeItemIntoAuction(self, itemCode, amount, buyer):
+    def closeItemIntoAuction(self, itemCode, amount, buyer, imageFile):
         item = self.getItem(itemCode)
+
+        if imageFile is not None:
+            if not isinstance(imageFile, FileStorage):
+                self.__logger.error('closeItemIntoAuction: Image supplied to closing item %(code)s is not an image.'
+                    % { 'code': itemCode })
+                return Result.INPUT_ERROR
+            if imageFile.content_type != 'image/jpeg':
+                self.__logger.error('closeItemIntoAuction: Format "%(content_type)s" of supplied image (item %(code)s) is not supported format.'
+                    % { 'code': itemCode, 'content_type': imageFile.content_type })
+                return Result.UNSUPPORTED_IMAGE_FORMAT
 
         result = self.__validateSaleInput(itemCode, item, amount, buyer)
         if result != Result.SUCCESS:
             self.__logger.error('closeItemIntoAuction: Closing item %(code)s (amount: %(amount)s, buyer: %(buyer)s) failed.'
                 % { 'code': itemCode, 'buyer': buyer, 'amount': amount })
             return result
+
+        result = self.__dataset.updateItemImage(itemCode, imageFile)
+        if result != Result.SUCCESS:
+            self.__logger.error('closeItemIntoAuction: Updating an image of item %(code)s failed.'
+                % { 'code': itemCode })
+            return result
+
+        numUpdated = self.__dataset.updateItem(
+                itemCode,
+                **{
+                        ItemField.STATE: ItemState.IN_AUCTION,
+                        ItemField.AMOUNT: toDecimal(amount),
+                        ItemField.BUYER: toInt(buyer)})
+        if numUpdated != 1:
+            self.__logger.error('closeItemIntoAuction: Item ''%(code)s'' did not update.' % { 'code': itemCode })
+            return Result.ERROR
         else:
-            numUpdated = self.__dataset.updateItem(
-                    itemCode,
-                    **{
-                            ItemField.STATE: ItemState.IN_AUCTION,
-                            ItemField.AMOUNT: toDecimal(amount),
-                            ItemField.BUYER: toInt(buyer)})
-            if numUpdated != 1:
-                self.__logger.error('closeItemIntoAuction: Item ''%(code)s'' did not update.' % { 'code': itemCode })
-                return Result.ERROR
-            else:
-                self.__logger.info('closeItemIntoAuction: Item ''%(code)s'' moved to auction with amount %(amount)s (the last buyer %(buyer)s).'
-                    % { 'code': itemCode, 'buyer': buyer, 'amount': amount })
-                return Result.SUCCESS
+            self.__logger.info('closeItemIntoAuction: Item ''%(code)s'' moved to auction with amount %(amount)s (the last buyer %(buyer)s).'
+                % { 'code': itemCode, 'buyer': buyer, 'amount': amount })
+            return Result.SUCCESS
 
     def __convertAmountToCurrencies(self, amount, currencyInfoList):
         """ Convert amount to given currencies.

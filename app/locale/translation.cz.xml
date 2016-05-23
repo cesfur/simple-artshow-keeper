@@ -19,6 +19,8 @@
     <phrase id="BuyerHelp">Visačka kupce musí být kladné číslo.</phrase>
     <phrase id="OwnerHelp">Číslo visačky větší, než 1.</phrase>
     <phrase id="BackToMain">Zpět na hlavní</phrase>
+    <phrase id="Print">Tiskni</phrase>
+    <phrase id="ItemImagePreview">Náhled</phrase>
     <!-- bidsheets -->
     <phrase id="Bidsheets.Header">Artshow: Tisk visaček</phrase>
     <phrase id="Bidsheets.Title">Tisk visaček</phrase>
@@ -40,6 +42,11 @@
     <phrase id="FindItemToClose.Title">Vyber předmět k uzavření</phrase>
     <phrase id="FindItemToClose.CloseItem">Uzavři předmět</phrase>
     <phrase id="FindItemToClose.ItemsLeft">Zbývá k uzavření</phrase>
+    <!-- list auction items -->
+    <phrase id="ListAuctionItems.Header">ArtShow: Seznam předmětů do aukce</phrase>
+    <phrase id="ListAuctionItems.NoItems">Nejsou žádné předměty ke dražbě.</phrase>
+    <phrase id="ListAuctionItems.Title">Seznam předmětů do aukce</phrase>
+    <phrase id="ListAuctionItems.TotalItems">Celkem položek</phrase>
     <!-- main -->
     <phrase id="Setup">Příjem</phrase>
     <phrase id="New Item">Nový předmět</phrase>
@@ -107,11 +114,12 @@
     <phrase id="Settings.PrimaryCurrencyConversionHelp">Koeficicient u primární měny musí být 1.</phrase>
     <phrase id="Settings.SaveSettings">Ulož změny</phrase>
     <!-- update item to close -->
-    <phrase id="UpdateItemToClose.Header">ArtShow: Uzávěrka předmětu</phrase>
-    <phrase id="UpdateItemToClose.Title">Uzávěrka předmětu</phrase>
+    <phrase id="UpdateItemToClose.ConfirmClosedWithoutImage">Dílo bude uzavřeno bez obrázku, budete-li pokračovat.</phrase>
     <phrase id="UpdateItemToClose.DifferentItem">Jiný předmět</phrase>
+    <phrase id="UpdateItemToClose.Header">ArtShow: Uzávěrka předmětu</phrase>
     <phrase id="UpdateItemToClose.NotSold">Neprodáno</phrase>
     <phrase id="UpdateItemToClose.Sold">Prodáno</phrase>
+    <phrase id="UpdateItemToClose.Title">Uzávěrka předmětu</phrase>
     <phrase id="UpdateItemToClose.ToAuction">Do aukce</phrase>
     <!-- -->
     <phrase id=""></phrase>

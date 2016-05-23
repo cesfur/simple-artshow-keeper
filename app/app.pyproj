@@ -61,8 +61,6 @@
     <Content Include="auction\templates\finditemtoauction.admin.de.html" />
     <Content Include="auction\templates\finditemtoauction.admin.en.html" />
     <Content Include="auction\templates\getstatus.xml" />
-    <Content Include="auction\templates\listauctionitems.admin.de.html" />
-    <Content Include="auction\templates\listauctionitems.admin.en.html" />
     <Content Include="auction\templates\showstatus.xhtml" />
     <Content Include="config.ini" />
     <Compile Include="items\items_controller.py" />
@@ -76,6 +74,7 @@
     <Content Include="items\static\BidsheetFrame.de.svg" />
     <Content Include="items\static\BidsheetNoSaleFrame.de.svg" />
     <Content Include="items\static\EditItem.js" />
+    <Content Include="items\static\Items.js" />
     <Content Include="items\templates\bidsheets.xhtml" />
     <Content Include="items\templates\approveimport.admin.xhtml" />
     <Content Include="items\templates\edititem.admin.de.html" />
@@ -119,7 +118,7 @@
     <Content Include="auction\templates\auctionitem.admin.cz.html" />
     <Content Include="auction\templates\finalizeitem.admin.cz.html" />
     <Content Include="auction\templates\finditemtoauction.admin.cz.html" />
-    <Content Include="auction\templates\listauctionitems.admin.cz.html" />
+    <Content Include="auction\templates\listauctionitems.admin.xhtml" />
     <Content Include="items\static\Bidsheets.css" />
     <Content Include="items\static\BidsheetFrame.svg" />
     <Content Include="items\static\BidsheetNoSaleFrame.svg" />

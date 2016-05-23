@@ -234,21 +234,19 @@
                 <!-- Multilingual -->
                 <File Source="$(var.SolutionDir)app/auction/templates/showstatus.xhtml"/>
                 <File Source="$(var.SolutionDir)app/auction/templates/getstatus.xml"/>
+                <File Source="$(var.SolutionDir)app/auction/templates/listauctionitems.admin.xhtml"/>
                 <!-- CZ -->
                 <File Source="$(var.SolutionDir)app/auction/templates/auctionitem.admin.cz.html"/>
                 <File Source="$(var.SolutionDir)app/auction/templates/finalizeitem.admin.cz.html"/>
                 <File Source="$(var.SolutionDir)app/auction/templates/finditemtoauction.admin.cz.html"/>
-                <File Source="$(var.SolutionDir)app/auction/templates/listauctionitems.admin.cz.html"/>
                 <!-- EN -->
                 <File Source="$(var.SolutionDir)app/auction/templates/auctionitem.admin.en.html"/>
                 <File Source="$(var.SolutionDir)app/auction/templates/finalizeitem.admin.en.html"/>
                 <File Source="$(var.SolutionDir)app/auction/templates/finditemtoauction.admin.en.html"/>
-                <File Source="$(var.SolutionDir)app/auction/templates/listauctionitems.admin.en.html"/>
                 <!-- DE -->
                 <File Source="$(var.SolutionDir)app/auction/templates/auctionitem.admin.de.html"/>
                 <File Source="$(var.SolutionDir)app/auction/templates/finalizeitem.admin.de.html"/>
                 <File Source="$(var.SolutionDir)app/auction/templates/finditemtoauction.admin.de.html"/>
-                <File Source="$(var.SolutionDir)app/auction/templates/listauctionitems.admin.de.html"/>
             </Component>
         </DirectoryRef>
 
@@ -269,6 +267,7 @@
                 <File Source="$(var.SolutionDir)app/items/static/BidsheetFrame.de.svg"/>
                 <File Source="$(var.SolutionDir)app/items/static/BidsheetNoSaleFrame.de.svg"/>
 
+                <File Source="$(var.SolutionDir)app/items/static/Items.js"/>
                 <File Source="$(var.SolutionDir)app/items/static/EditItem.js"/>
             </Component>
         </DirectoryRef>

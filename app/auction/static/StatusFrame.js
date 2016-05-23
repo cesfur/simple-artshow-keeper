@@ -120,10 +120,14 @@ function setItemImage(itemImageURL) {
     var itemImageVisible = false;
     var itemImageContainer = document.getElementById("item_image_container");
     var itemImage = document.getElementById("image_image");
-    if (itemImageContainer != null && itemImage != null) {
+    if (itemImageContainer != null && itemImage != null) {        
         if (itemImageURL != null) {
-            itemImage.setAttribute('src', itemImageURL);
+            if (itemImageURL != itemImage.getAttribute('src')) {
+                itemImage.setAttribute('src', itemImageURL);
+            }
             itemImageVisible = true;
+        } else {
+            itemImage.setAttribute('src', '');
         }
         itemImage.hidden = !itemImageVisible;
         itemImageContainer.hidden = !itemImageVisible;

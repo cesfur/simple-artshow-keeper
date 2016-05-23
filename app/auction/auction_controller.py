@@ -50,7 +50,11 @@ def getCustomFile(filename):
 def listItems():
     items = flask.g.model.getAllItemsInAuction()
     items.sort(key=lambda item: item[ItemField.AUCTION_SORT_CODE])
-    
+    for item in items:
+        imagePath, imageFilename = flask.g.model.getItemImage(item[ItemField.CODE])
+        if imageFilename is not None:
+            item[ItemField.IMAGE_URL] = flask.url_for('items.getImage', itemCode=item[ItemField.CODE])
+
     return respondHtml('listauctionitems', flask.g.userGroup, flask.g.language, {
         'items': items,
         'targetCancelled': flask.url_for('.exit'),
@@ -67,7 +71,7 @@ def getStatus():
         itemCode = item[ItemField.CODE]
         imagePath, imageFilename = flask.g.model.getItemImage(itemCode)
         if imageFilename is not None:
-            item[ItemField.IMAGE_PATH] = flask.url_for('items.getImage', itemCode=itemCode)
+            item[ItemField.IMAGE_URL] = flask.url_for('items.getImage', itemCode=itemCode)
 
     charityAmount = formatCurrencies(
             flask.g.model.getCurrency().convertToAllCurrencies(flask.g.model.getPotentialCharityAmount()),

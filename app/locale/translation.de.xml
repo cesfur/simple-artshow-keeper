@@ -19,6 +19,8 @@
     <phrase id="BuyerHelp">Badge of the buyer has to be greater or equal to 1.</phrase>
     <phrase id="OwnerHelp">Badgenummer is grosser als 1.</phrase>
     <phrase id="BackToMain">Zurück</phrase>
+    <phrase id="Print">Drucken</phrase>
+    <phrase id="ItemImagePreview">Preview</phrase>
     <!-- bidsheets -->
     <phrase id="Bidsheets.Header">Artshow: Druck der Gebotblatten</phrase>
     <phrase id="Bidsheets.Title">Druck der Gebotblatten</phrase>
@@ -40,6 +42,11 @@
     <phrase id="FindItemToClose.Title">Select Item to be Closed</phrase>
     <phrase id="FindItemToClose.CloseItem">Close Item</phrase>
     <phrase id="FindItemToClose.ItemsLeft:">Items left to close:</phrase>
+    <!-- list auction items -->
+    <phrase id="ListAuctionItems.Header">ArtShow: List of Auctioned Items</phrase>
+    <phrase id="ListAuctionItems.NoItems">There are not items to be auctioned.</phrase>
+    <phrase id="ListAuctionItems.Title">List of Auctioned Items</phrase>
+    <phrase id="ListAuctionItems.TotalItems">Total number of items</phrase>
     <!-- main -->
     <phrase id="Setup">Annahme</phrase>
     <phrase id="New Item">Neue Artikel annahmen</phrase>
@@ -106,6 +113,7 @@
     <phrase id="Settings.PrimaryCurrencyConversionHelp">Die Nummer des primär Wechsel muss 1 sien.</phrase>
     <phrase id="Settings.SaveSettings">Wenden ablegen</phrase>
     <!-- update item to close -->
+    <phrase id="UpdateItemToClose.ConfirmClosedWithoutImage">If you continue, the item will be sent to auction as without an image.</phrase>
     <phrase id="UpdateItemToClose.Header">ArtShow: Closing an Item</phrase>
     <phrase id="UpdateItemToClose.Title">Closing an Item</phrase>
     <phrase id="UpdateItemToClose.DifferentItem">Select Different Item</phrase>
