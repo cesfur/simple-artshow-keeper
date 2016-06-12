@@ -616,7 +616,7 @@ class Model:
 
         checksumRaw = checksum
         checksum = toInt(checksum)
-        if checksum is None or importedChecksum != checksum:
+        if checksum is None or importedChecksum != str(checksum):
             self.__logger.debug('applyImport: Checksum "{0}" does not match stored checksum "{1}".'.format(checksumRaw, importedChecksum))
             return Result.INVALID_CHECKSUM, [], []
 

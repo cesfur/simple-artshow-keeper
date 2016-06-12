@@ -611,7 +611,7 @@ class TestModel(unittest.TestCase):
 
     def test_closeItemIntoAuction(self):
         # Close item
-        self.assertEqual(Result.SUCCESS, self.model.closeItemIntoAuction('55', Decimal(1000), 9999))
+        self.assertEqual(Result.SUCCESS, self.model.closeItemIntoAuction('55', Decimal(1000), 9999, None))
         item = self.dataset.getItems('Buyer=="{0}"'.format(9999))[0]
         self.assertDictContainsSubset(
                 {
@@ -621,7 +621,7 @@ class TestModel(unittest.TestCase):
                 item)
 
         # Close item which is not closable
-        self.assertEqual(Result.ITEM_NOT_CLOSABLE, self.model.closeItemIntoAuction('A13', Decimal(1000), 9999))
+        self.assertEqual(Result.ITEM_NOT_CLOSABLE, self.model.closeItemIntoAuction('A13', Decimal(1000), 9999, None))
 
     def test_getAllItemsInAuction(self):
         auctionItems = self.model.getAllItemsInAuction()

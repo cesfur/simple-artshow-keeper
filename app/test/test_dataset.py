@@ -98,26 +98,6 @@ class TestDataset(unittest.TestCase):
         self.assertEqual(value, None,
             'Model.Session.Value: Reading non-existing key ''NotExisting'' returned a value: %(value)s.' % { 'value': str(value) })
 
-    def test_getValidSessionIDs(self):
-        self.dataset.restore()
-        sessionID = 1051183055
-
-        # read existing value (only session 1051183055 is present)
-        knownSessionID = self.dataset.getValidSessionIDs()
-        self.assertEqual(knownSessionID, [sessionID]);
-
-        # add new pair to the root session has not impact on valid sessions
-        self.dataset.updateSessionPairs(0, Value = 'Session 0 Value')
-        self.assertEqual(self.dataset.getSessionValue(0, 'Value'), 'Session 0 Value')
-        knownSessionID = self.dataset.getValidSessionIDs()
-        self.assertEqual(sorted(knownSessionID), [sessionID]);
-
-        # add new pair
-        self.dataset.updateSessionPairs(289084327, Value = 'Some Value')
-        knownSessionID = self.dataset.getValidSessionIDs()
-        self.assertEqual(sorted(knownSessionID), [289084327, sessionID]);
-
-
     def test_getItems(self):
         self.dataset.restore()
 
