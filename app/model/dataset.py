@@ -22,6 +22,8 @@ from os import path
 
 from . item import ItemState, ItemField, ImportedItemField
 from . currency_field import CurrencyField
+from . session import Field as SessionField
+
 from . table import Table
 from common.convert import *
 from common.result import Result
@@ -39,7 +41,7 @@ class Dataset:
                 path.join(self.__dataPath, sessionFilename),
                 'SessionDictionary',
                 'KeyValuePair',
-                [])
+                ['SessionID', 'Key', 'Value'])
         self.__items = Table(
                 self.__logger, path.join(self.__dataPath, itemsFilename),
                 'ArtShowItems',
@@ -51,6 +53,9 @@ class Dataset:
                 'CurrencyList',
                 'Currency',
                 CurrencyField.ALL_PERSISTENT)
+
+        self.__jsonDecoder = json.JSONDecoder()
+        self.__jsonEncoder = json.JSONEncoder()
 
     def items(self):
         return self.__items
@@ -64,6 +69,17 @@ class Dataset:
         self.__sessions.save()
         self.__items.save()
         self.__currency.save()
+
+    def getClientSessionIDs(self):
+        rawSessions = self.__sessions.select(
+                ['SessionID'],
+                'SessionID != "{0}"'.format(self.GLOBAL_SESSION_ID))
+        sessions = {}
+        for rawSession in rawSessions:
+            id = toInt(rawSession['SessionID'])
+            if id != self.GLOBAL_SESSION_ID:
+                sessions[id] = True
+        return [value for value in sessions.keys()]
 
     def getSessionPairs(self, sessionID):
         rawPairs = self.__sessions.select(
@@ -85,24 +101,55 @@ class Dataset:
                 ['Value'],
                 'SessionID == "{0}" and Key == "{1}"'.format(sessionID, key))
         if len(rawValue) > 0:
-            return rawValue[0]['Value']
+            return str(rawValue[0]['Value'])
         else:
             return defaultValue
 
     def updateSessionPairs(self, sessionID, **pairs):
+        """Update session pairs.
+        Returns:
+            True if the update was successful.
+        """
+        updated = False
         for key, value in pairs.items():
             rawPair = { 'SessionID': str(sessionID), 'Key': str(key), 'Value': value }
             if value != None:
-                if not self.__sessions.update(rawPair, 'SessionID == "{0}" and Key == "{1}"'.format(sessionID, key)):
-                    self.__sessions.insert(rawPair, None)
+                updated = self.__sessions.update(rawPair, 'SessionID == "{0}" and Key == "{1}"'.format(sessionID, key)) > 0 \
+                        or self.__sessions.insert(rawPair, None) > 0
             else:
-                self.__sessions.delete('SessionID == "{0}" and Key == "{1}"'.format(sessionID, key))
+                updated = self.__sessions.delete('SessionID == "{0}" and Key == "{1}"'.format(sessionID, key)) > 0
+        return updated
+
+    def dropValidSession(self, sessionID):
+        """Remove a sessions."""
+        if toInt(sessionID) != 0:
+            self.__sessions.delete('SessionID == "{0}"'.format(sessionID))
+
 
     def getGlobalValue(self, key, defaultValue = None):
         return self.getSessionValue(self.GLOBAL_SESSION_ID, key, defaultValue)
     
     def updateGlobalPairs(self, **pairs):
         return self.updateSessionPairs(self.GLOBAL_SESSION_ID, **pairs)    
+
+    def getGlobalDict(self, key, defaultValue = {}):
+        try:
+            textJSON = self.getSessionValue(self.GLOBAL_SESSION_ID, key, None)
+            if textJSON is None:
+                return defaultValue
+            else:
+                return self.__jsonDecoder.decode(str(textJSON))
+        except json.JSONDecodeError:
+            return defaultValue
+
+    def updateGlobalDict(self, key, dict):
+        if dict is not None:
+            return self.updateSessionPairs(self.GLOBAL_SESSION_ID, **{
+                    key: self.__jsonEncoder.encode(dict)})
+        else:
+            return self.updateGlobalPairs(self.GLOBAL_SESSION_ID, **{
+                    key: None });
+
 
     def __isReservedItem(self, item):
         """Return true if the item is reserved item."""

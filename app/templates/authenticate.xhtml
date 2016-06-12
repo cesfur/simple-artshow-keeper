@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='Artshow.css')}}" />
+    <title>__Auth.Header</title>
+</head>
+<body onload="setInputFocus('Code')">
+    <h1>__Auth.Title</h1>
+    <p>__Auth.Instructions</p>
+    <div class="deviceCode">{{deviceCode}}</div>
+    <form class="main" method="get">
+        <input class="action" type="submit" formaction="{{doneTarget}}" value="__Auth.Entered" />
+    </form>
+</body>
+</html>

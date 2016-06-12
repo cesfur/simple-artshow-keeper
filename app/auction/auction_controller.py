@@ -22,6 +22,7 @@ from common.convert import *
 from common.parameter import *
 from common.response import respondHtml, respondXml, respondCustomDataFile
 from common.result import Result
+from common.authentication import auth, UserGroups
 from model.item import ItemField
 from controller.format import *
 
@@ -47,6 +48,7 @@ def getCustomFile(filename):
             flask.g.language)
 
 @blueprint.route('/list', methods = ['GET', 'POST'])
+@auth(UserGroups.SCAN_DEVICE)
 def listItems():
     items = flask.g.model.getAllItemsInAuction()
     items.sort(key=lambda item: item[ItemField.AUCTION_SORT_CODE])
@@ -61,10 +63,12 @@ def listItems():
         'targetPrinted': '' })
 
 @blueprint.route('/showstatus', methods = ['GET', 'POST'])
+@auth()
 def showStatus():
     return respondHtml('showStatus', flask.g.userGroup, flask.g.language, {})
 
 @blueprint.route('/getstatus', methods = ['GET', 'POST'])
+@auth()
 def getStatus():
     item = formatItem(flask.g.model.getItemInAuction(), flask.g.language)
     if item is not None:
@@ -82,6 +86,7 @@ def getStatus():
         'charity': charityAmount })
 
 @blueprint.route('/auction', methods = ['GET', 'POST'])
+@auth()
 def selectItemToAuction():
     flask.g.model.clearAuction()
     itemsToAuction = flask.g.model.getAllItemsInAuction()
@@ -98,6 +103,7 @@ def selectItemToAuction():
                 'cancelledTarget': flask.url_for('.exit')})
 
 @blueprint.route('/startauctionitem', methods = ['GET', 'POST'])
+@auth()
 def startAuctionItem():
     itemCode = getParameter('ItemCode')
     item = flask.g.model.sendItemToAuction(itemCode)
@@ -111,6 +117,7 @@ def startAuctionItem():
                 'okTarget': flask.url_for('.selectItemToAuction')})
 
 @blueprint.route('/auctionitem', methods = ['GET', 'POST'])
+@auth()
 def auctionItem():
     item = flask.g.model.getItemInAuction()
     if item == None:
@@ -126,6 +133,7 @@ def auctionItem():
                 'cancelledTarget': flask.url_for('.selectItemToAuction')})
  
 @blueprint.route('/setnewamount', methods = ['GET', 'POST'])
+@auth()
 def setNewAmount():
     newAmount = toDecimal(getParameter('NewAmount'))
     if newAmount == None or newAmount < 1:
@@ -145,6 +153,7 @@ def setNewAmount():
         return flask.redirect(flask.url_for('.auctionItem'))
     
 @blueprint.route('/finalizeitem', methods = ['GET', 'POST'])
+@auth()
 def finalizeItem():
     item = flask.g.model.getItemInAuction()
     if item == None:
@@ -160,6 +169,7 @@ def finalizeItem():
                 'cancelledTarget': flask.url_for('.auctionItem')})
     
 @blueprint.route('/sellupdateditem', methods = ['GET', 'POST'])
+@auth()
 def sellUpdatedItem():
     newBuyer = toInt(getParameter('NewBuyer'))
     item = flask.g.model.getItemInAuction()
@@ -184,6 +194,7 @@ def sellUpdatedItem():
         return flask.redirect(flask.url_for('.selectItemToAuction'))
 
 @blueprint.route('/sellitemnoupdate', methods = ['GET', 'POST'])
+@auth()
 def sellItemNoUpdate():
     item = flask.g.model.getItemInAuction()
     if item == None:

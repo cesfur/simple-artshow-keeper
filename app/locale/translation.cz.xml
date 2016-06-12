@@ -2,6 +2,11 @@
 <dictionary>
     <!-- auction -->
     <phrase id="AuctionStatus.StatusHeader">Artshow: Dražba předmětu</phrase>
+    <!-- authentication -->
+    <phrase id="Auth.Header">Artshow: Autentikace zařízení</phrase>
+    <phrase id="Auth.Title">Autentikace zařízení</phrase>
+    <phrase id="Auth.Instructions">Zadejte níže vygenerované číslo do systému.</phrase>
+    <phrase id="Auth.Entered">Číslo zadáno</phrase>
     <!-- generic -->
     <phrase id="AdditionalInfo">Doplňující informace</phrase>
     <phrase id="Owner:">Vlastník:</phrase>
@@ -111,6 +116,10 @@
         Pokud je Kč primární měnou a číslo uvedené u sekundární měny (€) je 2,5,
         pak 1€ je ekvivalentem 2,5 Kč.
     </phrase>
+    <phrase id="Settings.DevicesLabel">Přípojná zařízení</phrase>
+    <phrase id="Settings.DevicesDescription">Vložte kód zobrazený zařízením nebo ponechte prázdné.</phrase>
+    <phrase id="Settings.DevicesScanDevice">Skenner</phrase>
+    <phrase id="Settings.DevicesDeviceCodeHint">Vložte kod zobrazený zařízením.</phrase>
     <phrase id="Settings.PrimaryCurrencyConversionHelp">Koeficicient u primární měny musí být 1.</phrase>
     <phrase id="Settings.SaveSettings">Ulož změny</phrase>
     <!-- update item to close -->

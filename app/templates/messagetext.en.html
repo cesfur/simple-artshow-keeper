@@ -5,6 +5,8 @@
     <p class="message error">Error has ocurred.</p>
 {%- elif message == 'CRITICAL_ERROR' -%}
     <p class="message error">Critical error has ocurred. Ongoing operation might not finished completely. Please, repeat the operation.</p>
+{%- elif message == 'DISABLED_DEVICE_CODE' -%}
+    <p class="message error">Device code is blocked.</p>
 {%- elif message == 'PARTIAL_SUCCESS' -%}
     <p class="message info">Operation has succeeded partially. Please, repeat the operation.</p>
 {%- elif message == 'INPUT_ERROR' -%}

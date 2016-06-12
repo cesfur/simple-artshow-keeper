@@ -16,6 +16,18 @@
     {%- endif %}
 
     <form class="main" method="post">
+        <!-- Devices -->
+        <fieldset>
+            <legend>__Settings.DevicesLabel</legend>
+            <p>__Settings.DevicesDescription</p>
+            <div class="subblock">
+                <label for="scandevice">__Settings.DevicesScanDevice</label>
+                <input id="scandevice" name="ScanDeviceCode" type="number"
+                       autocomplete="off" required="required"
+                       min="0" step="any"
+                       title="__Settings.DevicesDeviceCodeHint" />
+            </div>
+        </fieldset>
         <!-- Currency -->
         {% if currencyInfo -%}
         <fieldset>

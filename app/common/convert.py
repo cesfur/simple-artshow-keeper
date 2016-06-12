@@ -17,6 +17,7 @@
 import json
 from decimal import Decimal
 from decimal import InvalidOperation
+from datetime import datetime
 
 def toNonEmptyStr(value, default=None):
     """Convert a value to a string if not None or empty string.
@@ -55,10 +56,22 @@ def toDecimal(value):
         return None
 
 def toInt(value):
+    if value is None:
+        return None
     try:
         return int(str(value))
     except ValueError:
         return None
+
+
+def toDateTime(value):
+    if value is None:
+        return None
+    try:
+        return datetime.strptime(str(value), '%Y-%m-%d %H:%M:%S.%f')
+    except ValueError:
+        return None
+
 
 def checkRange(value, lower, upper):
     """Check whether a value is within a range [lower, upper].

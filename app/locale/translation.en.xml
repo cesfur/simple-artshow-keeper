@@ -2,6 +2,11 @@
 <dictionary>
     <!-- auction -->
     <phrase id="AuctionStatus.StatusHeader">Artshow: Auction</phrase>
+    <!-- authentication -->
+    <phrase id="Auth.Header">Artshow: Device Authentication</phrase>
+    <phrase id="Auth.Title">Device Authentication</phrase>
+    <phrase id="Auth.Instructions">Enter device code shown on the device screen.</phrase>
+    <phrase id="Auth.Entered">Code Enterred</phrase>
     <!-- generic -->
     <phrase id="AdditionalInfo">Additional Info</phrase>
     <phrase id="Owner:">Owner:</phrase>

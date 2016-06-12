@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='Artshow.css')}}" />
+    <title>__ArtShow</title>
+</head>
+<body>
+    <h1>__ArtShow</h1>
+    <form class="main">
+        <fieldset>
+            <legend>__Setup</legend>
+            <input class="action" type="submit" formaction="{{url_for('items.selectItemToClose')}}" value="__Close Item" />
+        </fieldset>
+        <fieldset>
+            <legend>__Auction</legend>
+            <input class="action" type="submit" formaction="{{url_for('auction.listItems')}}"
+                   value="__List Auction Items" />
+        </fieldset>
+    </form>
+</body>
+</html>

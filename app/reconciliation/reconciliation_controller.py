@@ -22,6 +22,7 @@ from common.convert import *
 from common.parameter import *
 from common.response import respondHtml, respondXml
 from common.result import Result
+from common.authentication import auth, UserGroups
 from model.item import ItemField
 from model.summary import SummaryField, DrawerSummaryField, Summary
 
@@ -37,6 +38,7 @@ def exit():
     return flask.redirect(flask.url_for('index'))
 
 @blueprint.route('/selectbadgetoreconciliate', methods = ['GET', 'POST'])
+@auth()
 def selectBadgeToReconciliate():
     return respondHtml(
             'findbadgetoreconciliate', flask.g.userGroup, flask.g.language, {
@@ -58,6 +60,7 @@ def respondReconciliation(badge, summary, summaryChecksum):
             'cancelledTarget': flask.url_for('.selectBadgeToReconciliate')})
 
 @blueprint.route('/startreconciliation', methods = ['GET', 'POST'])
+@auth()
 def startReconciliation():
     badge = getParameter('Badge')
     if toInt(badge) is None:
@@ -80,6 +83,7 @@ def startReconciliation():
             return respondReconciliation(badge, summary, Summary.calculateChecksum(summary))
 
 @blueprint.route('/continuereconciliation', methods = ['GET', 'POST'])
+@auth()
 def continueReconciliation():
     badge = toInt(getParameter('Badge'))
     summaryChecksum = toInt(getParameter('SummaryChecksum'))
@@ -98,6 +102,7 @@ def continueReconciliation():
         return respondReconciliation(badge, summary, summaryChecksum)
 
 @blueprint.route('/printrunnedoverview', methods = ['GET', 'POST'])
+@auth()
 def printRunnerOverview():
     badge = toInt(getParameter('Badge'))
     summaryChecksum = toInt(getParameter('SummaryChecksum'))
@@ -124,6 +129,7 @@ def printRunnerOverview():
                 'cancelledTarget': flask.url_for('.continueReconciliation')})
 
 @blueprint.route('/print', methods = ['GET', 'POST'])
+@auth()
 def printReconciliation():
     badge = toInt(getParameter('Badge'))
     summaryChecksum = toInt(getParameter('SummaryChecksum'))
@@ -151,6 +157,7 @@ def printReconciliation():
                 'cancelledTarget': flask.url_for('.selectBadgeToReconciliate')})
 
 @blueprint.route('/finalize', methods = ['GET', 'POST'])
+@auth()
 def finalizeReconciliation():
     badge = toInt(getParameter('Badge'))
     summaryChecksum = toInt(getParameter('SummaryChecksum'))
@@ -180,6 +187,7 @@ def finalizeReconciliation():
                 'okTarget': flask.url_for('.selectBadgeToReconciliate')})
 
 @blueprint.route('/showsummary', methods = ['GET', 'POST'])
+@auth()
 def showSummary():
     summary = flask.g.model.getCashDrawerSummary()
     if summary is None:

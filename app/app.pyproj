@@ -61,6 +61,7 @@
     <Content Include="auction\templates\finditemtoauction.admin.de.html" />
     <Content Include="auction\templates\finditemtoauction.admin.en.html" />
     <Content Include="auction\templates\getstatus.xml" />
+    <Content Include="auction\templates\listauctionitems.xhtml" />
     <Content Include="auction\templates\showstatus.xhtml" />
     <Content Include="config.ini" />
     <Compile Include="items\items_controller.py" />
@@ -79,12 +80,12 @@
     <Content Include="items\templates\approveimport.admin.xhtml" />
     <Content Include="items\templates\edititem.admin.de.html" />
     <Content Include="items\templates\edititem.admin.en.html" />
-    <Content Include="items\templates\finditemtoclose.admin.xhtml" />
+    <Content Include="items\templates\finditemtoclose.xhtml" />
     <Content Include="items\templates\listitems.admin.de.html" />
     <Content Include="items\templates\listitems.admin.en.html" />
     <Content Include="items\templates\reportimport.admin.xhtml" />
     <Content Include="items\templates\selectimportfile.admin.xhtml" />
-    <Content Include="items\templates\updateitemtoclose.admin.xhtml" />
+    <Content Include="items\templates\updateitemtoclose.xhtml" />
     <Content Include="items\templates\edititemimage.admin.xhtml" />
     <Content Include="locale\translation.cz.xml" />
     <Content Include="locale\translation.de.xml" />
@@ -110,7 +111,7 @@
     <Content Include="templates\itemstate.cz.html" />
     <Content Include="templates\itemstate.de.html" />
     <Content Include="templates\itemstate.en.html" />
-    <Content Include="templates\login.xhtml" />
+    <Content Include="templates\authenticate.xhtml" />
     <Content Include="templates\main.admin.xhtml" />
     <Content Include="auction\static\StatusFrame.css" />
     <Content Include="auction\static\StatusFrame.js" />
@@ -125,6 +126,8 @@
     <Content Include="items\templates\listitems.admin.cz.html" />
     <Content Include="items\templates\edititem.admin.cz.html" />
     <Content Include="reconciliation\templates\findbadgetoreconciliate.admin.cz.html" />
+    <Content Include="templates\main.scandevice.xhtml" />
+    <Content Include="templates\main.xhtml" />
     <Content Include="templates\message.xhtml" />
     <Content Include="templates\messagetext.cz.html" />
     <Content Include="templates\messagetext.de.html" />

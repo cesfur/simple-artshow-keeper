@@ -163,8 +163,10 @@
         <DirectoryRef Id="CoreTemplatesDir">
             <Component Id="CoreTemplates" Guid="{95143405-EFE2-4648-B00F-4E0FD1DF87DE}">
                 <!-- Multilingual -->
-                <File Source="$(var.SolutionDir)app/templates/login.xhtml"/>
+                <File Source="$(var.SolutionDir)app/templates/authenticate.xhtml"/>
+                <File Source="$(var.SolutionDir)app/templates/main.xhtml"/>
                 <File Source="$(var.SolutionDir)app/templates/main.admin.xhtml"/>
+                <File Source="$(var.SolutionDir)app/templates/main.scandevice.xhtml"/>
                 <File Source="$(var.SolutionDir)app/templates/message.xhtml"/>
                 <!-- CZ -->
                 <File Source="$(var.SolutionDir)app/templates/itemstate.cz.html"/>
@@ -234,6 +236,7 @@
                 <!-- Multilingual -->
                 <File Source="$(var.SolutionDir)app/auction/templates/showstatus.xhtml"/>
                 <File Source="$(var.SolutionDir)app/auction/templates/getstatus.xml"/>
+                <File Source="$(var.SolutionDir)app/auction/templates/listauctionitems.xhtml"/>
                 <File Source="$(var.SolutionDir)app/auction/templates/listauctionitems.admin.xhtml"/>
                 <!-- CZ -->
                 <File Source="$(var.SolutionDir)app/auction/templates/auctionitem.admin.cz.html"/>
@@ -276,11 +279,11 @@
                 <!-- Multilingual -->
                 <File Source="$(var.SolutionDir)app/items/templates/approveimport.admin.xhtml"/>
                 <File Source="$(var.SolutionDir)app/items/templates/edititemimage.admin.xhtml"/>
-                <File Source="$(var.SolutionDir)app/items/templates/finditemtoclose.admin.xhtml"/>
+                <File Source="$(var.SolutionDir)app/items/templates/finditemtoclose.xhtml"/>
                 <File Source="$(var.SolutionDir)app/items/templates/reportimport.admin.xhtml"/>
                 <File Source="$(var.SolutionDir)app/items/templates/selectimportfile.admin.xhtml"/>
                 <File Source="$(var.SolutionDir)app/items/templates/bidsheets.xhtml"/>
-                <File Source="$(var.SolutionDir)app/items/templates/updateitemtoclose.admin.xhtml"/>
+                <File Source="$(var.SolutionDir)app/items/templates/updateitemtoclose.xhtml"/>
                 <!-- CZ -->
                 <File Source="$(var.SolutionDir)app/items/templates/edititem.admin.cz.html"/>
                 <File Source="$(var.SolutionDir)app/items/templates/listitems.admin.cz.html"/>

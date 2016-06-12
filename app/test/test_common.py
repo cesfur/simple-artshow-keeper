@@ -26,6 +26,7 @@ from . datafile import Datafile
 from common.convert import *
 from common.translate import *
 from common.phrase_dictionary import *
+from common.authentication import *
 
 class TestCommon(unittest.TestCase):
     def setUpClass():
@@ -151,3 +152,12 @@ class TestCommon(unittest.TestCase):
         translatedXml = translateXhtml(LANGUAGE, xml)
         print(translatedXml)
         self.assertEqual(expectedXml, translatedXml)
+
+    def test_getRandom(self):
+        # This test is not valid because it test justs a few cases
+        pile = {}
+        for i in range(65536):
+            number = getNonZeroRandom()
+            self.assertNotEqual(number, 0)
+            self.assertIsNone(pile.get(number))
+            pile[number] = True

@@ -23,6 +23,7 @@ from common.convert import *
 from common.parameter import *
 from common.response import respondHtml, respondXml, respondCustomDataFile
 from common.result import Result
+from common.authentication import auth, UserGroups
 from model.item import ItemField, ItemState
 from controller.format import formatItem
 
@@ -32,6 +33,7 @@ ROOT_DIR_CUSTOM_DATA = None
 blueprint = flask.Blueprint('items', __name__, template_folder='templates', static_folder='static')
 
 @blueprint.route('/')
+@auth()
 def index():
     return ""
 
@@ -79,15 +81,18 @@ def __respondEditItemHtml(itemData, onUpdate, onCancel, message=None):
                 'updateItemTarget': onUpdate })
 
 @blueprint.route('/new')
+@auth()
 def enterNewItem():
     flask.g.model.clearAdded(flask.g.sessionID)
     return __respondNewItemHtml(None, False)
 
 @blueprint.route('/nextnew')
+@auth()
 def enterNextNewItem():
     return __respondNewItemHtml(None, False)
 
 @blueprint.route('/add', methods=['POST'])
+@auth()
 def addNewItem():
     # Add the new item
     result = flask.g.model.addNewItem(
@@ -111,6 +116,7 @@ def addNewItem():
     return __respondNewItemHtml(nextItem, result)
  
 @blueprint.route('/printadded', methods=['GET', 'POST'])
+@auth()
 def printAddedItems():
     addedItems = flask.g.model.getAddedItems(flask.g.sessionID)
     if len(addedItems) == 0:
@@ -125,16 +131,19 @@ def printAddedItems():
                 'printedTarget': flask.url_for('.printAddedPrinted')})
 
 @blueprint.route('/printaddedcancel', methods=['GET', 'POST'])
+@auth()
 def printAddedCancelled():
     logging.debug('printAddedCancelled: Printing cancelled.')
     return __respondNewItemHtml(None, Result.PRINT_CANCELLED)
                 
 @blueprint.route('/printaddedprinted', methods=['GET', 'POST'])
+@auth()
 def printAddedPrinted():
     flask.g.model.clearAdded(flask.g.sessionID)
     return __respondNewItemHtml(None)
         
 @blueprint.route('/list', methods=['GET', 'POST'])
+@auth()
 def listItems():
     items = flask.g.model.getAllItems()
     items.sort(key = lambda item: item[ItemField.SORT_CODE])
@@ -153,6 +162,7 @@ def __getSelectedItemCodes(form):
         return []
 
 @blueprint.route('/printmultiple', methods=['GET', 'POST'])
+@auth()
 def printSelectedItems():
     itemCodes = __getSelectedItemCodes(flask.request.form)
 
@@ -171,6 +181,7 @@ def printSelectedItems():
                 'okTarget': flask.url_for('.listItems')})
 
 @blueprint.route('/deletemultiple', methods = ['POST'])
+@auth()
 def deleteSelectedItems():
     itemCodes = __getSelectedItemCodes(flask.request.form)
 
@@ -188,6 +199,7 @@ def deleteSelectedItems():
                 'okTarget': flask.url_for('.listItems')})
 
 @blueprint.route('/edit/<itemCode>', methods=['POST', 'GET'])
+@auth()
 def editItem(itemCode):
     item = flask.g.model.getItem(itemCode)
     if item is None:
@@ -203,6 +215,7 @@ def editItem(itemCode):
                 message=None)
 
 @blueprint.route('/update/<itemCode>', methods=['POST'])
+@auth()
 def updateItem(itemCode):
     item = flask.g.model.getItem(getParameter('ItemCode'))
     if item is None:
@@ -236,6 +249,7 @@ def updateItem(itemCode):
             return flask.redirect(flask.url_for('.listItems'))
 
 @blueprint.route('/close', methods = ['GET', 'POST'])
+@auth(UserGroups.SCAN_DEVICE)
 def selectItemToClose():
     clearPersistetParameter('ItemCode')
     closableItems = flask.g.model.getAllClosableItems()
@@ -252,6 +266,7 @@ def selectItemToClose():
                 'okTarget': flask.url_for('.exit')})
 
 @blueprint.route('/closeupdate', methods = ['GET', 'POST'])
+@auth(UserGroups.SCAN_DEVICE)
 def updateItemToClose():
     itemCode = getParameter('ItemCode')
     item = flask.g.model.getItem(itemCode)
@@ -280,6 +295,7 @@ def updateItemToClose():
                 'cancelledTarget': flask.url_for('.selectItemToClose')})
 
 @blueprint.route('/closenotsold', methods = ['GET', 'POST'])
+@auth(UserGroups.SCAN_DEVICE)
 def closeItemAsNotSold():
     itemCode = getParameter('ItemCode')
     result = flask.g.model.closeItemAsNotSold(itemCode)
@@ -291,6 +307,7 @@ def closeItemAsNotSold():
         return flask.redirect(flask.url_for('.selectItemToClose'))
 
 @blueprint.route('/closesold', methods = ['GET', 'POST'])
+@auth(UserGroups.SCAN_DEVICE)
 def closeItemAsSold():
     itemCode = getParameter('ItemCode')
     amount = getParameter('Amount')
@@ -308,6 +325,7 @@ def closeItemAsSold():
         return flask.redirect(flask.url_for('.selectItemToClose'))
 
 @blueprint.route('/closeauction', methods = ['GET', 'POST'])
+@auth(UserGroups.SCAN_DEVICE)
 def closeItemIntoAuction():
     itemCode = getParameter('ItemCode')
     amount = getParameter('Amount')
@@ -329,6 +347,7 @@ def closeItemIntoAuction():
 
 
 @blueprint.route('/image/<itemCode>', methods=['GET'])
+@auth(UserGroups.SCAN_DEVICE)
 def getImage(itemCode):
     imagePath, imageFilename = flask.g.model.getItemImage(itemCode)
     if imageFilename is None:
@@ -336,8 +355,9 @@ def getImage(itemCode):
     else:
         return respondCustomDataFile(None, imagePath, imageFilename, None);
 
-@blueprint.route('/editauctionimage', methods=['GET'])
-def editAuctionImage():
+@blueprint.route('/edititemimage', methods=['GET'])
+@auth(UserGroups.SCAN_DEVICE)
+def editItemImage():
     itemCode = getParameter('ItemCode')
     item = flask.g.model.getItem(itemCode)
     if item is None:
@@ -352,26 +372,14 @@ def editAuctionImage():
                 'cancelledTarget': flask.url_for('.selectItemToClose'),
                 'cancelledTargetTitle': '__EditItemImage.Skip'})
 
-@blueprint.route('/updateauctionimage', methods=['POST'])
-def updateAuctionImage():
-    itemCode = getParameter('ItemCode')
-    result = flask.g.model.updateItemImage(itemCode, getParameter('ImageData'))
-    if result != Result.SUCCESS:
-        return respondHtml('message', flask.g.userGroup, flask.g.language, {
-                'message': result,
-                'itemCode': itemCode,
-                'okTarget': flask.url_for('.editAuctionImage', ItemCode=itemCode)})
-    else:
-        return flask.redirect(flask.url_for('.editAuctionImage', ItemCode=itemCode))#DEBUG
-        #return flask.redirect(flask.url_for('.selectItemToClose'))#DEBUG
-
-
 @blueprint.route('/importdone', methods = ['GET', 'POST'])
+@auth()
 def leaveImport():
     flask.g.model.dropImport(flask.g.sessionID)
     return flask.redirect(flask.url_for('.enterNextNewItem'))
 
 @blueprint.route('/selectimport', methods = ['GET', 'POST'])
+@auth()
 def selectImportFile():
     flask.g.model.dropImport(flask.g.sessionID)
     return respondHtml('selectimportfile', flask.g.userGroup, flask.g.language, {
@@ -380,6 +388,7 @@ def selectImportFile():
             'targetCancelled': flask.url_for('.leaveImport')})
 
 @blueprint.route('/uploadimportfile', methods = ['POST'])
+@auth()
 def uploadImportFile():
     # 1. Retrieve input.
     file = flask.request.files.get('ImportFile', None)
@@ -402,6 +411,7 @@ def uploadImportFile():
             'targetCancelled': flask.url_for('.leaveImport')})
 
 @blueprint.route('/uploadimporttext', methods = ['POST'])
+@auth()
 def uploadImportText():
     # 1. Retrieve input.
     text = getParameter('ImportText')
@@ -423,6 +433,7 @@ def uploadImportText():
             'targetCancelled': flask.url_for('.leaveImport')})
 
 @blueprint.route('/applyimport', methods = ['POST'])
+@auth()
 def applyImport():
     # 1. Retrieve input.
     checksum = getParameter('ImportChecksum')

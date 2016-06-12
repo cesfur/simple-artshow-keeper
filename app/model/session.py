@@ -17,11 +17,13 @@
 class Field:
     ADDED_ITEM_CODES = 'AddedItemCodes'
     CREATED_TIMESTAMP = 'CreatedTimestamp'
+    VALID_UNTIL_TIMESTAMP = 'ValidUntilTimestamp'
     USER_GROUP = 'UserGroup'
     USER_IP = 'UserIP'
     LANGUAGE = 'Language'
+    DEVICE_CODE = 'DeviceCode'
+
+    DEVICE_CODES = 'DeviceCodes'
 
     IMPORTED_CHECKSUM = 'ImportedChecksum'
     IMPORTED_ITEMS = 'ImportedItems'
-
-MAX_SESION_ID = 9999

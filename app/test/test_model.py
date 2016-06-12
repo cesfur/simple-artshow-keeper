@@ -26,6 +26,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
 from . datafile import Datafile
 from common.result import Result
+from common.authentication import UserGroups
 from model.model import Model
 from model.dataset import Dataset
 from model.item import ItemState, ItemField, ImportedItemField
@@ -661,6 +662,42 @@ class TestModel(unittest.TestCase):
                 blockAuthor = item[ItemField.AUTHOR]
                 blockSize = 1
         self.assertGreaterEqual(2, largestBlockSize, 'Author: ' + str(largestBlockAuthor))
+
+
+    def test_generateDeviceCode(self):
+        adminSessionID = self.model.startNewSession(UserGroups.ADMIN, '127.0.0.1')
+
+        sessionID = self.model.startNewSession(UserGroups.UNKNOWN, '192.168.0.1')
+
+        # If multiple numbers are generated per session, only the last one is valid
+        deviceCode1 = self.model.generateDeviceCode(sessionID)
+        self.assertIsNotNone(deviceCode1)
+        deviceCode2 = self.model.generateDeviceCode(sessionID)
+        self.assertIsNotNone(deviceCode2)
+        self.assertEqual(Result.DISABLED_DEVICE_CODE, self.model.approveDeviceCode(adminSessionID, deviceCode1, UserGroups.SCAN_DEVICE))
+        self.assertEqual(Result.SUCCESS, self.model.approveDeviceCode(adminSessionID, deviceCode2, UserGroups.SCAN_DEVICE))
+
+
+    def test_getSessionUserGroup(self):
+        adminSessionID = self.model.startNewSession(UserGroups.ADMIN, '127.0.0.1')
+
+        sessionID = self.model.startNewSession(UserGroups.UNKNOWN, '192.168.0.1')
+        self.assertIsNotNone(sessionID)
+
+        # User group is defined in session
+        self.assertEqual(UserGroups.ADMIN, self.model.getSessionUserGroup(adminSessionID))
+        self.assertEqual(UserGroups.UNKNOWN, self.model.getSessionUserGroup(sessionID))
+
+        # If a device code is approved, associated user group is used.
+        deviceCode = self.model.generateDeviceCode(sessionID)
+        self.assertEqual(Result.SUCCESS, self.model.approveDeviceCode(adminSessionID, deviceCode, UserGroups.SCAN_DEVICE))
+        self.assertEqual(UserGroups.SCAN_DEVICE, self.model.getSessionUserGroup(sessionID))
+
+        # If a device code is dropped, user group is UNKNOWN.
+        self.model.dropDeviceCode(adminSessionID, deviceCode)
+        self.assertEqual(UserGroups.UNKNOWN, self.model.getSessionUserGroup(sessionID))
+
+
 
 if __name__ == '__main__':
     unittest.main()

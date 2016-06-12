@@ -181,6 +181,14 @@ body {
             margin: 0px;
             padding: 0px;
         }
+
+    div.deviceCode {
+        border: 1px solid black;
+        font-size: 200%;
+        text-align: center;
+        padding-top: 5mm;
+        padding-bottom: 5mm;
+    }
 }
 
 @media print {

@@ -21,8 +21,10 @@ from common.convert import *
 from common.parameter import *
 from common.response import respondHtml, respondXml
 from common.result import Result
+from common.authentication import auth, UserGroups
 from model.item import ItemField
 from controller.format import *
+
 
 URL_PREFIX = '/settings'
 blueprint = flask.Blueprint('settings', __name__, template_folder = 'templates', static_folder = 'static')
@@ -36,6 +38,7 @@ def exit():
     return flask.redirect(flask.url_for('index'))
     
 @blueprint.route('/view', methods = ['GET', 'POST'])
+@auth()
 def view():
     return respondHtml('viewsettings', flask.g.userGroup, flask.g.language, {
             'currencyInfo': flask.g.model.getCurrency().getInfo(),
@@ -43,16 +46,25 @@ def view():
             'cancelledTarget': flask.url_for('.exit')})
 
 @blueprint.route('/saveapply', methods = ['POST'])
+@auth()
 def saveApply():
     currencyInfoList = flask.g.model.getCurrency().getInfo()
-    for currencyInfo in currencyInfoList:
-        amountInPrimary = getParameter("Currency_AmountInPrimary_{0}".format(currencyInfo[CurrencyField.CODE]))
-        if amountInPrimary is None:
-            logging.warning('saveApply: Currency {0} will not be updated because no new value has been supplied.'.format(currencyInfo[CurrencyField.CODE]))
-        else:
-            currencyInfo[CurrencyField.AMOUNT_IN_PRIMARY] = amountInPrimary
 
-    result = flask.g.model.getCurrency().updateInfo(currencyInfoList)
+    result = Result.SUCCESS
+    if result == Result.SUCCESS:
+        scanDeviceCode = getParameter('ScanDeviceCode')
+        if scanDeviceCode is not None and len(scanDeviceCode) > 0:
+            result = flask.g.model.approveDeviceCode(flask.g.sessionID, scanDeviceCode, UserGroups.SCAN_DEVICE)
+
+    if result == Result.SUCCESS:
+        for currencyInfo in currencyInfoList:
+            amountInPrimary = getParameter("Currency_AmountInPrimary_{0}".format(currencyInfo[CurrencyField.CODE]))
+            if amountInPrimary is None:
+                logging.warning('saveApply: Currency {0} will not be updated because no new value has been supplied.'.format(currencyInfo[CurrencyField.CODE]))
+            else:
+                currencyInfo[CurrencyField.AMOUNT_IN_PRIMARY] = amountInPrimary
+        result = flask.g.model.getCurrency().updateInfo(currencyInfoList)
+
     if result == Result.SUCCESS:
         return respondHtml('message', flask.g.userGroup, flask.g.language, {
                 'message': result,

@@ -28,7 +28,8 @@ from common.result import Result
 from common.response import respondHtml, respondXml
 from common.translate import registerDictionary
 from common.phrase_dictionary import PhraseDictionary
-from common.authentication import UserGroups, admin_auth_required, user_auth_required
+from common.authentication import UserGroups, auth
+from common.parameter import getParameter
 from model.dataset import Dataset
 from model.currency import Currency
 from model.model import Model
@@ -75,18 +76,35 @@ del dictionaryPath
 
 @app.before_request
 def before_request():
-    if not model.findSession(flask.session.get('SessionID', None)):
-        userGroup = UserGroups.ADMIN if flask.request.remote_addr == '127.0.0.1' else UserGroups.OTHERS
-        userGroup = UserGroups.ADMIN #DEBUG
+    flask.g.userGroup = UserGroups.UNKNOWN
+    flask.g.language = config.DEFAULT_LANGUAGE
+    flask.g.model = model
+
+    localRequest = flask.request.remote_addr == '127.0.0.1'
+    sessionID = flask.session.get('SessionID', None)
+    if localRequest and model.findSession(sessionID):
+        group, ip = model.getSessionUserInfo(sessionID)
+        if ip != '127.0.0.1':
+            printf('Local session has been compomised by IP {0}. Resetting.'.format(ip))
+            model.dropSession(sessionID)
+            sessionID = None
+        else:
+            model.renewSession(sessionID)
+
+    model.sweepSessions()
+
+    if not model.findSession(sessionID):
+        userGroup = UserGroups.ADMIN if localRequest else UserGroups.UNKNOWN
         sessionID = model.startNewSession(
             userGroup=userGroup,
             userIP=flask.request.remote_addr)
         flask.session['SessionID'] = sessionID
-    
-    flask.g.sessionID = flask.session['SessionID']
-    flask.g.userGroup, flask.g.userIP = model.getSessionUserInfo(flask.session['SessionID'])
-    flask.g.language = config.DEFAULT_LANGUAGE
-    flask.g.model = model
+    else:
+        model.updateSessionUserInfo(sessionID, userIP=flask.request.remote_addr)
+
+    flask.g.sessionID = sessionID
+    flask.g.userGroup, flask.g.userIP = model.getSessionUserInfo(sessionID)
+
 
 @app.after_request
 def after_request(response):
@@ -94,33 +112,27 @@ def after_request(response):
         flask.g.model.persist()
     return response
     
-#@user_auth_required
 @app.route("/")
+@auth(UserGroups.SCAN_DEVICE)
 def index():
     return respondHtml('main', flask.g.userGroup, flask.g.language)
 
-@app.route('/login', methods = ['GET', 'POST'])
-def login():
-    # verify that admin login is possible (local client)    
-    return respondHtml('login', flask.g.userGroup, flask.g.language, {
-            'loginTarget': flask.url_for('authenticate'),
-            'loginAdminTarget': None})
-
-@app.route('/authenticate', methods = ['POST'])
+@app.route('/authenticate', methods=['GET', 'POST'])
 def authenticate():
-    # clear credential (model.resetSession())
-    # verify that provided code is known
-    return respondHtml('message', flask.g.userGroup, flask.g.language, {
-            'message': Result.ACCESS_DENIED, #flask.request.remote_addr, # ,
-            'okTarget': flask.url_for('login')})
+    nextUrl = getParameter('next')
+    if nextUrl is None or nextUrl == '':
+        nextUrl = flask.url_for('index')
 
-@app.route('/authenticateadmin', methods = ['POST'])
-def authenticateAdmin():
-    # clear credentials (model.resetSession())
-    # verify that admin login is possible (local client)
-    return respondHtml('login', flask.g.userGroup, flask.g.language, {
-            'message': Result.ACCESS_DENIED,
-            'okTarget': flask.url_for('login')})
+    deviceCode = flask.g.model.generateDeviceCode(flask.g.sessionID)
+    if deviceCode is None:
+        return respondHtml('message', flask.g.userGroup, flask.g.language, {
+                'message': Result.NO_DEVICE_CODE,
+                'okTarget': flask.url_for('index')})
+    else:
+        return respondHtml('authenticate', flask.g.userGroup, flask.g.language, {
+                'deviceCode': deviceCode,
+                'doneTarget': nextUrl })
+
 
 @app.errorhandler(Exception)
 def catch_all(err):

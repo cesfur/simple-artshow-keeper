@@ -21,7 +21,7 @@ import decimal
 import io
 import json
 import csv
-from datetime import datetime
+from datetime import datetime, timedelta
 from decimal import Decimal
 import math
 import base64
@@ -31,13 +31,16 @@ from . import session
 from . dataset import Dataset
 from . item import ItemField, ItemState, ImportedItemField, calculateImportedItemChecksum
 from . currency import Currency, CurrencyField
+
 from . summary import SummaryField, DrawerSummaryField, ActorSummary
 from . field_value_error import FieldValueError
-from common.authentication import UserGroups
+from common.authentication import UserGroups, getNonZeroRandom
 from common.convert import *
 from common.result import Result
 
 class Model:
+    SESSION_TIMEOUT_HOURS = 2
+
     def __init__(self, logger, dataset, currency):
         self.__logger = logger
         self.__dataset = dataset
@@ -53,15 +56,14 @@ class Model:
         """
         found = False
         while not found:
-            sessionID = int(random.random() * (session.MAX_SESION_ID - 1)) + 1
+            sessionID = getNonZeroRandom()
             if not self.findSession(sessionID):
                 self.__logger.info('startNewSession: Created a session {0}'.format(sessionID))
                 self.__dataset.updateSessionPairs(sessionID, **{
                         session.Field.CREATED_TIMESTAMP: datetime.now(),
                         session.Field.USER_GROUP: userGroup,
                         session.Field.USER_IP: userIP})
-
-                #TODO: Delete expired sessions (24 hrs?)
+                self.renewSession(sessionID)
 
                 self.__dataset.persist()
                 return sessionID
@@ -76,8 +78,42 @@ class Model:
         Returns:
             True if the session ID is found.
         """
-        return sessionID is not None and self.__dataset.getSessionValue(
-                sessionID, session.Field.CREATED_TIMESTAMP, None) is not None
+        return sessionID is not None \
+            and sessionID != Dataset.GLOBAL_SESSION_ID \
+            and self.__dataset.getSessionValue(sessionID, session.Field.CREATED_TIMESTAMP, None) is not None \
+            and self.__dataset.getSessionValue(sessionID, session.Field.VALID_UNTIL_TIMESTAMP, None) is not None 
+
+
+    def sweepSessions(self):
+        """Sweep expired sessions.
+        """
+        now = datetime.now()
+        sessionIDs = self.__dataset.getClientSessionIDs()
+        for sessionID in sessionIDs:
+            validUntilTime = toDateTime(self.__dataset.getSessionValue(sessionID, session.Field.VALID_UNTIL_TIMESTAMP, None))
+            if validUntilTime is None:
+                self.__dataset.dropValidSession(sessionID)
+                self.__logger.debug(
+                        'sweepSessions: Session {0} has been dropped because it does not include a valid timestamp.'.format(sessionID))
+            elif datetime.now() >= validUntilTime:
+                self.__dataset.dropValidSession(sessionID)
+                self.__logger.debug(
+                        'sweepSessions: Session {0} has been dropped because it has expired (timestamp: %d).'.format(sessionID, validUntilTime))
+
+
+    def dropSession(self, sessionID):
+        """Drop session.
+        """
+        self.__dataset.dropValidSession(sessionID)
+
+
+    def renewSession(self, sessionID):
+        """Renew session so it does not expire.
+        """
+        if self.__dataset.getSessionValue(sessionID, session.Field.CREATED_TIMESTAMP, None) is not None:
+                self.__dataset.updateSessionPairs(sessionID, **{
+                        session.Field.VALID_UNTIL_TIMESTAMP: datetime.now() + timedelta(hours=self.SESSION_TIMEOUT_HOURS)})
+
 
     def getSessionUserInfo(self, sessionID):
         """Find session user info.
@@ -86,8 +122,97 @@ class Model:
         Returns:
             Dictionary: (userGroup, userIP)
         """
-        return self.__dataset.getSessionValue(sessionID, session.Field.USER_GROUP, UserGroups.OTHERS), \
-                self.__dataset.getSessionValue(sessionID, session.Field.USER_IP, UserGroups.OTHERS)
+        return self.getSessionUserGroup(sessionID), \
+                self.__dataset.getSessionValue(sessionID, session.Field.USER_IP, '')
+
+
+    def updateSessionUserInfo(self, sessionID, userIP):
+        """Update session user info.
+        Args:
+            sessionID: Session ID.
+            userIP: User IP.
+        """
+        oldIp = self.__dataset.getSessionValue(sessionID, session.Field.USER_IP, None)
+        if oldIp is None or oldIp != userIP:
+            self.__dataset.updateSessionPairs(sessionID, **{
+                    session.Field.USER_IP: userIP})
+
+
+    def approveDeviceCode(self, sessionID, deviceCode, userGroup):
+        """Approve device code for connection."""
+        if self.__dataset.getSessionValue(sessionID, session.Field.USER_GROUP, UserGroups.OTHERS) == UserGroups.ADMIN:
+            deviceCode = str(deviceCode)
+            deviceCodes = self.__dataset.getGlobalDict(session.Field.DEVICE_CODES)
+            if deviceCodes.get(deviceCode, None) is None:
+                self.__logger.error('approveDeviceCode: Failed approve a device code {0} by session {1} because the device code has been disabled.'.format(deviceCode, sessionID))
+                return Result.DISABLED_DEVICE_CODE
+            else:
+                self.__logger.info('approveDeviceCode: Device code {0} approved by session {1} as [{2}].'.format(deviceCode, sessionID, userGroup))
+                deviceCodeInfo = deviceCodes[deviceCode]
+                deviceCodeInfo['UserGroup'] = userGroup
+                self.__dataset.updateGlobalDict(session.Field.DEVICE_CODES, deviceCodes)
+                return Result.SUCCESS
+        else:
+            self.__logger.error('approveDeviceCode: Request of session {0} to approved device code {1} refused.'.format(sessionID, deviceCode))
+            return Result.ACCESS_DENIED
+
+
+    def generateDeviceCode(self, sessionID):
+        """Generate device code for a given session.
+        Returns: Device code or None.
+        """
+        deviceCodes = self.__dataset.getGlobalDict(session.Field.DEVICE_CODES)
+        retries = 10
+        while retries > 0:
+            deviceCode = str(getNonZeroRandom(4))
+            if deviceCodes.get(deviceCode, None) is None:
+                # drop all codes issued this session
+                for usedCode, usedCodeInfo in deviceCodes.items():
+                    if usedCodeInfo is not None and usedCodeInfo['SessionID'] == sessionID:
+                        deviceCodes[usedCode] = None
+
+                deviceCodes[deviceCode] = { 'SessionID': sessionID }
+                if self.__dataset.updateGlobalDict(session.Field.DEVICE_CODES, deviceCodes) \
+                        and self.__dataset.updateSessionPairs(sessionID, **{
+                                session.Field.DEVICE_CODE: deviceCode}):
+                    return deviceCode
+                else:
+                    return None
+            else:
+                retries = retries - 1;
+        self.__logger.error('generateDeviceCode: Unable to generate device code for a session {0}.'.format(sessionID))
+        return None
+
+
+    def getSessionUserGroup(self, sessionID):
+        """Get session group."""
+        userGroup = self.__dataset.getSessionValue(sessionID, session.Field.USER_GROUP, UserGroups.UNKNOWN)
+        if userGroup == UserGroups.UNKNOWN and self.__dataset.getSessionValue(sessionID, session.Field.DEVICE_CODE, None) is not None:
+            deviceCodes = self.__dataset.getGlobalDict(session.Field.DEVICE_CODES)
+            deviceCode = self.__dataset.getSessionValue(sessionID, session.Field.DEVICE_CODE, '')
+            if deviceCodes.get(deviceCode, None) is None:
+                self.__logger.warning('updateSessionUserGroup: Failed to claim device code {0} by session {1} because the device code has been dropped earlier.'.format(deviceCode, sessionID))
+            elif deviceCodes[deviceCode].get('SessionID', 0) != sessionID:
+                self.__logger.warning('updateSessionUserGroup: Failed to claim device code {0} by session {1} because the device code has been generated for a different session.'.format(deviceCode, sessionID))
+            else:
+                userGroup = deviceCodes[deviceCode].get('UserGroup', UserGroups.UNKNOWN)
+        return userGroup
+
+
+    def dropDeviceCode(self, sessionID, deviceCode):
+        """Disable device code."""
+        if self.__dataset.getSessionValue(sessionID, session.Field.USER_GROUP, UserGroups.OTHERS) == UserGroups.ADMIN:
+            deviceCode = str(deviceCode)
+            deviceCodes = self.__dataset.getGlobalDict(session.Field.DEVICE_CODES)
+            if deviceCode in deviceCodes:
+                deviceCodes[deviceCode] = None
+                self.__dataset.updateGlobalDict(session.Field.DEVICE_CODES, deviceCodes)
+                self.__logger.error('dropDeviceCode: Device code {0} dropped.'.format(deviceCode))
+            return Result.SUCCESS
+        else:
+            self.__logger.error('dropDeviceCode: Request of session {0} to drop device code {1} refused.'.format(sessionID, deviceCode))
+            return Result.ACCESS_DENIED
+
 
     def clearAdded(self, sessionID):
         """Clear the list of added item codes in a session."""

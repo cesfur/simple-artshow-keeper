@@ -16,35 +16,35 @@
 #
 import functools
 import flask
+import os
 
 class UserGroups:
     ADMIN = 'admin'
-    USERS = 'users'
+    SCAN_DEVICE = 'scandevice'
     OTHERS = 'others'
+    UNKNOWN = 'unknown'
 
-def auth(func):
-    @functools.wraps(func)
-    def decorated_function(*args, **kwargs):
-        if flask.g.userGroup != UserGroups.ADMIN:
-            return flask.redirect(flask.url_for('login', next=flask.request.url))
-        else:
-            return func(*args, **kwargs)
-    return decorated_function
+def auth(allow=UserGroups.ADMIN):
+    def decorator_auth_allow(func):
+        @functools.wraps(func)
+        def decorated_function(*args, **kwargs):            
+            if flask.g.userGroup == UserGroups.ADMIN \
+                    or (not isinstance(allow, list) and flask.g.userGroup == str(allow)) \
+                    or (isinstance(allow, list) and flask.g.userGroup in allow):
+                return func(*args, **kwargs)
+            elif flask.g.userGroup == UserGroups.UNKNOWN:
+                return flask.redirect(flask.url_for('authenticate', next=flask.request.full_path))
+            else:
+                return flask.abort(404)
+        return decorated_function
+    return decorator_auth_allow
 
-def admin_auth_required(func):
-    @functools.wraps(func)
-    def decorated_function(*args, **kwargs):
-        if flask.g.userGroup != UserGroups.ADMIN:
-            return flask.redirect(flask.url_for('login', next=flask.request.url))
-        else:
-            return func(*args, **kwargs)
-    return decorated_function
-
-def user_auth_required(func):
-    @functools.wraps(func)
-    def decorated_function(*args, **kwargs):
-        if flask.g.userGroup not in [UserGroups.ADMIN, UserGroups.USERS]:
-            return flask.redirect(flask.url_for('login', next=flask.request.url))
-        else:
-            return func(*args, **kwargs)
-    return decorated_function
+def getNonZeroRandom(size=8):
+    code = 0
+    iteration = 0
+    while code == 0 and iteration < 3:
+        bytes = os.urandom(size)
+        for byte in bytes:
+            code = (code * 256) + byte
+        iteration = iteration + 1
+    return code
