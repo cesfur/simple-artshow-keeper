@@ -31,6 +31,11 @@
     <phrase id="Bidsheets.Title">Print Bidsheets</phrase>
     <phrase id="Bidsheets.CancelPrint">Cancel</phrase>
     <phrase id="Bidsheets.Print">Print</phrase>
+    <!-- edit auction item image -->
+    <phrase id="EditAuctionItemImage.ChangeImage">Update Image</phrase>
+    <phrase id="EditAuctionItemImage.DifferentItem">Different Item</phrase>
+    <phrase id="EditAuctionItemImage.Header">ArtShow: Auctioned item image</phrase>
+    <phrase id="EditAuctionItemImage.Title">Auctioned item image</phrase>
     <!-- edit item image -->
     <phrase id="EditItemImage.Header">ArtShow: Item image</phrase>
     <phrase id="EditItemImage.Title">Edit item image</phrase>

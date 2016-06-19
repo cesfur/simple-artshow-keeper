@@ -19,7 +19,7 @@
     <form class="main" method="post" enctype="multipart/form-data" onsubmit="return updateItemToClose.validate()">
         <input class="hidden" type="text" name="ItemCode" value="{{item.Code|default('')}}" />
         <input id="action" class="hidden" type="text" value="" />
-        <input id="imageFile" class="hidden" type="file" name="ImageFile" accept="image/*" capture="capture" />
+        <input id="imageFile" class="hidden" type="file" name="ImageFile" accept="image/jpeg" capture="capture" />
         <fieldset>
             <div class="subblock">
                 <label for="buyer"><span>__Buyer</span>:</label>
@@ -48,7 +48,7 @@
                    onclick="return updateItemToClose.setFormAction(this)" />
         </fieldset>
         <fieldset>
-            <input class="action" type="submit" formaction="{{cancelledTarget}}" formnovalidate="formnovalidate" formmethod="get"
+            <input id="cancel" class="action" type="submit" formaction="{{cancelledTarget}}" formnovalidate="formnovalidate" formmethod="get"
                    value="__UpdateItemToClose.DifferentItem"
                    onclick="return updateItemToClose.setFormAction(this)" />
         </fieldset>

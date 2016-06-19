@@ -18,7 +18,9 @@ import logging
 import random
 import json
 import os
+import sys
 from os import path
+from PIL import Image
 
 from . item import ItemState, ItemField, ImportedItemField
 from . currency_field import CurrencyField
@@ -447,19 +449,48 @@ class Dataset:
         return self.__imageDataPath, 'item{0}.jpg'.format(itemCode)
 
     def updateItemImage(self, itemCode, imageFile):
+        result = Result.ERROR
+
         imagePath, imageFilename = self.__getItemJpgImageFilename(itemCode)
         imageFilePath = path.join(imagePath, imageFilename)
+        imageTempFilePath = imageFilePath + '.tmp'
 
-        if os.path.isfile(imageFilePath):
-            os.remove(imageFilePath)
+        if os.path.isfile(imageTempFilePath):
+            os.remove(imageTempFilePath)
         if imageFile is not None:
-            imageFile.save(imageFilePath)
+            imageFile.save(imageTempFilePath)
 
-        return Result.SUCCESS
+            try:
+                img = Image.open(imageTempFilePath)
+                exifData = img._getexif()
+
+                img.thumbnail((800, 800))
+
+                orientation = exifData.get(0x0112, 0) if exifData is not None else 0 # Orientation
+                if orientation == 3:
+                    img = img.rotate(180, expand=True)
+                elif orientation == 6:
+                    img = img.rotate(270, expand=True)
+                elif orientation == 8:
+                    img = img.rotate(90, expand=True)
+
+                img.save(imageFilePath, "JPEG")
+                result = Result.SUCCESS
+            except:
+                self.__logger.error('updateItemImage: Image of item {0} cannot be processed: {1}.'.format(
+                        itemCode, sys.exc_info()))
+                result = Result.UNSUPPORTED_IMAGE_FORMAT
+
+        if os.path.isfile(imageTempFilePath):
+            os.remove(imageTempFilePath)
+        if result != Result.SUCCESS and os.path.isfile(imageFilePath):
+            os.remove(imageFilePath)
+        return result
 
     def getItemJpgImage(self, itemCode):
         imagePath, imageFilename = self.__getItemJpgImageFilename(itemCode)
-        if path.isfile(path.join(imagePath, imageFilename)):
-            return imagePath, imageFilename
+        imageFullPath = path.join(imagePath, imageFilename)
+        if path.isfile(imageFullPath):
+            return imagePath, imageFilename, str(int(path.getmtime(imageFullPath)))
         else:
-            return None, None
+            return None, None, None

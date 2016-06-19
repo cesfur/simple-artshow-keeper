@@ -909,12 +909,12 @@ class Model:
         Args:
             itemCode: Item Code.
         Returns:
-            (path, filename) or (None, None) if item is not found or no image is available.
+            (path, filename, timestamp) or (None, None, None) if item is not found or no image is available.
         """
         item = self.getItem(itemCode)
         if item is None:
             self.__logger.error('getItemImage: Item "{0}" not found'.format(itemCode))
-            return (None, None)
+            return (None, None, None)
         else:
             return self.__dataset.getItemJpgImage(itemCode)
 
@@ -1235,14 +1235,9 @@ class Model:
         item = self.getItem(itemCode)
 
         if imageFile is not None:
-            if not isinstance(imageFile, FileStorage):
-                self.__logger.error('closeItemIntoAuction: Image supplied to closing item %(code)s is not an image.'
-                    % { 'code': itemCode })
-                return Result.INPUT_ERROR
-            if imageFile.content_type != 'image/jpeg':
-                self.__logger.error('closeItemIntoAuction: Format "%(content_type)s" of supplied image (item %(code)s) is not supported format.'
-                    % { 'code': itemCode, 'content_type': imageFile.content_type })
-                return Result.UNSUPPORTED_IMAGE_FORMAT
+            result = self.__validateItemImageInput(itemCode, imageFile)
+            if result != Result.SUCCESS:
+                return result
 
         result = self.__validateSaleInput(itemCode, item, amount, buyer)
         if result != Result.SUCCESS:
@@ -1250,11 +1245,12 @@ class Model:
                 % { 'code': itemCode, 'buyer': buyer, 'amount': amount })
             return result
 
-        result = self.__dataset.updateItemImage(itemCode, imageFile)
-        if result != Result.SUCCESS:
-            self.__logger.error('closeItemIntoAuction: Updating an image of item %(code)s failed.'
-                % { 'code': itemCode })
-            return result
+        if imageFile is not None:
+            result = self.__dataset.updateItemImage(itemCode, imageFile)
+            if result != Result.SUCCESS:
+                self.__logger.error('closeItemIntoAuction: Updating an image of item %(code)s failed.'
+                    % { 'code': itemCode })
+                return result
 
         numUpdated = self.__dataset.updateItem(
                 itemCode,
@@ -1515,3 +1511,37 @@ class Model:
                 DrawerSummaryField.BUYERS_TO_BE_CLEARED: list(buyersToBeCleared.values()),
                 DrawerSummaryField.OWNERS_TO_BE_CLEARED: list(ownersToBeCleared.values()),
                 DrawerSummaryField.PENDING_ITEMS: self.__updateSortCode(pendingItems)}
+
+
+    def __validateItemImageInput(self, itemCode, imageFile):
+        if imageFile is None:
+            self.__logger.error('__validateItemImageInput: No image supplied for item %(code)s.'
+                % { 'code': itemCode })
+            return Result.INPUT_ERROR
+        elif not isinstance(imageFile, FileStorage):
+            self.__logger.error('__validateItemImageInput: Supplied image for item %(code)s is not an image.'
+                % { 'code': itemCode })
+            return Result.INPUT_ERROR
+        elif imageFile.content_type != 'image/jpeg':
+            self.__logger.error('__validateItemImageInput: Format "%(content_type)s" of supplied image (item %(code)s) is not supported format.'
+                % { 'code': itemCode, 'content_type': imageFile.content_type })
+            return Result.UNSUPPORTED_IMAGE_FORMAT
+        else:
+            return Result.SUCCESS
+
+    def updateItemImage(self, itemCode, imageFile):
+        item = self.getItem(itemCode)
+        if item is None:
+            return Result.ITEM_NOT_FOUND
+
+        result = self.__validateItemImageInput(itemCode, imageFile)
+        if result != Result.SUCCESS:
+            return result
+
+        result = self.__dataset.updateItemImage(itemCode, imageFile)
+        if result != Result.SUCCESS:
+            self.__logger.error('updateItemImage: Updating an image of item %(code)s failed.'
+                % { 'code': itemCode })
+            return result
+
+        return Result.SUCCESS

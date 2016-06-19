@@ -39,11 +39,13 @@
                 <td class="numerical">{{item.Amount}}</td>
                 <td class="numerical">{{item.Charity}} %</td>
                 <td>
+                    <a href="{{item.EditImageURL}}">
                     {%- if item.ImageURL -%}
                         <div class="imagePreview" style="background-image: url({{item.ImageURL}})"></div>
                     {%- else -%}
                         <div class="imagePreview noImage"></div>
                     {%- endif -%}
+                    </a>
                 </td>
             </tr>
             {% endfor %}

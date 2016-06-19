@@ -21,6 +21,18 @@ var artshow = new function () {
         }
     }
 
+    this.setClass = function (id, className) {
+        var element = document.getElementById(id);
+        if (!element) {
+            element = this.getGetElementByName(id);
+        }
+        if (element) {
+            if (!element.hasAttribute("class") || element.getAttribute("class") != className) {
+                element.setAttribute("class", className);
+            }
+        }
+    }
+
     this.getMessage = function(messageID) {
         if (document.getElementById(messageID)) {
             return document.getElementById(messageID).innerHTML;

@@ -2,15 +2,32 @@ body {
     font-family: sans-serif;
 }
 
-.imagePreview {
+.imageViewContainer {
+    display: block;
+    text-align: center;
+}
+
+.imagePreview, .imageView {
+    display: inline-block;
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center center;
+}
+
+.imagePreview {
     width: 2cm;
     height: 2cm;
 }
-    .imagePreview.noImage {
+
+.imageView {
+    width: 90vmin;
+    height: 90vmin;
+    border: 1px solid black;
+}
+
+    .imagePreview.noImage, .imageView.noImage  {
         background-color: black;
+        background-size: 0 0;
     }
         .imagePreview.noImage:before {
             content: '?';

@@ -2,14 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='Artshow.css')}}" />
-    <link rel="stylesheet" type="text/css" href="{{url_for('.static', filename='custom/StatusFrame.css')}}" />
-    <script type="text/javascript" src="{{url_for('.static', filename='StatusFrame.js')}}"></script>
-    <script type="text/javascript">
-        var g_getStatusUrl = "{{url_for('.getStatus')}}";
-    </script>
+    <link rel="stylesheet" type="text/css" href="{{url_for('.static', filename='custom/StatusFrame.css', v=2016)}}" />
+    <script type="text/javascript" src="{{url_for('.static', filename='StatusFrame.js', v=2016)}}"></script>
     <title>__AuctionStatus.StatusHeader</title>
 </head>
-<body onload="onLoad()">
+<body>
+    <div id="statusURL" style="display:none;">{{url_for('.getStatus')}}</div>
     <div id="frame">
         <div id="item">
             <div id="item_title"></div>

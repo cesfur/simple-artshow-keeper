@@ -1,6 +1,6 @@
-﻿/* update item to close */
-var updateItemToClose = new function () {
-    this.setFormAction = function(button) {
+﻿/* edit auction item imte */
+var editAuctionItemImage = new function () {
+    this.setFormAction = function (button) {
         if (button) {
             document.getElementById('action').value = button.id;
         } else {
@@ -10,29 +10,32 @@ var updateItemToClose = new function () {
     }
 
     this.enableInput = function (enable) {
-        artshow.enable('notsold', enable);
-        artshow.enable('sold', enable);
-        artshow.enable('auction', enable);
+        if (enable) {
+            artshow.setClass('view', 'imageView');
+        } else {
+            artshow.setClass('view', 'imageView noImage');
+        }
+        artshow.enable('updateimage', enable);
         artshow.enable('cancel', enable);
     }
 
-    this.validate = function() {
+    this.validate = function () {
         var valid = true;
-        if (document.getElementById('action').value == 'auction') {
+        if (document.getElementById('action').value == 'updateimage') {
             this.enableInput(false);
+
             var imageElement = document.getElementById('imageFile');
             if (imageElement && document.createEvent) {
-                var evt = document.createEvent("MouseEvents");
-                evt.initEvent("click", true, false);
+                var evt = document.createEvent('MouseEvents');
+                evt.initEvent('click', true, false);
                 imageElement.dispatchEvent(evt);
             }
-            if (imageElement.value || confirm(artshow.getMessage('messageClosedWithoutImage'))) {
+            if (imageElement.value) {
                 valid = true;
             } else {
                 this.enableInput(true);
                 valid = false;
             }
-
         }
         return valid;
     }

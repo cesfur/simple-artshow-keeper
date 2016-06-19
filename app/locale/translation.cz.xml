@@ -31,6 +31,11 @@
     <phrase id="Bidsheets.Title">Tisk visaček</phrase>
     <phrase id="Bidsheets.CancelPrint">Zrušit tisk</phrase>
     <phrase id="Bidsheets.Print">Tiskni</phrase>
+    <!-- edit auction item image -->
+    <phrase id="EditAuctionItemImage.ChangeImage">Změň obrázek</phrase>
+    <phrase id="EditAuctionItemImage.DifferentItem">Jiný předmět</phrase>
+    <phrase id="EditAuctionItemImage.Header">ArtShow: Obrázek draženého předmětu</phrase>
+    <phrase id="EditAuctionItemImage.Title">Obrázek draženého předmětu</phrase>
     <!-- edit item image -->
     <phrase id="EditItemImage.Header">ArtShow: Obrázek předmětu</phrase>
     <phrase id="EditItemImage.Title">Obrázek předmětu</phrase>

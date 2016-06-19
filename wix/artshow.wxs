@@ -223,6 +223,7 @@
         </DirectoryRef>
         <DirectoryRef Id="AuctionStaticDir">
             <Component Id="AuctionStatic" Guid="{E4F51A07-D464-432e-AD2F-BF388DB5986A}">
+                <File Source="$(var.SolutionDir)app/auction/static/EditAuctionItemImage.js"/>
                 <File Source="$(var.SolutionDir)app/auction/static/StatusFrame.css"/>
                 <File Source="$(var.SolutionDir)app/auction/static/StatusFrame.js"/>
                 <!-- CZ -->
@@ -236,6 +237,7 @@
                 <!-- Multilingual -->
                 <File Source="$(var.SolutionDir)app/auction/templates/showstatus.xhtml"/>
                 <File Source="$(var.SolutionDir)app/auction/templates/getstatus.xml"/>
+                <File Source="$(var.SolutionDir)app/auction/templates/editauctionitemimage.xhtml"/>
                 <File Source="$(var.SolutionDir)app/auction/templates/listauctionitems.xhtml"/>
                 <File Source="$(var.SolutionDir)app/auction/templates/listauctionitems.admin.xhtml"/>
                 <!-- CZ -->

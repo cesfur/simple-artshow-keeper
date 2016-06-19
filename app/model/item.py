@@ -43,6 +43,7 @@ class ItemField:
     IMPORT_NUMBER = 'ImportNumber'
 
     IMAGE_URL = 'ImageURL'
+    EDIT_IMAGE_URL = 'EditImageURL'
 
     AMOUNT_IN_AUCTION = 'AmountInAuction'
 

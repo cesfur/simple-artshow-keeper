@@ -23,7 +23,7 @@ from common.parameter import *
 from common.response import respondHtml, respondXml, respondCustomDataFile
 from common.result import Result
 from common.authentication import auth, UserGroups
-from model.item import ItemField
+from model.item import ItemField, ItemState
 from controller.format import *
 
 URL_PREFIX = '/auction'
@@ -53,9 +53,10 @@ def listItems():
     items = flask.g.model.getAllItemsInAuction()
     items.sort(key=lambda item: item[ItemField.AUCTION_SORT_CODE])
     for item in items:
-        imagePath, imageFilename = flask.g.model.getItemImage(item[ItemField.CODE])
+        imagePath, imageFilename, version = flask.g.model.getItemImage(item[ItemField.CODE])
         if imageFilename is not None:
-            item[ItemField.IMAGE_URL] = flask.url_for('items.getImage', itemCode=item[ItemField.CODE])
+            item[ItemField.IMAGE_URL] = flask.url_for('items.getImage', itemCode=item[ItemField.CODE], v=version)
+        item[ItemField.EDIT_IMAGE_URL] = flask.url_for('.editAuctionItemImage', itemCode=item[ItemField.CODE])
 
     return respondHtml('listauctionitems', flask.g.userGroup, flask.g.language, {
         'items': items,
@@ -73,9 +74,9 @@ def getStatus():
     item = formatItem(flask.g.model.getItemInAuction(), flask.g.language)
     if item is not None:
         itemCode = item[ItemField.CODE]
-        imagePath, imageFilename = flask.g.model.getItemImage(itemCode)
+        imagePath, imageFilename, version = flask.g.model.getItemImage(itemCode)
         if imageFilename is not None:
-            item[ItemField.IMAGE_URL] = flask.url_for('items.getImage', itemCode=itemCode)
+            item[ItemField.IMAGE_URL] = flask.url_for('items.getImage', itemCode=itemCode, v=version)
 
     charityAmount = formatCurrencies(
             flask.g.model.getCurrency().convertToAllCurrencies(flask.g.model.getPotentialCharityAmount()),
@@ -209,4 +210,47 @@ def sellItemNoUpdate():
                 'okTarget': flask.url_for('.finalizeItem')})
     else:
         return flask.redirect(flask.url_for('.selectItemToAuction'))
-        
+
+
+@blueprint.route('/editimage/<itemCode>', methods=['GET'])
+@auth(UserGroups.SCAN_DEVICE)
+def editAuctionItemImage(itemCode):
+    item = flask.g.model.getItem(itemCode)
+    if item is None or item[ItemField.STATE] != ItemState.IN_AUCTION:
+        return respondHtml('message', flask.g.userGroup, flask.g.language, {
+                'message': Result.ITEM_NOT_FOUND,
+                'itemCode': itemCode,
+                'okTarget': flask.url_for('.listItems')})
+    else:
+        imagePath, imageFilename, version = flask.g.model.getItemImage(item[ItemField.CODE])
+        if imageFilename is not None:
+            item[ItemField.IMAGE_URL] = flask.url_for('items.getImage', itemCode=item[ItemField.CODE], v=version)
+
+        return respondHtml('editauctionitemimage', flask.g.userGroup, flask.g.language, {
+            'item': item,
+            'targetCancelled': flask.url_for('.listItems'),
+            'targetUpdated': flask.url_for('.updateAuctionItemImage', itemCode=item[ItemField.CODE]) })
+
+
+@blueprint.route('/updateimage/<itemCode>', methods=['POST'])
+@auth(UserGroups.SCAN_DEVICE)
+def updateAuctionItemImage(itemCode):
+    item = flask.g.model.getItem(getParameter('ItemCode'))
+    imageFile = getParameter('ImageFile')
+    if imageFile is not None and imageFile.filename == '':
+        imageFile = None;
+
+    if item is None or item[ItemField.STATE] != ItemState.IN_AUCTION:
+        return respondHtml('message', flask.g.userGroup, flask.g.language, {
+                'message': Result.ITEM_NOT_FOUND,
+                'itemCode': itemCode,
+                'okTarget': flask.url_for('.listItems')})
+    else:
+        result = flask.g.model.updateItemImage(itemCode, imageFile=imageFile)
+        if result != Result.SUCCESS:
+            return respondHtml('message', flask.g.userGroup, flask.g.language, {
+                    'message': result,
+                    'itemCode': itemCode,
+                    'okTarget': flask.url_for('.editAuctionItemImage', itemCode=item[ItemField.CODE])})
+        else:
+            return flask.redirect(flask.url_for('.listItems'))

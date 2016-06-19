@@ -77,27 +77,6 @@ function getTagOrNull(root, tagName)
     return tag;
 }
 
-function getFormattedCurrencyOrNull(xmlDoc, root, xpath, currency)
-{
-    var value = getValueOrNull(xmlDoc, root, xpath);
-    if (value != null)
-    {
-        switch(currency)
-        {
-        case g_primaryCurrencyCode:
-            return g_primaryCurrencyPrefix + Math.round(value) + g_primaryCurrencySuffix;
-        case g_secondaryCurrencyCode:
-            return g_secondaryCurrencyPrefix + Math.round(value) + g_secondaryCurrencySuffix;
-        default:
-            return null;
-        }
-    }
-    else
-    {
-        return null;
-    }
-}
-
 function setFrameElementText(elementId, textValue)
 {
     var element = document.getElementById(elementId);
@@ -134,6 +113,15 @@ function setItemImage(itemImageURL) {
     }
 }
 
+function setScreenClass(value) {
+    element = document.getElementsByTagName("body")[0];
+    if (element != null) {
+        if (!element.hasAttribute("class") || element.getAttribute("class") != value) {
+            element.setAttribute("class", value);
+        }
+    }
+}
+
 function processResponse(xmlDoc)
 {
     try
@@ -142,7 +130,14 @@ function processResponse(xmlDoc)
         {
             var tagAuction = getTagOrNull(xmlDoc, "Auction");
 
-             //item
+            //class
+            if (getValueOrNull(xmlDoc, tagAuction, "//Item/Title") == null || getValueOrNull(xmlDoc, tagAuction, "//Item/Author") == null) {
+                setScreenClass("summaryOnly")
+            } else {
+                setScreenClass("itemSummary")
+            }
+
+            //item
             setFrameElementText("item_title", getValueOrNull(xmlDoc, tagAuction, "//Item/Title"));
             setFrameElementText("item_author", getValueOrNull(xmlDoc, tagAuction, "//Item/Author"));
             setFrameElementText("item_amount_1", getValueOrNull(xmlDoc, tagAuction, "//Item/Amount/FormattedValue[1]"));
@@ -172,7 +167,8 @@ function onRefresh()
             processResponse(request.responseXML);
         }
     }
-    request.open("GET", g_getStatusUrl, true)
+    var url = document.getElementById("statusURL").innerText;
+    request.open("GET", url, true)
     request.send(null)
 }
 
@@ -187,7 +183,7 @@ function isBrowserValid()
     return true;
 }
 
-function onLoad()
+function start()
 {
     if (isBrowserValid())
     {
@@ -198,3 +194,5 @@ function onLoad()
         alert("Browser not supported.");
     }
 }
+
+window.onload = start;

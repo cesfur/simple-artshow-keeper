@@ -13,6 +13,8 @@
     <p class="message error">Entered data contain an error. Input not accepted.</p>
 {%- elif message == 'NO_ITEMS_SELECTED' -%}
     <p class="message error">No item has been selected.</p>
+{%- elif message == 'INPUT_ERROR' -%}
+    <p class="message info">Chyba vstupu.</p>
 {%- elif message == 'ITEMS_DELETED' -%}
     <p class="message info">Item codes "{{itemCode}}" were deleted.</p>
 {%- elif message == 'NO_ITEM_TO_CLOSE' -%}

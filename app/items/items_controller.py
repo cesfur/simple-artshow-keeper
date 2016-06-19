@@ -349,7 +349,7 @@ def closeItemIntoAuction():
 @blueprint.route('/image/<itemCode>', methods=['GET'])
 @auth(UserGroups.SCAN_DEVICE)
 def getImage(itemCode):
-    imagePath, imageFilename = flask.g.model.getItemImage(itemCode)
+    imagePath, imageFilename, version = flask.g.model.getItemImage(itemCode)
     if imageFilename is None:
         flask.abort(404)
     else:

@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='Artshow.css')}}"/>
+    <title>__EditAuctionItemImage.Header</title>
+    <script type="text/javascript" src="{{url_for('static', filename='Artshow.js')}}"><!----></script>
+    <script type="text/javascript" src="{{url_for('.static', filename='EditAuctionItemImage.js')}}"><!----></script>
+</head>
+<body onload="editAuctionItemImage.main()">
+    <h1><span>__EditAuctionItemImage.Title</span> {{item.Code|default('?')}}</h1>
+    <div class="infoBlock">
+        <p><span><span>__Author</span>:</span> {{item.Author|default('?')}}</p>
+        <p><span><span>__Title</span>:</span> {{item.Title|default('?')}}</p>
+    </div>
+    <form class="main" method="post" enctype="multipart/form-data" onsubmit="return editAuctionItemImage.validate()">
+        <input class="hidden" type="text" name="ItemCode" value="{{item.Code|default('')}}" />
+        <input id="action" class="hidden" type="text" value="" />
+        <input id="imageFile" class="hidden" type="file" name="ImageFile" accept="image/jpeg" capture="capture" />
+        <fieldset>
+            <input id="updateimage" class="action" type="submit" formaction="{{targetUpdated}}" formmethod="post"
+                   value="__EditAuctionItemImage.ChangeImage"
+                   onclick="return editAuctionItemImage.setFormAction(this)" />
+        </fieldset>
+        <fieldset>
+            <input id="cancel" class="action" type="submit" formaction="{{targetCancelled}}" formnovalidate="formnovalidate" formmethod="get"
+                   value="__EditAuctionItemImage.DifferentItem"
+                   onclick="return editAuctionItemImage.setFormAction(this)" />
+        </fieldset>
+    </form>
+    {%- if item.ImageURL -%}
+    <div class="imageViewContainer"><div id="view" class="imageView" style="background-image: url({{item.ImageURL}})"><!----></div></div>
+    {%- endif %}
+</body>
+</html>

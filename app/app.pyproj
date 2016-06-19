@@ -51,11 +51,12 @@
     <Compile Include="test\__init__.py" />
     <Compile Include="controller\format.py" />
     <Compile Include="controller\__init__.py" />
-    <Compile Include="__init__.py" />
     <Compile Include="auction\auction_controller.py" />
     <Compile Include="auction\__init__.py" />
+    <Content Include="auction\static\EditAuctionItemImage.js" />
     <Content Include="auction\templates\auctionitem.admin.de.html" />
     <Content Include="auction\templates\auctionitem.admin.en.html" />
+    <Content Include="auction\templates\editauctionitemimage.xhtml" />
     <Content Include="auction\templates\finalizeitem.admin.de.html" />
     <Content Include="auction\templates\finalizeitem.admin.en.html" />
     <Content Include="auction\templates\finditemtoauction.admin.de.html" />
