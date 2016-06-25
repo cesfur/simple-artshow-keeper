@@ -80,18 +80,15 @@ function getTagOrNull(root, tagName)
 function setFrameElementText(elementId, textValue)
 {
     var element = document.getElementById(elementId);
-    if (element == null)
-    {
+    if (element == null) {
         console.error("setElementText: Cannot update an element '" + elementId + "' because element is not defined.");
-    }
-    else
-    {
-        if (textValue == null)
-        {
+    } else {
+        if (textValue == null) {
             textValue = "";
         }
-
-        element.textContent = textValue;
+        if (element.textContent != textValue) {
+            element.textContent = textValue;
+        }
     }
 }
 
@@ -133,8 +130,10 @@ function processResponse(xmlDoc)
             //class
             if (getValueOrNull(xmlDoc, tagAuction, "//Item/Title") == null || getValueOrNull(xmlDoc, tagAuction, "//Item/Author") == null) {
                 setScreenClass("summaryOnly")
-            } else {
+            } else if (getValueOrNull(xmlDoc, tagAuction, "//Item/Image") == null) {
                 setScreenClass("itemSummary")
+            } else {           
+                setScreenClass("itemImageSummary")
             }
 
             //item
