@@ -2,6 +2,15 @@
 <dictionary>
     <!-- auction -->
     <phrase id="AuctionStatus.StatusHeader">Artshow: Auction</phrase>
+    <!-- auction item -->
+    <phrase id="AuctionItem.CurrentPrice">Current Price</phrase>
+    <phrase id="AuctionItem.Header">ArtShow: Auctioning Item</phrase>
+    <phrase id="AuctionItem.NewPrice">New Price</phrase>
+    <phrase id="AuctionItem.NewPriceDescription">Minimal price is</phrase>
+    <phrase id="AuctionItem.SelectDifferentItem">Select Different Item</phrase>
+    <phrase id="AuctionItem.SoldFor">Sold For</phrase>
+    <phrase id="AuctionItem.Title">Auctioning Item</phrase>
+    <phrase id="AuctionItem.UpdatePrice">Update Price</phrase>
     <!-- authentication -->
     <phrase id="Auth.Header">Artshow: Device Authentication</phrase>
     <phrase id="Auth.Title">Device Authentication</phrase>

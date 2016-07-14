@@ -105,15 +105,40 @@ class TestCommon(unittest.TestCase):
         LANGUAGE = 'en'
         OTHER_LANGUAGE = 'cz'
         phrases = PhraseDictionary(self.logger)
-        phrases.add('String 1', 'Translated String 1')
-        phrases.add('String 2', 'Translated String 2')
+        phrases.add('String 1', 'Translated 1')
+        phrases.add('String 2', 'Translated 2')
         registerDictionary(LANGUAGE, phrases)
 
-        # Translated string
-        self.assertEqual('Not Translated', translateString(LANGUAGE, 'Not Translated'))
-        self.assertEqual('String Not Found', translateString(LANGUAGE, '__String Not Found'))
-        self.assertEqual('Translated String 2', translateString(LANGUAGE, '__String 2'))
+        # No translated string
+
+        # Single string
+        self.assertEqual('Nothing to translate', translateString(LANGUAGE, 'Nothing to translate'))
+        self.assertEqual('Translated 2', translateString(LANGUAGE, '__String 2'))
+        self.assertEqual('Translated 2', translateString(LANGUAGE, '__String 2__'))
         self.assertEqual('String 2', translateString(OTHER_LANGUAGE, '__String 2'))
+        self.assertEqual('NotFound', translateString(LANGUAGE, '__NotFound'))
+
+        # String with tail
+        self.assertEqual('Translated 2 is here', translateString(LANGUAGE, '__String 2__ is here'))
+        self.assertEqual('NotFound is gone', translateString(LANGUAGE, '__NotFound__ is gone'))
+
+        # String with prefix
+        self.assertEqual('Here is Translated 2', translateString(LANGUAGE, 'Here is __String 2'))
+        self.assertEqual('Here is Translated 1', translateString(LANGUAGE, 'Here is __String 1__'))
+        self.assertEqual('Go with NotFound', translateString(LANGUAGE, 'Go with __NotFound'))
+
+        # String in the middle
+        self.assertEqual('Then, Translated 2 happend.', translateString(LANGUAGE, 'Then, __String 2__ happend.'))
+        self.assertEqual('Then, Not Found happend.', translateString(LANGUAGE, 'Then, __Not Found__ happend.'))
+
+        # Multiple strings
+        self.assertEqual('Then, Translated 2 and Not Found happend.', translateString(LANGUAGE, 'Then, __String 2__ and __Not Found__ happend.'))
+        self.assertEqual('Then, Translated 2Not Found happend.', translateString(LANGUAGE, 'Then, __String 2____Not Found__ happend.'))
+
+        # Errors
+        self.assertEqual('', translateString(LANGUAGE, '__'))
+        self.assertEqual('', translateString(LANGUAGE, '____'))
+
 
     def test_translateXhtml(self):
         # Setup and register dictionary.

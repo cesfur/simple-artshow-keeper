@@ -2,6 +2,15 @@
 <dictionary>
     <!-- auction -->
     <phrase id="AuctionStatus.StatusHeader">Artshow: Dražba předmětu</phrase>
+    <!-- auction item -->
+    <phrase id="AuctionItem.CurrentPrice">Stávající cena</phrase>
+    <phrase id="AuctionItem.Header">Artshow: Aukce předmětu</phrase>
+    <phrase id="AuctionItem.NewPrice">Nová cena</phrase>
+    <phrase id="AuctionItem.NewPriceDescription">Nejmenší monžná cena je</phrase>
+    <phrase id="AuctionItem.SelectDifferentItem">Jiný předmět</phrase>
+    <phrase id="AuctionItem.SoldFor">Vydraženo za</phrase>
+    <phrase id="AuctionItem.Title">Aukce předmětu</phrase>
+    <phrase id="AuctionItem.UpdatePrice">Změn cenu</phrase>
     <!-- authentication -->
     <phrase id="Auth.Header">Artshow: Autentikace zařízení</phrase>
     <phrase id="Auth.Title">Autentikace zařízení</phrase>

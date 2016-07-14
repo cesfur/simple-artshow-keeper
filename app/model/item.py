@@ -38,8 +38,10 @@ class ItemField:
     STATE = 'State'
     CHARITY = 'Charity'    
     INITIAL_AMOUNT = 'InitialAmount'
+    """Amount which was given by the owner."""
     BUYER = 'Buyer'
     AMOUNT = 'Amount'
+    """Current amount (either final or when entering the auction)."""
     IMPORT_NUMBER = 'ImportNumber'
 
     IMAGE_URL = 'ImageURL'
@@ -61,8 +63,10 @@ class ItemField:
     AMOUNT_IN_AUCTION_IN_CURRENCY = 'AmountInAuctionInCurrency'
 
     FORMATTED = 'Formatted'
+    """Formatted amounts of currency."""
 
     ALL_PERSISTENT = sorted([CODE, STATE, OWNER, AUTHOR, TITLE, MEDIUM, NOTE, IMPORT_NUMBER, CHARITY, INITIAL_AMOUNT, BUYER, AMOUNT, AMOUNT_IN_AUCTION])
+    ALL_AMOUNTS = [INITIAL_AMOUNT, AMOUNT_IN_AUCTION, AMOUNT]
         
 class ImportedItemField:
     NUMBER = 'NMBR'

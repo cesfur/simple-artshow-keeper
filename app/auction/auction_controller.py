@@ -108,7 +108,7 @@ def selectItemToAuction():
 def startAuctionItem():
     itemCode = getParameter('ItemCode')
     item = flask.g.model.sendItemToAuction(itemCode)
-    if item != None:
+    if item is not None:
         return flask.redirect(flask.url_for('.auctionItem'))
     else:
         logging.warning('startAuctionItem: Cannot auction item "{0}".'.format(itemCode))
@@ -127,6 +127,7 @@ def auctionItem():
                 'message': Result.INVALID_AUCTION_ITEM,
                 'okTarget': flask.url_for('.selectItemToAuction')})
     else:
+        item = formatItem(item, flask.g.language)
         return respondHtml('auctionitem', flask.g.userGroup, flask.g.language, {
                 'item': item,
                 'newAmountTarget': flask.url_for('.setNewAmount'),

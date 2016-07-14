@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='Artshow.css')}}" />
+    <meta charset="UTF-8" />
+    <title>__AuctionItem.Header</title>
+</head>
+<body>
+    <h1>__AuctionItem.Title__ {{item.Code|default('?')}}</h1>
+    <div class="infoBlock">
+        <p><span>__Author__:</span> {{item.Author|default('?')}}</p>
+        <p><span>__Title__:</span> {{item.Title|default('?')}}</p>
+        <p><span>__AuctionItem.CurrentPrice__:</span> {{item.Formatted.AmountInAuctionInCurrency[0]|default('?')}}</p>
+    </div>
+    <form class="main" method="post">
+        <input class="hidden" type="text" name="ItemCode" value="{{item.Code|default('')}}" />
+        <fieldset>
+            <div class="subblock">
+                <label for="amount">__AuctionItem.NewPrice__:</label>
+                <input id="amount" name="NewAmount" type="number" value="" required="required"
+                       autocomplete="off" autofocus="autofocus"
+                       min="{{item.AmountInCurrency[0].Amount|default('1')}}" pattern="\d+" title="__AuctionItem.NewPriceDescription__ {{item.Formatted.AmountInCurrency[0]}}." />
+            </div>
+            <div class="subblock">
+                <input class="action" type="submit" formaction="{{newAmountTarget}}"
+                       value="__AuctionItem.UpdatePrice" />
+            </div>
+        </fieldset>
+        <fieldset>
+            <input class="action" type="submit" formaction="{{auctionedTarget}}" formnovalidate="formnovalidate"
+                   value="__AuctionItem.SoldFor__ {{item.Formatted.AmountInAuctionInCurrency[0]}}" />
+        </fieldset>
+        <fieldset>
+            <input class="action" type="submit" formaction="{{cancelledTarget}}" formnovalidate="formnovalidate"
+                   value="__AuctionItem.SelectDifferentItem" />
+        </fieldset>
+    </form>
+</body>
+</html>

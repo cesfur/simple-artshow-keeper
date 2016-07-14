@@ -25,15 +25,25 @@ def registerDictionary(language, dictionary):
     global __phraseDictionaries
     __phraseDictionaries[language] = dictionary
 
-def translateString(language, string):
+
+def translateString(language, text):
     global __phraseDictionaries
 
-    if string.startswith('__'):
-        string = string[2:]
-        dictionary = __phraseDictionaries.get(language, None)
-        if dictionary is not None:
-            string = dictionary.get(string)
-    return string
+    segments = text.split('__')    
+    if len(segments) > 1:
+        phrases = __phraseDictionaries.get(language, None)
+
+        index = 1
+        while index < len(segments):
+            phrases = __phraseDictionaries.get(language, None)
+            if phrases is not None:
+                segments[index] = phrases.get(segments[index])
+            index = index + 2
+        
+        return ''.join(segments)
+    else:
+        return segments[0]
+
 
 def translateXhtmlAttribute(language, element, attributeName):
     attribute = element.attributes.get(attributeName, None)

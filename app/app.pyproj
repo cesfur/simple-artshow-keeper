@@ -6,7 +6,7 @@
     <ProjectGuid>{f22128e4-f770-4541-9492-214264ac0c34}</ProjectGuid>
     <ProjectHome />
     <StartupFile>main.py</StartupFile>
-    <SearchPath />
+    <SearchPath>.</SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
     <InterpreterId>
@@ -54,8 +54,7 @@
     <Compile Include="auction\auction_controller.py" />
     <Compile Include="auction\__init__.py" />
     <Content Include="auction\static\EditAuctionItemImage.js" />
-    <Content Include="auction\templates\auctionitem.admin.de.html" />
-    <Content Include="auction\templates\auctionitem.admin.en.html" />
+    <Content Include="auction\templates\auctionitem.admin.xhtml" />
     <Content Include="auction\templates\editauctionitemimage.xhtml" />
     <Content Include="auction\templates\finalizeitem.admin.de.html" />
     <Content Include="auction\templates\finalizeitem.admin.en.html" />
@@ -117,7 +116,6 @@
     <Content Include="auction\static\StatusFrame.css" />
     <Content Include="auction\static\StatusFrame.js" />
     <Content Include="auction\static\StatusFrame.svg" />
-    <Content Include="auction\templates\auctionitem.admin.cz.html" />
     <Content Include="auction\templates\finalizeitem.admin.cz.html" />
     <Content Include="auction\templates\finditemtoauction.admin.cz.html" />
     <Content Include="auction\templates\listauctionitems.admin.xhtml" />

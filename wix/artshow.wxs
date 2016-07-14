@@ -125,7 +125,6 @@
 
         <DirectoryRef Id="AppDir">
             <Component Id="Core" Guid="{6E3E9E09-F519-4eae-A742-2FD9914EE1DA}">
-                <File Id="Core___init__" Source="$(var.SolutionDir)app/__init__.py"/>
                 <File Source="$(var.SolutionDir)app/main.py" KeyPath="yes"/>
                 <File Source="$(var.SolutionDir)app/config.py"/>                
             </Component>
@@ -237,19 +236,17 @@
                 <!-- Multilingual -->
                 <File Source="$(var.SolutionDir)app/auction/templates/showstatus.xhtml"/>
                 <File Source="$(var.SolutionDir)app/auction/templates/getstatus.xml"/>
+                <File Source="$(var.SolutionDir)app/auction/templates/auctionitem.admin.xhtml"/>
                 <File Source="$(var.SolutionDir)app/auction/templates/editauctionitemimage.xhtml"/>
                 <File Source="$(var.SolutionDir)app/auction/templates/listauctionitems.xhtml"/>
                 <File Source="$(var.SolutionDir)app/auction/templates/listauctionitems.admin.xhtml"/>
                 <!-- CZ -->
-                <File Source="$(var.SolutionDir)app/auction/templates/auctionitem.admin.cz.html"/>
                 <File Source="$(var.SolutionDir)app/auction/templates/finalizeitem.admin.cz.html"/>
                 <File Source="$(var.SolutionDir)app/auction/templates/finditemtoauction.admin.cz.html"/>
                 <!-- EN -->
-                <File Source="$(var.SolutionDir)app/auction/templates/auctionitem.admin.en.html"/>
                 <File Source="$(var.SolutionDir)app/auction/templates/finalizeitem.admin.en.html"/>
                 <File Source="$(var.SolutionDir)app/auction/templates/finditemtoauction.admin.en.html"/>
                 <!-- DE -->
-                <File Source="$(var.SolutionDir)app/auction/templates/auctionitem.admin.de.html"/>
                 <File Source="$(var.SolutionDir)app/auction/templates/finalizeitem.admin.de.html"/>
                 <File Source="$(var.SolutionDir)app/auction/templates/finditemtoauction.admin.de.html"/>
             </Component>

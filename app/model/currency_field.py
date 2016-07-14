@@ -23,6 +23,5 @@ class CurrencyField:
     DESCRIPTION = 'Description'
 
     AMOUNT = 'Amount'
-    FORMATTED_AMOUNT = 'FormattedAmount'
 
     ALL_PERSISTENT = sorted([CODE, DECIMAL_PLACES, AMOUNT_IN_PRIMARY, FORMAT_PREFIX, FORMAT_SUFFIX, DESCRIPTION])
