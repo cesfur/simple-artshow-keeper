@@ -15,6 +15,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 import logging
+from argparse import ArgumentParser
+
 import flask
 import netifaces
 import os
@@ -141,12 +143,22 @@ def catch_all(err):
             'message': Result.CRITICAL_ERROR,
             'okTarget': flask.url_for('index')})
 
+
+def parse_arguments():
+    parser = ArgumentParser(description='CeSFuR Art Show')
+    parser.add_argument('--local-only', action='store_true',
+                        help='Make application available on local access only')
+    parser.add_argument('--debug', action='store_true',
+                        help='Run application in debug mode.')
+    return parser.parse_args()
+
+
 def run():
-    print("Starting")
-    localostOnly = False
-    if localostOnly:
-        app.run(debug=True, use_reloader=False) # Local address only
+    args = parse_arguments()
+    if args.local_only:
+        host = None
     else:
+        host = '0.0.0.0'
         ipAddresses = []
         for ifaceName in netifaces.interfaces():
             iface = netifaces.ifaddresses(ifaceName)
@@ -160,7 +172,9 @@ def run():
         print('Allowed address:')
         for ipAddress in ipAddresses:
             print('   {0}'.format(ipAddress))
-        app.run(host='0.0.0.0', debug=True, use_reloader=False) # Any address
+
+    print("Starting app on {0}, debug={1}".format(host or 'localhost', args.debug))
+    app.run(host=host, debug=args.debug, use_reloader=False)
     print("Finished")
 
 if __name__ == "__main__":
