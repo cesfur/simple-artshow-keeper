@@ -85,7 +85,7 @@ def before_request():
     if localRequest and model.findSession(sessionID):
         group, ip = model.getSessionUserInfo(sessionID)
         if ip != '127.0.0.1':
-            printf('Local session has been compomised by IP {0}. Resetting.'.format(ip))
+            print('Local session has been compomised by IP {0}. Resetting.'.format(ip))
             model.dropSession(sessionID)
             sessionID = None
         else:
