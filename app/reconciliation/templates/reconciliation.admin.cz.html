@@ -6,7 +6,7 @@
     <title>ArtShow: Přehled vypořádání</title>
 </head>
 <body>
-    <h1>Přehled vypořádání visačky {{badge|default('?')}}</h1>
+    <h1>Přehled vypořádání visačky {{badge|reg_id_to_attendee}}</h1>
     <div class="infoBlock">
         {% if summary.TotalDueAmount >= 0 %}
         <p><span>Přijmi:</span> {{summary.TotalDueAmount|default(0)}} Kč</p>

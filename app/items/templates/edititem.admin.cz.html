@@ -47,9 +47,14 @@
         {%- endif %}
         <fieldset>
             <label for="owner">Vlastník:</label>
-            <input id="owner" name="Owner" type="number" value="{{item.Owner|default('')}}"
+            <input id="owner" name="Owner" value="{{item.Owner|default('')}}"
                    autocomplete="off" autofocus required
-                   pattern="[1-9][0-9]*" min="1" title="Číslo visačky větší, než 1" />
+                   list="attendees" title="Číslo visačky větší, než 1" />
+            <datalist id="attendees">
+                {% for attendee in attendees %}
+                    <option value="{{ attendee.RegId }}" label="{{ attendee }}"/>
+                {% endfor %}
+            </datalist>
         </fieldset>
         <fieldset>
             <label for="author">Autor:</label>
@@ -123,9 +128,9 @@
         <fieldset>
             <div class="subblock">
                 <label for="buyer">Kupec:</label>
-                <input id="buyer" name="Buyer" type="number" value="{{item.Buyer if item.Buyer != None}}"
+                <input id="buyer" name="Buyer" value="{{item.Buyer if item.Buyer != None}}"
                        autocomplete="off"
-                       pattern="[1-9][0-9]*" min="1"
+                       list="attendees"
                        title="Číslo visačky větší, než 1" />
             </div>
             <div class="subblock">

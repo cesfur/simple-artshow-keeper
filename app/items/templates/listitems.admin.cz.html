@@ -90,7 +90,7 @@
                 <td>{{itemstate.present(item.State)}}</td>
                 <td>{{item.Author}}</td>
                 <td>{{item.Title}}</td>
-                <td class="numerical">{{item.Owner}}</td>
+                <td class="numerical">{{item.Owner|reg_id_to_attendee}}</td>
                 {% if item.InitialAmount != None and item.Charity != None -%}
                 <td class="numerical">{{item.InitialAmount}} Kč</td>
                 <td class="numerical">{{item.Charity}} %</td>
@@ -104,7 +104,7 @@
                 <td class="irrelevant"></td>
                 {%- endif %}
                 {% if item.Buyer != None -%}
-                <td class="numerical">{{item.Buyer}}</td>
+                <td class="numerical">{{item.Buyer|reg_id_to_attendee}}</td>
                 {%- else -%}
                 <td class="irrelevant"></td>
                 {%- endif %}

@@ -58,7 +58,7 @@
             </tr>
             {% for actorSummary in summary.BuyersToBeCleared %}
             <tr>
-                <td class="colA">{{actorSummary.Badge}}</td>
+                <td class="colA">{{actorSummary.Badge|reg_id_to_attendee}}</td>
                 <td class="colB">{{actorSummary.ItemsToRetrieve}} pcs.</td>
                 <td class="colC numerical">{{actorSummary.AmountToPay}} €</td>
             </tr>
@@ -77,7 +77,7 @@
             </tr>
             {% for actorSummary in summary.OwnersToBeCreared %}
             <tr>
-                <td class="colA">{{actorSummary.Badge}}</td>
+                <td class="colA">{{actorSummary.Badge|reg_id_to_attendee}}</td>
                 <td class="colB">{{actorSummary.ItemsToFinish}} pcs.</td>
                 <td class="colC numerical">{{actorSummary.AmountToReceive}} €</td>
             </tr>

@@ -6,7 +6,7 @@
     <title>ArtShow: Reconciliation</title>
 </head>
 <body>
-    <h1>Reconcile a Badge {{badge|default('?')}}</h1>
+    <h1>Reconcile a Badge {{badge|reg_id_to_attendee}}</h1>
     <div class="infoBlock">
         {% if summary.TotalDueAmount >= 0 %}
         <p><span>Get:</span> {{summary.TotalDueAmount|default(0)}} €</p>

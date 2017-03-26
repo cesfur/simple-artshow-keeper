@@ -20,7 +20,7 @@
         <input class="hidden" name="SummaryChecksum" type="number"
                value="{{summaryChecksum}}" />
     </form>
-    <h1>Badge: {{badge|default('?')}}</h1>
+    <h1>Badge: {{badge|reg_id_to_attendee}}</h1>
     <div class="listSection receiptSection col3">
         <table>
             <tr>

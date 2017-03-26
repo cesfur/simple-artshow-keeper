@@ -1133,7 +1133,13 @@ class Model:
                                     'Code in [{0}]'.format(toQuotedStr(itemCodes)))))
         else:
             return []
-     
+
+    def getAttendees(self):
+        return self.__dataset.getAttendees()
+
+    def getAttendee(self, regId):
+        return self.__dataset.getAttendee(regId)
+
     def getItem(self, itemCode):
         if itemCode is None:
             self.__logger.error('getItem: Item code not specified.')
