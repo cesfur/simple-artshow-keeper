@@ -76,6 +76,22 @@ for language in config.LANGUAGES:
                     os.path.join(dictionaryPath, 'translation.{0}.xml'.format(language))))
 del dictionaryPath
 
+
+@app.template_filter('reg_id_to_attendee')
+def reg_id_to_attendee(s):
+    """ For a given reg ID, return Attendee instance """
+    return flask.g.model.getAttendee(s)
+
+
+@app.context_processor
+def attendees():
+    """
+    get all attendees as a list. used in most templates, so use it as a
+    general context.
+    """
+    return {'attendees': flask.g.model.getAttendees()}
+
+
 @app.before_request
 def before_request():
     flask.g.userGroup = UserGroups.UNKNOWN

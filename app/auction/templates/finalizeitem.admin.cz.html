@@ -18,10 +18,14 @@
     <fieldset>
         <div class="subblock">
             <label for="buyer">Kupec:</label>
-            <input id="buyer" name="NewBuyer" type="number" value="" required
-                autocomplete="off" autofocus
-                min="1" pattern="\d+"
+            <input id="buyer" name="NewBuyer" required
+                autocomplete="off" autofocus list="attendees"
                 title="Visačka kupce."/>
+            <datalist id="attendees">
+                {% for attendee in attendees %}
+                    <option value="{{ attendee.RegId }}" label="{{ attendee }}"/>
+                {% endfor %}
+            </datalist>
         </div>
         <div class="subblock">
             <input class="action" type="submit" formaction="{{sellUpdatedTarget}}"

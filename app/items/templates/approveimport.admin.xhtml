@@ -22,9 +22,14 @@
         <fieldset>
             <legend>__AdditionalInfo</legend>
             <label for="owner">__Owner:</label>
-            <input id="owner" name="Owner" type="number"
+            <input id="owner" name="Owner" list="attendees"
                    autocomplete="off" required="required"
-                   pattern="\d+" min="1" title="__OwnerHelp" />
+                   title="__OwnerHelp" />
+            <datalist id="attendees">
+                {% for attendee in attendees %}
+                    <option value="{{ attendee.RegId }}" label="{{ attendee }}"/>
+                {% endfor %}
+            </datalist>
         </fieldset>
         {%- endif %}
         <fieldset>
@@ -47,7 +52,7 @@
                     <tr>
                         <td class="{{'error' if item.IRES != 'SUCCESS' else ''}}">{{messagetext.presentShort(item.IRES)}}</td>
                         <td>{{item.NMBR if item.NMBR != None}}</td>
-                        <td>{{item.OWNR if item.OWNR != None}}</td>
+                        <td>{{item.OWNR|reg_id_to_attendee if item.OWNR != None}}</td>
                         <td>{{item.AUTH if item.AUTH != None}}</td>
                         <td>{{item.TITL if item.TITL != None}}</td>
                         <td>{{item.MEDM if item.MEDM != None}}</td>

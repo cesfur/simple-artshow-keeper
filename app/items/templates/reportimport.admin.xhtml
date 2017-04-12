@@ -30,7 +30,7 @@
                     <tr>
                         <td>{{messagetext.presentShort(item.IRES)}}</td>
                         <td>{{item.NMBR if item.NMBR != None}}</td>
-                        <td>{{item.OWNR if item.OWNR != None}}</td>
+                        <td>{{item.OWNR|reg_id_to_attendee if item.OWNR != None}}</td>
                         <td>{{item.AUTH if item.AUTH != None}}</td>
                         <td>{{item.TITL if item.TITL != None}}</td>
                         <td>{{item.MEDM if item.MEDM != None}}</td>
@@ -74,7 +74,7 @@
                     <tr>
                         <td>{{messagetext.presentShort(item.IRES)}}</td>
                         <td>{{item.NMBR if item.NMBR != None}}</td>
-                        <td>{{item.OWNR if item.OWNR != None}}</td>
+                        <td>{{item.OWNR|reg_id_to_attendee if item.OWNR != None}}</td>
                         <td>{{item.AUTH if item.AUTH != None}}</td>
                         <td>{{item.TITL if item.TITL != None}}</td>
                         <td>{{item.MEDM if item.MEDM != None}}</td>

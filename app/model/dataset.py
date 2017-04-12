@@ -22,6 +22,7 @@ import sys
 from os import path
 from PIL import Image
 
+from model.attendee import Attendee
 from . item import ItemState, ItemField, ImportedItemField
 from . currency_field import CurrencyField
 from . session import Field as SessionField
@@ -34,7 +35,13 @@ class Dataset:
     GLOBAL_SESSION_ID = 0
     RESERVED_ITEM_EXPRESSION = 'Owner is None and Author is None and Title is None'
 
-    def __init__(self, logger, dataPath, sessionFilename = 'sessiondictionary.xml', itemsFilename = 'artshowitems.xml', currencyFilename = 'currency.xml'):
+    def __init__(
+            self, logger, dataPath,
+            sessionFilename='sessiondictionary.xml',
+            itemsFilename='artshowitems.xml',
+            currencyFilename='currency.xml',
+            attendeesFilename='attendees.xml',
+    ):
         self.__logger = logger
         self.__dataPath = dataPath
         self.__imageDataPath = path.join(self.__dataPath, 'image')
@@ -55,6 +62,12 @@ class Dataset:
                 'CurrencyList',
                 'Currency',
                 CurrencyField.ALL_PERSISTENT)
+        self.__attendees = Table(
+                self.__logger,
+                path.join(self.__dataPath, attendeesFilename),
+                'Attendees',
+                'Attendee',
+                Attendee.ALL_PERSISTENT)
 
         self.__jsonDecoder = json.JSONDecoder()
         self.__jsonEncoder = json.JSONEncoder()
@@ -66,11 +79,13 @@ class Dataset:
         self.__sessions.load()
         self.__items.load()
         self.__currency.load()
+        self.__attendees.load()
         
     def persist(self):
         self.__sessions.save()
         self.__items.save()
         self.__currency.save()
+        self.__attendees.save()
 
     def getClientSessionIDs(self):
         rawSessions = self.__sessions.select(
@@ -294,6 +309,24 @@ class Dataset:
         item[ItemField.AMOUNT_IN_AUCTION] = toDecimal(item[ItemField.AMOUNT_IN_AUCTION])
         item[ItemField.IMPORT_NUMBER] = toInt(item[ItemField.IMPORT_NUMBER])
         return item
+
+    def getAttendees(self):
+        raw_attendees = self.__attendees.select(Attendee.ALL_PERSISTENT)
+        return [Attendee.load(raw) for raw in raw_attendees]
+
+    def getAttendee(self, regId):
+        try:
+            return Attendee.load(
+                self.__attendees.select(
+                    Attendee.ALL_PERSISTENT,
+                    '{col} == "{id:d}"'.format(col=Attendee.REG_ID, id=int(regId))
+                )[0])
+        except IndexError:
+            return Attendee.load({
+                Attendee.REG_ID: regId,
+                Attendee.NICKNAME: '<unknown>',
+            })
+
 
     def getItems(self, expression):
         """Get items based on expression. Exclude reserved item.

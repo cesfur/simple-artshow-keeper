@@ -11,10 +11,14 @@
     <fieldset>
         <div class="subblock">
             <label for="badge">Číslo visačky:</label>
-            <input id="badge" name="Badge" type="number" value="" required
-                autocomplete="off" autofocus
-                min="1" pattern="[1-9][0-9]*"
+            <input id="badge" name="Badge" required
+                autocomplete="off" autofocus list="attendees"
                 title="Visačka účastníka."/>
+            <datalist id="attendees">
+                {% for attendee in attendees %}
+                    <option value="{{ attendee.RegId }}" label="{{ attendee }}"/>
+                {% endfor %}
+            </datalist>
         </div>
         <div class="subblock">
             <input class="action" type="submit" formaction="{{findTarget}}" formmethod="post"

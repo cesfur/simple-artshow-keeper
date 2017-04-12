@@ -23,10 +23,14 @@
         <fieldset>
             <div class="subblock">
                 <label for="buyer"><span>__Buyer</span>:</label>
-                <input id="buyer" name="Buyer" type="number" required="required"
-                       min="1" value=""
+                <input id="buyer" name="Buyer" required="required" list="attendees"
                        autocomplete="off" autofocus="autofocus"
                        title="__BuyerHelp" />
+                <datalist id="attendees">
+                    {% for attendee in attendees %}
+                        <option value="{{ attendee.RegId }}" label="{{ attendee }}"/>
+                    {% endfor %}
+                </datalist>
             </div>
             <div class="subblock">
                 <label for="amount"><span>__Amount</span>:</label>
