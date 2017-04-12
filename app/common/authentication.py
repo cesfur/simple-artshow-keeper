@@ -27,7 +27,7 @@ class UserGroups:
 def auth(allow=UserGroups.ADMIN):
     def decorator_auth_allow(func):
         @functools.wraps(func)
-        def decorated_function(*args, **kwargs):            
+        def decorated_function(*args, **kwargs):
             if flask.g.userGroup == UserGroups.ADMIN \
                     or (not isinstance(allow, list) and flask.g.userGroup == str(allow)) \
                     or (isinstance(allow, list) and flask.g.userGroup in allow):
