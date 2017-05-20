@@ -15,6 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 import logging
+import textwrap
 from argparse import ArgumentParser
 
 import flask
@@ -38,7 +39,7 @@ from model.model import Model
 
 from items import items_controller
 from auction import auction_controller
-from reconciliation import reconciliation_controller
+from reconciliation import reconciliation_controller, filters
 from settings import settings_controller
 
 # Configure logging
@@ -81,6 +82,19 @@ del dictionaryPath
 def reg_id_to_attendee(s):
     """ For a given reg ID, return Attendee instance """
     return flask.g.model.getAttendee(s)
+
+
+@app.template_filter('textwrap')
+def _textwrap(value, cols):
+    """ Wrap text using the given number of columns """
+    return textwrap.fill(value, cols)
+
+
+@app.template_filter('dateformat')
+def datetimeformat(value, format_str):
+    """ Format datetime using Python3 format string (*not* strftime!)"""
+    format_str = '{:' + format_str + '}'
+    return format_str.format(value)
 
 
 @app.context_processor

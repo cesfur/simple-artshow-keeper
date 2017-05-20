@@ -25,161 +25,45 @@
         </fieldset>
     </form>
 
-    <div class="notShown">
+    <div class="artshowOverview notShown">
+        <pre>
+Artshow Overview
+{{datetime|dateformat("%B %d, %Y, %H:%M")}}
+Attendee: {{badge|reg_id_to_attendee}}
 
-        <!-- Artshow Copy -->
-        <h1>Reconciliation</h1>
-        <p>Artshow Copy</p>
-        <div class="receiptSection col2">
-            <table>
-                <tr class="hidden"><th>A</th><th>C</th></tr>
-                <tr>
-                    <td class="colA">Date:</td>
-                    <td class="colC">{{datetime.month}}/{{datetime.day}}/{{datetime.year}}</td>
-                </tr>
-                <tr>
-                    <td class="colA">Time:</td>
-                    <td class="colC">{{"%d:%02d"|format(datetime.hour, datetime.minute)}}</td>
-                </tr>
-                <tr>
-                    <td class="colA">Badge:</td>
-                    <td class="colC">{{badge|reg_id_to_attendee}}</td>
-                </tr>
-            </table>
-        </div>
-        <div class="receiptSection col2">
-            <h2>Summary</h2>
-            <table>
-                <tr class="hidden"><th>A</th><th>C</th></tr>
-                <tr>
-                    <td class="colA">Sold For:</td>
-                    <td class="colC">{{summary.GrossSaleAmount|default('?')}}€</td>
-                </tr>
-                <tr>
-                    <td class="colA">Charity Ded.:</td>
-                    <td class="colC">{{summary.CharityDeduction|default('?')}}€</td>
-                </tr>
-                <tr>
-                    <td class="colA">Bought For:</td>
-                    <td class="colC">{{summary.BoughtItemsAmount|default('?')}}€</td>
-                </tr>
-                {% if summary.TotalDueAmount >= 0 %}
-                <tr>
-                    <td class="colA">Paid:</td>
-                    <td class="colC">{{summary.TotalDueAmount|default(0)}}€</td>
-                </tr>
-                {% else %}
-                <tr>
-                    <td class="colA">Received:</td>
-                    <td class="colC">{{summary.TotalDueAmount|default(0) * -1}}€</td>
-                </tr>
-                {% endif %}
-            </table>
-        </div>
-        <p>In Dessau, {{datetime.month}}/{{datetime.day}}/{{datetime.year}}</p>
-        <div class="signature"></div>
-        <div class="pageBreak"></div>
+{% if summary.AvailUnsoldItems -%}
+Unsold items which were returned:
+{{ summary.AvailUnsoldItems|unsold_table }}
 
-        <!-- Badge Copy -->
-        <h1>Reconciliation</h1>
-        <div class="receiptSection col2">
-            <table>
-                <tr class="hidden"><th>A</th><th>C</th></tr>
-                <tr>
-                    <td class="colA">Date:</td>
-                    <td class="colC">{{datetime.month}}/{{datetime.day}}/{{datetime.year}}</td>
-                </tr>
-                <tr>
-                    <td class="colA">Time:</td>
-                    <td class="colC">{{"%d:%02d"|format(datetime.hour, datetime.minute)}}</td>
-                </tr>
-                <tr>
-                    <td class="colA">Badge:</td>
-                    <td class="colC">{{badge|reg_id_to_attendee}}</td>
-                </tr>
-            </table>
-        </div>
-        <div class="receiptSection col2">
-            <h2>Summary</h2>
-            <table>
-                <tr class="hidden"><th>A</th><th>C</th></tr>
-                <tr>
-                    <td class="colA">Sold For:</td>
-                    <td class="colC">{{summary.GrossSaleAmount|default('?')}}€</td>
-                </tr>
-                <tr>
-                    <td class="colA">Charity Ded.:</td>
-                    <td class="colC">{{summary.CharityDeduction|default('?')}}€</td>
-                </tr>
-                <tr>
-                    <td class="colA">Bought For:</td>
-                    <td class="colC">{{summary.BoughtItemsAmount|default('?')}}€</td>
-                </tr>
-                {% if summary.TotalDueAmount >= 0 %}
-                <tr>
-                    <td class="colA">Paid:</td>
-                    <td class="colC">{{summary.TotalDueAmount|default(0)}}€</td>
-                </tr>
-                {% else %}
-                <tr>
-                    <td class="colA">Received:</td>
-                    <td class="colC">{{summary.TotalDueAmount|default(0) * -1}}€</td>
-                </tr>
-                {% endif %}
-            </table>
-        </div>
-        {% if summary.AvailBoughtItems|length > 0 %}
-        <div class="receiptSection col2">
-            <h2>Bought Items</h2>
-            <table>
-                <tr>
-                    <th class="colA">Title</th>
-                    <th class="colC">Amount</th>
-                </tr>
-                {% for item in summary.AvailBoughtItems %}
-                <tr>
-                    <td class="colA">{{item.Title}}</td>
-                    <td class="colC">{{item.Amount}}€</td>
-                </tr>
-                {% endfor %}
-            </table>
-        </div>
-        {% endif %}
+{% endif -%}
+{% if summary.DeliveredSoldItems -%}
+Sold items:
+{{ summary.DeliveredSoldItems|sold_table(summary.GrossSaleAmount, summary.CharityDeduction) }}
 
-        {% if summary.AvailUnsoldItems|length > 0 %}
-        <div class="receiptSection col1">
-            <h2>Returned Unsold Items</h2>
-            <table>
-                <tr>
-                    <th class="colA">Title</th>
-                </tr>
-                {% for item in summary.AvailUnsoldItems %}
-                <tr>
-                    <td class="colA">{{item.Title}}</td>
-                </tr>
-                {% endfor %}
-            </table>
-        </div>
-        {% endif %}
+{{ 'Charity contribution is given by the seller after paying out the income to the seller.'|textwrap(40) }}
 
-        {% if summary.DeliveredSoldItems|length > 0 %}
-        <div class="receiptSection col2">
-            <h2>Sales</h2>
-            <table>
-                <tr>
-                    <th class="colA">Title</th>
-                    <th class="colC">Amount</th>
-                </tr>
-                {% for item in summary.DeliveredSoldItems %}
-                <tr>
-                    <td class="colA">{{item.Title}}</td>
-                    <td class="colC">{{item.NetAmount}}€</td>
-                </tr>
-                {% endfor %}
-            </table>
-        </div>
-        {% endif %}
+{% endif -%}
+{% if summary.AvailBoughtItems -%}
+Bought items:
+{{ summary.AvailBoughtItems|bought_table(summary.BoughtItemsAmount) }}
 
+{% endif -%}
+
+Cash:
+{{ summary.TotalDueAmount|cash_table }}
+
+{{ 'By selling and/or buying items in Artshow, buyers and sellers acknowledge that CeSFuR z.s. does not own, sell, or buy any of the items in the Artshow unless written explicitly. Sale agreement is always formed between the seller and the buyer.'|textwrap(40) }}
+
+{% if summary.DeliveredSoldItems -%}
+{{ 'By selling items I agree that CeSFuR z.s. will collect cash from buyers without any commission.'|textwrap(40) }}
+
+{% endif -%}
+{% if summary.AvailBoughtItems -%}
+{{ 'By accepting bought items I agree that CeSFuR z.s. will hand over cash to the seller without any commission. I agree to contact seller directly if further details about the sale is required.'|textwrap(40) }}
+
+{% endif -%}
+This document is not a legal invoice.
+</pre>
     </div>
 </body>
 </html>
