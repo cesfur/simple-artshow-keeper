@@ -1,0 +1,185 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{f22128e4-f770-4541-9492-214264ac0c34}</ProjectGuid>
+    <ProjectHome />
+    <StartupFile>run.py</StartupFile>
+    <SearchPath>.</SearchPath>
+    <WorkingDirectory>
+    </WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <InterpreterId>
+    </InterpreterId>
+    <InterpreterVersion>
+    </InterpreterVersion>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <IsWindowsApplication>False</IsWindowsApplication>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
+  <PropertyGroup>
+    <PtvsTargetsFile>$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets</PtvsTargetsFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="artshowkeeper\common\authentication.py" />
+    <Compile Include="artshowkeeper\common\phrase_dictionary.py" />
+    <Compile Include="artshowkeeper\common\texttable.py" />
+    <Compile Include="artshowkeeper\common\translate.py" />
+    <Compile Include="artshowkeeper\config.py" />
+    <Compile Include="artshowkeeper\main.py" />
+    <Compile Include="artshowkeeper\model\attendee.py" />
+    <Compile Include="artshowkeeper\model\currency_field.py" />
+    <Compile Include="artshowkeeper\model\field_value_error.py" />
+    <Compile Include="artshowkeeper\model\currency.py" />
+    <Compile Include="artshowkeeper\model\summary.py" />
+    <Compile Include="artshowkeeper\model\session.py" />
+    <Compile Include="artshowkeeper\model\model.py" />
+    <Compile Include="artshowkeeper\common\convert.py" />
+    <Compile Include="artshowkeeper\common\parameter.py" />
+    <Compile Include="artshowkeeper\common\response.py" />
+    <Compile Include="artshowkeeper\common\result.py" />
+    <Compile Include="artshowkeeper\common\__init__.py" />
+    <Compile Include="artshowkeeper\reconciliation\filters.py" />
+    <Compile Include="artshowkeeper\run_desktop.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="artshowkeeper\settings\settings_controller.py" />
+    <Compile Include="artshowkeeper\settings\__init__.py" />
+    <Compile Include="artshowkeeper\__init__.py" />
+    <Compile Include="postinstall.py" />
+    <Compile Include="run.py" />
+    <Compile Include="setup.py" />
+    <Compile Include="tests\datafile.py" />
+    <Compile Include="tests\test_common.py" />
+    <Compile Include="tests\test_config.py" />
+    <Compile Include="tests\test_dataset.py" />
+    <Compile Include="tests\test_currency.py" />
+    <Compile Include="tests\test_model.py" />
+    <Compile Include="tests\test_table.py" />
+    <Compile Include="tests\test_controller.py" />
+    <Compile Include="tests\__init__.py" />
+    <Compile Include="artshowkeeper\controller\format.py" />
+    <Compile Include="artshowkeeper\controller\__init__.py" />
+    <Compile Include="artshowkeeper\auction\auction_controller.py" />
+    <Compile Include="artshowkeeper\auction\__init__.py" />
+    <Content Include="artshowkeeper\auction\static\EditAuctionItemImage.js" />
+    <Content Include="artshowkeeper\auction\templates\auctionitem.admin.xhtml" />
+    <Content Include="artshowkeeper\auction\templates\editauctionitemimage.xhtml" />
+    <Content Include="artshowkeeper\auction\templates\finalizeitem.admin.de.html" />
+    <Content Include="artshowkeeper\auction\templates\finalizeitem.admin.en.html" />
+    <Content Include="artshowkeeper\auction\templates\finditemtoauction.admin.de.html" />
+    <Content Include="artshowkeeper\auction\templates\finditemtoauction.admin.en.html" />
+    <Content Include="artshowkeeper\auction\templates\getstatus.xml" />
+    <Content Include="artshowkeeper\auction\templates\listauctionitems.xhtml" />
+    <Content Include="artshowkeeper\auction\templates\showstatus.xhtml" />
+    <Content Include="artshowkeeper\config.ini" />
+    <Compile Include="artshowkeeper\items\items_controller.py" />
+    <Compile Include="artshowkeeper\items\__init__.py" />
+    <Compile Include="artshowkeeper\model\dataset.py" />
+    <Compile Include="artshowkeeper\model\item.py" />
+    <Compile Include="artshowkeeper\model\table.py" />
+    <Compile Include="artshowkeeper\model\__init__.py" />
+    <Compile Include="artshowkeeper\reconciliation\reconciliation_controller.py" />
+    <Compile Include="artshowkeeper\reconciliation\__init__.py" />
+    <Content Include="artshowkeeper\items\static\BidsheetFrame.de.svg" />
+    <Content Include="artshowkeeper\items\static\BidsheetNoSaleFrame.de.svg" />
+    <Content Include="artshowkeeper\items\static\EditItem.js" />
+    <Content Include="artshowkeeper\items\static\Items.js" />
+    <Content Include="artshowkeeper\items\templates\bidsheets.xhtml" />
+    <Content Include="artshowkeeper\items\templates\approveimport.admin.xhtml" />
+    <Content Include="artshowkeeper\items\templates\edititem.admin.de.html" />
+    <Content Include="artshowkeeper\items\templates\edititem.admin.en.html" />
+    <Content Include="artshowkeeper\items\templates\finditemtoclose.xhtml" />
+    <Content Include="artshowkeeper\items\templates\listitems.admin.de.html" />
+    <Content Include="artshowkeeper\items\templates\listitems.admin.en.html" />
+    <Content Include="artshowkeeper\items\templates\reportimport.admin.xhtml" />
+    <Content Include="artshowkeeper\items\templates\selectimportfile.admin.xhtml" />
+    <Content Include="artshowkeeper\items\templates\updateitemtoclose.xhtml" />
+    <Content Include="artshowkeeper\items\templates\edititemimage.admin.xhtml" />
+    <Content Include="artshowkeeper\locale\translation.cz.xml" />
+    <Content Include="artshowkeeper\locale\translation.de.xml" />
+    <Content Include="artshowkeeper\locale\translation.en.xml" />
+    <Content Include="artshowkeeper\reconciliation\static\Reconciliation.css" />
+    <Content Include="artshowkeeper\reconciliation\templates\drawersummary.admin.cz.html" />
+    <Content Include="artshowkeeper\reconciliation\templates\drawersummary.admin.de.html" />
+    <Content Include="artshowkeeper\reconciliation\templates\drawersummary.admin.en.html" />
+    <Content Include="artshowkeeper\reconciliation\templates\findbadgetoreconciliate.admin.de.html" />
+    <Content Include="artshowkeeper\reconciliation\templates\findbadgetoreconciliate.admin.en.html" />
+    <Content Include="artshowkeeper\reconciliation\templates\receipt.admin.cz.html" />
+    <Content Include="artshowkeeper\reconciliation\templates\receipt.admin.de.html" />
+    <Content Include="artshowkeeper\reconciliation\templates\receipt.admin.en.html" />
+    <Content Include="artshowkeeper\reconciliation\templates\reconciliation.admin.cz.html" />
+    <Content Include="artshowkeeper\reconciliation\templates\reconciliation.admin.de.html" />
+    <Content Include="artshowkeeper\reconciliation\templates\reconciliation.admin.en.html" />
+    <Content Include="artshowkeeper\reconciliation\templates\runneroverview.admin.cz.html" />
+    <Content Include="artshowkeeper\reconciliation\templates\runneroverview.admin.de.html" />
+    <Content Include="artshowkeeper\reconciliation\templates\runneroverview.admin.en.html" />
+    <Content Include="artshowkeeper\settings\templates\viewsettings.admin.xhtml" />
+    <Content Include="artshowkeeper\static\Artshow.css" />
+    <Content Include="artshowkeeper\static\Artshow.js" />
+    <Content Include="artshowkeeper\templates\itemstate.cz.html" />
+    <Content Include="artshowkeeper\templates\itemstate.de.html" />
+    <Content Include="artshowkeeper\templates\itemstate.en.html" />
+    <Content Include="artshowkeeper\templates\authenticate.xhtml" />
+    <Content Include="artshowkeeper\templates\main.admin.xhtml" />
+    <Content Include="artshowkeeper\auction\static\StatusFrame.css" />
+    <Content Include="artshowkeeper\auction\static\StatusFrame.js" />
+    <Content Include="artshowkeeper\auction\static\StatusFrame.svg" />
+    <Content Include="artshowkeeper\auction\templates\finalizeitem.admin.cz.html" />
+    <Content Include="artshowkeeper\auction\templates\finditemtoauction.admin.cz.html" />
+    <Content Include="artshowkeeper\auction\templates\listauctionitems.admin.xhtml" />
+    <Content Include="artshowkeeper\items\static\Bidsheets.css" />
+    <Content Include="artshowkeeper\items\static\BidsheetFrame.svg" />
+    <Content Include="artshowkeeper\items\static\BidsheetNoSaleFrame.svg" />
+    <Content Include="artshowkeeper\items\templates\listitems.admin.cz.html" />
+    <Content Include="artshowkeeper\items\templates\edititem.admin.cz.html" />
+    <Content Include="artshowkeeper\reconciliation\templates\findbadgetoreconciliate.admin.cz.html" />
+    <Content Include="artshowkeeper\templates\main.scandevice.xhtml" />
+    <Content Include="artshowkeeper\templates\main.xhtml" />
+    <Content Include="artshowkeeper\templates\message.xhtml" />
+    <Content Include="artshowkeeper\templates\messagetext.cz.html" />
+    <Content Include="artshowkeeper\templates\messagetext.de.html" />
+    <Content Include="artshowkeeper\templates\messagetext.en.html" />
+    <Content Include="tests\data\config.ini" />
+    <Content Include="tests\data\items_to_csv.bat" />
+    <Content Include="tests\data\items_to_csv.xsl" />
+    <Content Include="tests\data\test.common.phrase_dictionary.xml" />
+    <Content Include="tests\data\test.model.currency.xml" />
+    <Content Include="tests\data\test.model.import_number.csv" />
+    <Content Include="tests\data\test.model.import.txt" />
+    <Content Include="tests\data\test.model.import.csv" />
+    <Content Include="tests\data\test.model.items.auction_only.xml" />
+    <Content Include="tests\data\test.model.items.ods" />
+    <Content Include="tests\data\test.model.items.xml" />
+    <Content Include="tests\data\test.model.session.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="artshowkeeper\" />
+    <Folder Include="artshowkeeper\auction" />
+    <Folder Include="artshowkeeper\auction\static" />
+    <Folder Include="artshowkeeper\auction\templates" />
+    <Folder Include="artshowkeeper\common\" />
+    <Folder Include="artshowkeeper\controller\__pycache__\" />
+    <Folder Include="artshowkeeper\items" />
+    <Folder Include="artshowkeeper\items\static" />
+    <Folder Include="artshowkeeper\items\templates" />
+    <Folder Include="artshowkeeper\locale\" />
+    <Folder Include="artshowkeeper\model" />
+    <Folder Include="artshowkeeper\reconciliation" />
+    <Folder Include="artshowkeeper\reconciliation\static\" />
+    <Folder Include="artshowkeeper\reconciliation\templates" />
+    <Folder Include="artshowkeeper\settings\" />
+    <Folder Include="artshowkeeper\settings\static\" />
+    <Folder Include="artshowkeeper\settings\templates\" />
+    <Folder Include="artshowkeeper\static" />
+    <Folder Include="artshowkeeper\templates" />
+    <Folder Include="tests\" />
+    <Folder Include="tests\data\" />
+    <Folder Include="artshowkeeper\controller\" />
+  </ItemGroup>
+  <Import Project="$(PtvsTargetsFile)" Condition="Exists($(PtvsTargetsFile))" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="!Exists($(PtvsTargetsFile))" />
+</Project>

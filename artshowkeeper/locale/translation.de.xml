@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<dictionary>
+    <!-- auction -->
+    <phrase id="AuctionStatus.StatusHeader">Artshow: Auktion</phrase>
+    <!-- auction item -->
+    <phrase id="AuctionItem.SoldFor">Sold For</phrase>
+    <phrase id="AuctionItem.CurrentPrice">Current Price</phrase>
+    <phrase id="AuctionItem.SelectDifferentItem">Select Different Item</phrase>
+    <phrase id="AuctionItem.Header">ArtShow: Auctioning Item</phrase>
+    <phrase id="AuctionItem.NewPrice">New Price</phrase>
+    <phrase id="AuctionItem.NewPriceDescription">Minimal price is</phrase>
+    <phrase id="AuctionItem.Title">Auctioning Item</phrase>
+    <phrase id="AuctionItem.UpdatePrice">Update Price</phrase>
+    <!-- authentication -->
+    <phrase id="Auth.Header">Artshow: Device Authentication</phrase>
+    <phrase id="Auth.Title">Device Authentication</phrase>
+    <phrase id="Auth.Instructions">Enter device code shown on the device screen.</phrase>
+    <phrase id="Auth.Entered">Code Enterred</phrase>
+    <!-- generic -->
+    <phrase id="AdditionalInfo">Zusätzliche Angaben</phrase>
+    <phrase id="Owner:">Besitzer:</phrase>
+    <phrase id="ItemNumber">Artikelnummer</phrase>
+    <phrase id="Owner">Besitzer</phrase>
+    <phrase id="Amount">Price (in €)</phrase>
+    <phrase id="Author">Autor</phrase>
+    <phrase id="Buyer">Buyer</phrase>
+    <phrase id="Title">Titel</phrase>
+    <phrase id="Medium">Kunstmedium</phrase>
+    <phrase id="InitialAmount">Anfangspreis</phrase>
+    <phrase id="Charity">Charity</phrase>
+    <phrase id="Note">Anmerkung</phrase>
+    <phrase id="TotalRecords:">Gesamtmenge:</phrase>
+    <phrase id="BuyerHelp">Badge of the buyer has to be greater or equal to 1.</phrase>
+    <phrase id="OwnerHelp">Badgenummer is grosser als 1.</phrase>
+    <phrase id="BackToMain">Zurück</phrase>
+    <phrase id="Print">Drucken</phrase>
+    <phrase id="ItemImagePreview">Preview</phrase>
+    <!-- bidsheets -->
+    <phrase id="Bidsheets.Header">Artshow: Druck der Gebotblatten</phrase>
+    <phrase id="Bidsheets.Title">Druck der Gebotblatten</phrase>
+    <phrase id="Bidsheets.CancelPrint">Abbrechen</phrase>
+    <phrase id="Bidsheets.Print">Drucken</phrase>
+    <!-- edit auction item image -->
+    <phrase id="EditAuctionItemImage.ChangeImage">Update Image</phrase>
+    <phrase id="EditAuctionItemImage.DifferentItem">Different Item</phrase>
+    <phrase id="EditAuctionItemImage.Header">ArtShow: Auctioned item image</phrase>
+    <phrase id="EditAuctionItemImage.Title">Auctioned item image</phrase>
+    <!-- edit item image -->
+    <phrase id="EditItemImage.Header">ArtShow: Item image</phrase>
+    <phrase id="EditItemImage.Title">Edit item image</phrase>
+    <phrase id="EditItemImage.CameraNotAllowed">Camera not allowed.</phrase>
+    <phrase id="EditItemImage.Cancel">Cancel</phrase>
+    <phrase id="EditItemImage.Delete">Delete</phrase>
+    <phrase id="EditItemImage.NotSupported">Device does not support camera input.</phrase>
+    <phrase id="EditItemImage.NoCamera">No camera found.</phrase>
+    <phrase id="EditItemImage.UnknownError">Unexpected error occurred while working with camera. Cannot create image. Error:</phrase>
+    <phrase id="EditItemImage.Save">Save</phrase>
+    <phrase id="EditItemImage.Skip">Skip</phrase>
+    <!-- find item to close -->
+    <phrase id="FindItemToClose.Header">ArtShow: Close Item</phrase>
+    <phrase id="FindItemToClose.Title">Select Item to be Closed</phrase>
+    <phrase id="FindItemToClose.CloseItem">Close Item</phrase>
+    <phrase id="FindItemToClose.ItemsLeft:">Items left to close:</phrase>
+    <!-- list auction items -->
+    <phrase id="ListAuctionItems.Header">ArtShow: List of Auctioned Items</phrase>
+    <phrase id="ListAuctionItems.NoItems">There are not items to be auctioned.</phrase>
+    <phrase id="ListAuctionItems.Title">List of Auctioned Items</phrase>
+    <phrase id="ListAuctionItems.TotalItems">Total number of items</phrase>
+    <!-- main -->
+    <phrase id="Setup">Annahme</phrase>
+    <phrase id="New Item">Neue Artikel annahmen</phrase>
+    <phrase id="Item List">Liste der Artikel</phrase>
+    <phrase id="Close Item">Artikel abschließen</phrase>
+    <phrase id="Auction">Auktion</phrase>
+    <phrase id="List Auction Items">Auktionactikel ziegen</phrase>
+    <phrase id="Show Auction Screen">Status der Auction zeigen</phrase>
+    <phrase id="Start Auction">Auktion eröffnen</phrase>
+    <phrase id="Handout">Ausgabe</phrase>
+    <phrase id="Reconcile Attendee">Teilnehmer erspinnen</phrase>
+    <phrase id="Cash Drawer Info">Gehalt des Geldschrankes</phrase>
+    <phrase id="Main.Settings">Eistellung des Systemes</phrase>
+    <phrase id="Main.ShowSettings">Eistellung zeigen</phrase>
+    <!-- message -->
+    <phrase id="Message.Header">ArtShow: Meldung</phrase>
+    <phrase id="Message.Title">Meldung</phrase>
+    <!-- login -->
+    <phrase id="ArtShow Login">Artshow: Einmeldung</phrase>
+    <phrase id="Artshow Code:">Code für die Artshow: </phrase>
+    <phrase id="Artshow Code Hint">Code das was abgegebte zum dem Besitzer (6 Zahlzeichen)</phrase>
+    <phrase id="Login">Mit dem Code einmelden</phrase>
+    <phrase id="Login Admin">Als dem Verwalter einmelden</phrase>
+    <!-- import -->
+    <phrase id="Import.ApproveHeader">ArtShow: Import aufsichten</phrase>
+    <phrase id="Import.ApproveTitle">Import aufsichten</phrase>
+    <phrase id="Import.FileImport:">Import der Akte:</phrase>
+    <phrase id="Import.TextImport">Import des Textes</phrase>
+    <phrase id="Import.ReviewImportedItems">Übersicht der importierten Artikel</phrase>
+    <phrase id="Import.ReviewRenumberedItems">Übersicht der Artikel die umgenummeriert waren</phrase>
+    <phrase id="Import.ReviewSkippedItems">Übersicht der ausgelassen Artikel</phrase>
+    <phrase id="Import.Result">Ausgabe</phrase>
+    <phrase id="Import.ImportNumber">Importierte Nummer</phrase>
+    <phrase id="Import.IsEmpty">Der import enthalte keine Artikel.</phrase>
+    <phrase id="Import.BackToNewItem">Zurück zum dem neuen Artikel</phrase>
+    <phrase id="Import.ChooseDifferentInput">Andere Eintritt wählen</phrase>
+    <phrase id="Import.Finish">Vollenden</phrase>
+    <phrase id="Import.ReportHeader">ArtShow: Der ausgelassen Artikel</phrase>
+    <phrase id="Import.ReportTitle">Der ausgelassen Artikel</phrase>
+    <phrase id="Import.TotalSkippedRecords">Anzahl der ausgelassen Artikel:</phrase>
+    <phrase id="Import.NoItemsRenumbered">Keine Artikel ware umgenummeriert.</phrase>
+    <phrase id="Import.NoItemsSkipped">Keine Artikel ware ausgelast.</phrase>
+    <phrase id="Import.ContinueToNewItem">Weiterführen zum neuen Artikel</phrase>
+    <phrase id="Import.SelectHeader">ArtShow: Importeintritt wählen</phrase>
+    <phrase id="Import.SelectTitle">Importeintritt wählen</phrase>
+    <phrase id="Import.SelectFileDescription">
+        Die Datei mussen in dem CSV Format sein. Die Codierung is UTF-8.
+        Erste Ziele is der Blockvorspann and es ist ausgelassen.
+        Die Folge dir Kolonne is: Artikelnummer, Badgenummber des Besitzers, Autor, Title, Kunstmedium, Anmerkung, Pries, Charity (in %).
+    </phrase>
+    <phrase id="Import.UseFile">Datai benutzen</phrase>
+    <phrase id="Import.UseText">Text benutzen</phrase>
+    <!-- receipt -->
+    <phrase id="Receipt.Buyer">Buyer</phrase>
+    <phrase id="Receipt.ItemNo">#</phrase>
+    <!-- settings -->
+    <phrase id="Settings.Header">Artshow: Einstellung</phrase>
+    <phrase id="Settings.Title">Einstellung</phrase>
+    <phrase id="Settings.AttendeesImportLabel">Attendee Import</phrase>
+    <phrase id="Settings.AttendeesImportDescription">
+        Import of attendee file for visualization purposes.
+        Use CSV format (columns: attendee number, nickname).
+        File can be imported repeatedly. New attendess will be added. If a nickname has changed, it will be updated. The key is attendee number which is expected to be constant.
+    </phrase>
+    <phrase id="Settings.CurrencyConversionLabel">Wechselumrechnungstabelle</phrase>
+    <phrase id="Settings.CurrencyConversionDescription">
+        Die Nummer ziegt der Pries des Wechsels im primär Wechsel.
+        Stellen Sie der primär Wechsel zum 1.
+        Exempel:
+        Wenn der primär Wechsel is € and die Nummer bei anderem Wechsel ($) ist 0,8,
+        dann $1 is eines Äquivalent des 0,8€.
+    </phrase>
+    <phrase id="Settings.PrimaryCurrencyConversionHelp">Die Nummer des primär Wechsel muss 1 sien.</phrase>
+    <phrase id="Settings.SaveSettings">Wenden ablegen</phrase>
+    <!-- update item to close -->
+    <phrase id="UpdateItemToClose.ConfirmClosedWithoutImage">If you continue, the item will be sent to auction as without an image.</phrase>
+    <phrase id="UpdateItemToClose.Header">ArtShow: Closing an Item</phrase>
+    <phrase id="UpdateItemToClose.Title">Closing an Item</phrase>
+    <phrase id="UpdateItemToClose.DifferentItem">Select Different Item</phrase>
+    <phrase id="UpdateItemToClose.NotSold">NOT Sold</phrase>
+    <phrase id="UpdateItemToClose.Sold">Sold</phrase>
+    <phrase id="UpdateItemToClose.ToAuction">To Auction</phrase>
+    <!-- -->
+    <phrase id=""></phrase>
+</dictionary>

@@ -1,0 +1,71 @@
+﻿<!doctype html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='Artshow.css')}}" />
+    <link rel="stylesheet" type="text/css" href="{{url_for('.static', filename='Reconciliation.css')}}" />
+    <meta charset="UTF-8" />
+    <title>ArtShow: Tisk vypořádání</title>
+</head>
+<body class="narrow" onload="window.print()">
+    <h1 class="notPrintable">Tisk vypořádání</h1>
+    <form class="notPrintable main" id="printControl" action="{{printedTarget}}" method="post">
+        <input class="hidden" name="Badge" type="number"
+               value="{{badge}}" />
+        <input class="hidden" name="SummaryChecksum" type="number"
+               value="{{summaryChecksum}}" />
+        <fieldset>
+            <input class="action" type="submit" formaction="{{printedTarget}}" formmethod="post"
+                   value="Vypořádání vytištěno" />
+            <input class="action" type="submit" formaction="{{notprintedTarget}}" formmethod="post"
+                   value="Zpět" />
+        </fieldset>
+        <fieldset>
+            <input class="action" type="submit" formaction="{{cancelledTarget}}" formmethod="post"
+                   value="Zruš vypořádání" />
+        </fieldset>
+    </form>
+
+    <div class="artshowOverview">
+        <pre>
+Výpis z Artshow
+{{datetime|dateformat("%d. %m. %Y, %H:%M")}}
+Účastník: {{badge|reg_id_to_attendee}}
+
+{% if summary.AvailUnsoldItems -%}
+Neprodané předměty, vrácené:
+{{ summary.AvailUnsoldItems|unsold_table(language) }}
+
+{% endif -%}
+{% if summary.DeliveredSoldItems -%}
+Prodané předměty, proplacené:
+{{ summary.DeliveredSoldItems|sold_table(summary.GrossSaleAmount, summary.CharityDeduction, language) }}
+
+{{ 'Příspěvek na charitu přislíbený prodávajícím je prodávajícím odveden po vyplacení příjmu z prodeje.'|textwrap(40) }}
+
+{% endif -%}
+{% if summary.AvailBoughtItems -%}
+Zakoupená díla, vydaná:
+{{ summary.AvailBoughtItems|bought_table(summary.BoughtItemsAmount, language) }}
+
+{% endif -%}
+
+Hotovost:
+{{ summary.TotalDueAmount|cash_table(language) }}
+
+{% if summary.DeliveredSoldItems or summary.AvailBoughtItems -%}
+{{ 'Nákupem či prodejem v Artshow, berou kupující a prodávací na vědomí, že ...'|textwrap(40) }}
+
+{% endif -%}
+{% if summary.DeliveredSoldItems -%}
+{{ 'Prodejem předmětu v Artshow souhlasím, že ...'|textwrap(40) }}
+
+{% endif -%}
+{% if summary.AvailBoughtItems -%}
+{{ 'Zakoupením předmětu souhlasím, aby ...'|textwrap(40) }}
+
+{% endif -%}
+Toto není daňový doklad.
+</pre>
+    </div>
+</body>
+</html>

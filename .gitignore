@@ -67,6 +67,7 @@ TestResults/
 
 # Application
 data/
+custom/
 experiments/
 private*/
 *.bak
