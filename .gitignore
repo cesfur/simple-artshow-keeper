@@ -76,4 +76,5 @@ private*/
 *.~lock*
 *.ods
 *.zip
+.idea/*
 .vs

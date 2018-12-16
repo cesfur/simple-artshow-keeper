@@ -13,7 +13,7 @@ This application allows you to:
   Each reconciliation will print a summary. Printed summary is defined through HTML and
   it is customizable.
 * Customize Auction Screen and Bidsheets by supplying corresponding CSS and graphics
-  to a folder '%HOME%\AppData\Roaming\artshowkeeper\Custom'. Installer will create a link
+  to a folder '%HOME%\AppData\Roaming\Fartshowkeeper\Custom'. Installer will create a link
   to the folder. Use filenames:
   - StatusFrame.css for the auction screen.
   - Bidsheets.css for a bidsheet.

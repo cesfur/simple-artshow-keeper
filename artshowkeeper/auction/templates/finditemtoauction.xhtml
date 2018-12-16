@@ -1,18 +1,18 @@
-﻿<!doctype html>
-<html>
+<?xml version="1.0" encoding="utf-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='Artshow.css')}}" />
     <meta charset="UTF-8" />
-    <title>ArtShow: Select Item to Auction</title>
+    <title>__FindItemToAuction.Header</title>
 </head>
 <body>
-    <h1>Select Item to Auction</h1>
+    <h1>__FindItemToAuction.Title</h1>
     <form class="main notPrintable">
         <fieldset>
-            <label for="itemCode">Item Code:</label>
+            <label for="itemCode">__FindItemToAuction.ItemsCode:</label>
             <input id="itemCode" name="ItemCode" list="availableItems"
-                   pattern="[1-9][0-9]*" autocomplete="off" autofocus
-                   required/>
+                   pattern="[1-9][0-9]*" autocomplete="off" autofocus="autofocus"
+                   required="required"/>
             <datalist id="availableItems">
                 {% for item in availableItems -%}
                 <option value="{{item.Code}}" label="{{item.Code}}: {{item.Author}} - {{item.Title}}"/>
@@ -22,12 +22,12 @@
         <fieldset>
             <input class="hidden" type="submit" formaction="{{findTarget}}" formmethod="post"
                    value="Default Button" />
-            <input class="action" type="submit" formaction="{{cancelledTarget}}" formnovalidate
-                   value="Go to Main" />
+            <input class="action" type="submit" formaction="{{cancelledTarget}}" formnovalidate="formnovalidate"
+                   value="__BackToMain" />
             <input class="action" type="submit" formaction="{{findTarget}}" formmethod="post"
-                   value="Send Item to Auction" />
+                   value="__FindItemToAuction.Select" />
         </fieldset>
     </form>
-    <p>There are {{availableItems|length}} item(s) to be auctioned.</p>
+    <p><span>__FindItemToAuction.ItemsLeft:</span> {{ availableItems|length }}</p>
 </body>
 </html>

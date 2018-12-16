@@ -3,10 +3,10 @@
 from setuptools import setup, find_packages
 
 setup(name='artshowkeeper',
-        version='2017.2',
+        version='2018.1',
         description='Artshow-Keeper (a part of Con Tools)',
         author='scheriff, takeru',
-        author_email='scheriff@furry.cz',
+        author_email='software@cesfur.org',
         url='https://www.cesfur.org',
         license='GNU GPL 3',
         packages=['artshowkeeper',
@@ -26,6 +26,6 @@ setup(name='artshowkeeper',
                 '*/static/*',
                 '*/templates/*'
                 ]},
-        install_requires=['flask', 'pillow', 'netifaces'],
+        install_requires=['Flask', 'pillow', 'netifaces'],
         scripts=['postinstall.py'],
         )

@@ -24,13 +24,13 @@ from decimal import Decimal
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
-from . datafile import Datafile
+from tests.datafile import Datafile
 from artshowkeeper.common.result import Result
 from artshowkeeper.model.dataset import Dataset
 from artshowkeeper.model.currency import CurrencyField, Currency
 
 class TestCurrency(unittest.TestCase):
-    def setUpClass():
+    def setUpClass(cls):
         logging.basicConfig(level=logging.DEBUG)
 
     def setUp(self):

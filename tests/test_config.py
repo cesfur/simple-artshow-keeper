@@ -21,11 +21,11 @@ import os
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
-from . datafile import Datafile
+from tests.datafile import Datafile
 import artshowkeeper.config as config
 
 class TestConfig(unittest.TestCase):
-    def setUpClass():
+    def setUpClass(cls):
         logging.basicConfig(level=logging.DEBUG)
 
     def setUp(self):

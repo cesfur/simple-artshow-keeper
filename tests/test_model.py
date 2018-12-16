@@ -24,7 +24,7 @@ from decimal import Decimal
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
-from . datafile import Datafile
+from tests.datafile import Datafile
 from artshowkeeper.common.result import Result
 from artshowkeeper.common.authentication import UserGroups
 from artshowkeeper.model.model import Model
@@ -34,7 +34,7 @@ from artshowkeeper.model.currency import Currency, CurrencyField
 from artshowkeeper.model.summary import SummaryField, Summary, DrawerSummaryField, ActorSummary
 
 class TestModel(unittest.TestCase):
-    def setUpClass():
+    def setUpClass(cls):
         logging.basicConfig(level=logging.DEBUG)
 
     def setUp(self):

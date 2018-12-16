@@ -331,7 +331,7 @@ def closeItemIntoAuction():
     amount = getParameter('Amount')
     buyer = getParameter('Buyer')
     imageFile = getParameter('ImageFile')
-    if imageFile is not None and imageFile.filename == '':
+    if imageFile is not None and imageFile == '':
         imageFile = None;
 
     result = flask.g.model.closeItemIntoAuction(itemCode, amount=amount, buyer=buyer, imageFile=imageFile)

@@ -21,12 +21,12 @@ import os
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
-from . datafile import Datafile
+from tests.datafile import Datafile
 from artshowkeeper.model.item import ItemField
 from artshowkeeper.model.table import Table
 
 class TestTable(unittest.TestCase):
-    def setUpClass():
+    def setUpClass(cls):
         logging.basicConfig(level=logging.DEBUG)
 
     def setUp(self):

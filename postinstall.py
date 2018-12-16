@@ -45,7 +45,6 @@ if sys.argv[1] == '-install':
         config.write(config_file)
     file_created(ini_file)
 
-    print('config') #DEBUG
     shutil.copy(os.path.join(deployment_dir, 'currency.xml'), os.path.join(data_dir, 'currency.xml'))
 
     desktop_dir = get_special_folder_path("CSIDL_DESKTOPDIRECTORY")

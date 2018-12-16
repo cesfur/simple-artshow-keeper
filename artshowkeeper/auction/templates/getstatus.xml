@@ -10,6 +10,8 @@
             <FormattedValue>{{formattedValue}}</FormattedValue>
             {% endfor %}
         </Amount>
+        <Charity>{{item.Charity}}</Charity>
+        <Medium>{{item.Medium}}</Medium>
         {% if item.ImageURL -%}
         <Image>{{item.ImageURL}}</Image>
         {%- endif %}

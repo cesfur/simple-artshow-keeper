@@ -98,6 +98,7 @@ class Dataset:
                 sessions[id] = True
         return [value for value in sessions.keys()]
 
+
     def getSessionPairs(self, sessionID):
         rawPairs = self.__sessions.select(
                 ['Key', 'Value'],

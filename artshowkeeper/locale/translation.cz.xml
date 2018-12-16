@@ -56,11 +56,18 @@
     <phrase id="EditItemImage.UnknownError">Nastala chyba při práci s kamerou. Obrázek nelze vytvořit. Chyba:</phrase>
     <phrase id="EditItemImage.Save">Uložit</phrase>
     <phrase id="EditItemImage.Skip">Vynechat</phrase>
+    <!-- find item to auction -->
+    <phrase id="FindItemToAuction.Header">ArtShow: Výběr předmětu do aukce</phrase>
+    <phrase id="FindItemToAuction.Title">Vyber předmět do aukce</phrase>
+    <phrase id="FindItemToAuction.ItemsCode:">Kód předmětu:</phrase>
+    <phrase id="FindItemToAuction.ItemsLeft:">Zbývá vydražit předmětů:</phrase>
+    <phrase id="FindItemToAuction.Select">Pošli do aukce</phrase>
     <!-- find item to close -->
     <phrase id="FindItemToClose.Header">ArtShow: Uzávěrka předmětu</phrase>
-    <phrase id="FindItemToClose.Title">Vyber předmět k uzavření</phrase>
     <phrase id="FindItemToClose.CloseItem">Uzavři předmět</phrase>
     <phrase id="FindItemToClose.ItemsLeft">Zbývá k uzavření</phrase>
+    <phrase id="FindItemToClose.Select">Pošli do aukce</phrase>
+    <phrase id="FindItemToClose.Title">Vyber předmět k uzavření</phrase>
     <!-- list auction items -->
     <phrase id="ListAuctionItems.Header">ArtShow: Seznam předmětů do aukce</phrase>
     <phrase id="ListAuctionItems.NoItems">Nejsou žádné předměty ke dražbě.</phrase>

@@ -26,7 +26,7 @@ from artshowkeeper.model.currency import CurrencyField
 from artshowkeeper.controller.format import *
 
 class TestController(unittest.TestCase):
-    def setUpClass():
+    def setUpClass(cls):
         logging.basicConfig(level=logging.DEBUG)
 
     def setUp(self):

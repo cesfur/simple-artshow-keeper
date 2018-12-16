@@ -94,9 +94,8 @@ function setFrameElementText(elementId, textValue)
 
 function setItemImage(itemImageURL) {
     var itemImageVisible = false;
-    var itemImageContainer = document.getElementById("item_image_container");
     var itemImage = document.getElementById("image_image");
-    if (itemImageContainer != null && itemImage != null) {        
+    if (itemImage != null) {
         if (itemImageURL != null) {
             if (itemImageURL != itemImage.getAttribute('src')) {
                 itemImage.setAttribute('src', itemImageURL);
@@ -106,7 +105,6 @@ function setItemImage(itemImageURL) {
             itemImage.setAttribute('src', '');
         }
         itemImage.hidden = !itemImageVisible;
-        itemImageContainer.hidden = !itemImageVisible;
     }
 }
 
@@ -139,9 +137,11 @@ function processResponse(xmlDoc)
             //item
             setFrameElementText("item_title", getValueOrNull(xmlDoc, tagAuction, "//Item/Title"));
             setFrameElementText("item_author", getValueOrNull(xmlDoc, tagAuction, "//Item/Author"));
+            setFrameElementText("item_medium", getValueOrNull(xmlDoc, tagAuction, "//Item/Medium"));
             setFrameElementText("item_amount_1", getValueOrNull(xmlDoc, tagAuction, "//Item/Amount/FormattedValue[1]"));
             setFrameElementText("item_amount_2", getValueOrNull(xmlDoc, tagAuction, "//Item/Amount/FormattedValue[2]"));
             setFrameElementText("item_amount_3", getValueOrNull(xmlDoc, tagAuction, "//Item/Amount/FormattedValue[3]"));
+            setFrameElementText("item_charity", getValueOrNull(xmlDoc, tagAuction, "//Item/Charity"));
             setItemImage(getValueOrNull(xmlDoc, tagAuction, "//Item/Image"));
 
             //charity

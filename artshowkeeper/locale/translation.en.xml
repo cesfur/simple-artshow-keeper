@@ -56,6 +56,12 @@
     <phrase id="EditItemImage.UnknownError">Unexpected error occurred while working with camera. Cannot create image. Error:</phrase>
     <phrase id="EditItemImage.Save">Save</phrase>
     <phrase id="EditItemImage.Skip">Skip</phrase>
+    <!-- find item to auction -->
+    <phrase id="FindItemToAuction.Header">ArtShow: Select Item to Auction</phrase>
+    <phrase id="FindItemToAuction.Title">Select Item to Auction</phrase>
+    <phrase id="FindItemToAuction.ItemsCode:">Item Code:</phrase>
+    <phrase id="FindItemToAuction.ItemsLeft:">Items left to pass through auction:</phrase>
+    <phrase id="FindItemToAuction.Select">Send Item to Auction</phrase>
     <!-- find item to close -->
     <phrase id="FindItemToClose.Header">ArtShow: Close Item</phrase>
     <phrase id="FindItemToClose.Title">Select Item to be Closed</phrase>

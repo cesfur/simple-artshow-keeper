@@ -22,14 +22,14 @@ import decimal
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
-from . datafile import Datafile
+from tests.datafile import Datafile
 from artshowkeeper.common.convert import *
 from artshowkeeper.common.translate import *
 from artshowkeeper.common.phrase_dictionary import *
 from artshowkeeper.common.authentication import *
 
 class TestCommon(unittest.TestCase):
-    def setUpClass():
+    def setUpClass(cls):
         logging.basicConfig(level=logging.DEBUG)
 
     def setUp(self):
