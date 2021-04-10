@@ -1,6 +1,8 @@
 artshow-keeper
 ==============
 
+**This project was migrated into a more complex solution. Thus, it is considered abandoned.**
+
 Artshow keeper keeps a small Artshow running.
 
 This application allows you to:
