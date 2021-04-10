@@ -1,7 +1,7 @@
 artshow-keeper
 ==============
 
-**This project was migrated into a more complex solution. Thus, it is considered abandoned.**
+**This project was migrated into a more complex solution. Thus, it is considered as abandoned.**
 
 Artshow keeper keeps a small Artshow running.
 
